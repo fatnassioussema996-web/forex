@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+vendor/
+libs/vendor/
+
+# Environment & Config (contains sensitive API keys)
+config.php
+
+# User-generated content
+recipes/generated/*
+!recipes/generated/.gitkeep
+
+# Logs
+*.log
+error_log
+api/error_log
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Composer
+composer.phar
+
+# Build files
+/dist
+/build
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+

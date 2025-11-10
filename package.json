@@ -1,0 +1,11 @@
+{
+  "name": "ai-recipe-generator",
+  "version": "1.0.0",
+  "description": "Project setup for Tailwind CSS",
+  "scripts": {
+    "build:css": "tailwindcss -i ./css/input.css -o ./style.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}

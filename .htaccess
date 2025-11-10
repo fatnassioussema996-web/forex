@@ -1,0 +1,22 @@
+# Turn on the URL rewriting engine
+RewriteEngine On
+Options -Indexes -Multiviews
+
+# Redirect Trailing Slashes If Not A Folder...
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [L,R=301]
+
+# Handle requests for files in the root (e.g., /login -> /login.php)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/pages/
+RewriteRule ^([^/]+)/?$ $1.php [L,QSA]
+
+# Handle requests for files in the /pages/ directory (e.g., /pages/privacy -> /pages/privacy.php)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^pages/([^/]+)/?$ pages/$1.php [L,QSA]
+
+# --- Custom Error Document ---
+ErrorDocument 404 /404.php
