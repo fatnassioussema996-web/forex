@@ -1,9 +1,10 @@
 <?php
 // pages/privacy-policy.php - v4 - Redesigned with Tailwind CSS
 
+require_once __DIR__ . '/../config.php';
+
 // --- NOTE: In our new structure, we will have a separate refund-policy.php ---
 $page_title = 'Privacy Policy';
-$base_path = '/';
 
 // --- Setup for Header ---
 $current_user_data = null;
@@ -18,19 +19,21 @@ if (isset($_SESSION['user_id'])) {
 // --- Include Header ---
 require_once __DIR__ . '/../currency-utils.php';
 require_once __DIR__ . '/../policy_helpers.php';
+$additional_css = $additional_css ?? [];
+$additional_css[] = 'assets/css/policy.css';
 include __DIR__ . '/../templates/header.php';
 ?>
 
-<main class="bg-white">
-    <!-- Main Content Area -->
-    <div class="py-16 sm:py-20">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center" data-aos="fade-up">
-                <h1 class="text-3xl font-extrabold text-text-main sm:text-4xl lg:text-5xl">Privacy Policy</h1>
-                <p class="mt-3 text-base text-text-secondary">Effective date: 14 September 2025</p>
+<main class="policy-page">
+    <div class="policy-wrapper">
+        <div class="policy-container">
+            <div class="policy-header" data-aos="fade-up">
+                <span class="policy-pill">🛡️ Privacy</span>
+                <h1 class="policy-title">Privacy Policy</h1>
+                <p class="policy-meta">Effective date: 14 September 2025</p>
             </div>
 
-            <div class="mt-10 space-y-10 text-text-secondary" data-aos="fade-up" data-aos-delay="100">
+            <div class="policy-stack" data-aos="fade-up" data-aos-delay="100">
                 <section>
                     <h2 class="text-xl font-semibold text-text-main">1. Introduction</h2>
                     <p class="mt-3">We value and respect your privacy. This Privacy Policy explains what personal data we collect, why we use it, how long we retain it, and how you can exercise your rights when using recipegen.co.uk and related services (the “Service”).</p>
@@ -179,6 +182,14 @@ include __DIR__ . '/../templates/header.php';
                         If you are not satisfied with our response, you can lodge a complaint with the UK Information Commissioner’s Office (ICO). You may also have the right to complain to your local supervisory authority within the EEA if you are an EU resident.
                     </address>
                 </section>
+            </div>
+
+            <div class="policy-cta" data-aos="fade-up" data-aos-delay="150">
+                <div>
+                    <h3>Need clarity on privacy?</h3>
+                    <p>Write to our privacy team for questions about data handling, GDPR rights, or deletion requests.</p>
+                </div>
+                <a href="<?php echo $base_path; ?>contact" class="policy-btn" data-ev="policy_contact_privacy">Contact privacy team</a>
             </div>
         </div>
     </div>

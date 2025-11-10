@@ -1,11 +1,5 @@
 <?php
 
-// --- DEBUGGING: Display all errors ---
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-// --- END DEBUGGING ---
-
 // index.php - v2 - Redesigned with Tailwind CSS
 
 // Step 1: Config is always first.
@@ -13,8 +7,15 @@ require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/currency-utils.php';
 $page_title = 'AI Recipe Generator | Turn Ingredients into Meals';
 
-// Step 2: Define base path for clean URLs.
-$base_path = '/';
+// Step 2: Define base path for clean URLs (only if not set by config.php/config.local.php).
+if (!isset($base_path)) {
+    $base_path = '/';
+}
+
+$additional_css = $additional_css ?? [];
+$additional_css[] = 'assets/css/home.css';
+$additional_js = $additional_js ?? [];
+$additional_js[] = 'assets/js/home.js';
 
 // Get current currency for pricing
 $current_currency = get_user_currency();
@@ -48,6 +49,15 @@ include __DIR__ . '/templates/header.php';
         <!-- ============================================= -->
         <!--      LANDING PAGE VIEW (NOT LOGGED-IN)        -->
         <!-- ============================================= -->
+        <?php
+            require_once __DIR__ . '/content/samples.php';
+            $homeSamples = array_slice($samplesData, 0, 8);
+            $sampleFallbackImage = $base_path . 'assets/images/samples/sample-chicken-broccoli-bowl.webp';
+            $homeAllergens = [
+                'Gluten', 'Crustaceans', 'Eggs', 'Fish', 'Peanuts', 'Soybeans', 'Milk',
+                'Tree Nuts', 'Celery', 'Mustard', 'Sesame', 'Sulphites', 'Lupin', 'Molluscs'
+            ];
+        ?>
         
         <!-- ===== HERO SECTION ===== -->
         <section class="relative bg-white overflow-hidden">
@@ -89,6 +99,73 @@ include __DIR__ . '/templates/header.php';
                 <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="<?php echo $base_path; ?>images/hero_background.webp" alt="A beautiful display of fresh ingredients for cooking">
             </div>
         </section>
+
+        <!-- ===== HOME SAMPLES PREVIEW ===== -->
+        <?php if (!empty($homeSamples)): ?>
+        <section id="home-samples" class="home-section home-samples" aria-labelledby="home-samples-heading">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <header class="home-section__header" data-aos="fade-up">
+                    <h2 id="home-samples-heading">Real examples — ready to cook</h2>
+                    <p>See what you’ll get as a clean, printable PDF — then generate a similar one.</p>
+                </header>
+                <div class="home-samples-grid">
+                    <?php foreach ($homeSamples as $sample): ?>
+                        <?php
+                            $coverSrc = $sample['image']['src'] ?? '';
+                            $coverPath = $coverSrc
+                                ? $base_path . ltrim($coverSrc, '/')
+                                : $sampleFallbackImage;
+                            $coverAlt = $sample['image']['alt'] ?? 'Recipe preview';
+                            $payload = [
+                                'next' => 'generator',
+                                'pref' => json_encode($sample['generatorPayload'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+                            ];
+                            $generateUrl = $base_path . 'register.php?' . http_build_query($payload);
+                            $sampleId = htmlspecialchars($sample['id']);
+                        ?>
+                        <article class="home-sample-card" data-id="<?php echo $sampleId; ?>" data-aos="fade-up">
+                            <figure class="home-sample-card__cover">
+                                <img src="<?php echo htmlspecialchars($coverPath); ?>"
+                                     alt="<?php echo htmlspecialchars($coverAlt); ?>"
+                                     width="480"
+                                     height="320"
+                                     loading="lazy"
+                                     decoding="async">
+                            </figure>
+                            <div class="home-sample-card__body">
+                                <h3><?php echo htmlspecialchars($sample['title']); ?></h3>
+                                <p class="home-sample-card__description"><?php echo htmlspecialchars($sample['description']); ?></p>
+                                <div class="home-sample-card__details">
+                                    <span>⏱️ <?php echo (int) ($sample['time'] ?? 0); ?> min</span>
+                                    <span>🍽️ <?php echo (int) ($sample['servings'] ?? 0); ?> servings</span>
+                                    <span>🧑‍🍳 <?php echo htmlspecialchars($sample['skill'] ?? 'Easy'); ?></span>
+                                </div>
+                                <div class="home-sample-card__cta">
+                                    <a href="<?php echo $base_path; ?>samples.php#<?php echo $sampleId; ?>"
+                                       class="home-btn home-btn--secondary"
+                                       data-ev="home_sample_view"
+                                       data-id="<?php echo $sampleId; ?>">
+                                        View details
+                                    </a>
+                                    <a href="<?php echo htmlspecialchars($generateUrl); ?>"
+                                       class="home-btn home-btn--primary"
+                                       data-ev="home_sample_generate"
+                                       data-id="<?php echo $sampleId; ?>">
+                                        Generate similar
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    <?php endforeach; ?>
+                </div>
+                <div class="home-section__footer" data-aos="fade-up" data-aos-delay="100">
+                    <a class="home-btn-link" href="<?php echo $base_path; ?>samples.php">
+                        See all samples
+                    </a>
+                </div>
+            </div>
+        </section>
+        <?php endif; ?>
         
         <!-- ===== FEATURES SECTION ===== -->
         <section id="features" class="py-20 bg-gray-50">
@@ -152,6 +229,33 @@ include __DIR__ . '/templates/header.php';
                             </dd>
                         </div>
                     </dl>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== HOME ALLERGENS MICRO SECTION ===== -->
+        <section id="home-allergens" class="home-section home-allergens" aria-labelledby="home-allergens-heading">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="home-card" data-aos="fade-up">
+                    <div class="home-allergens__header">
+                        <h2 id="home-allergens-heading">Allergens &amp; Safety — built-in filters</h2>
+                        <p>Flag allergens once, and we’ll do the filtering every time.</p>
+                    </div>
+                    <ul class="home-allergens__list">
+                        <li><strong>14 EU allergens</strong> — gluten, crustaceans, eggs, fish, peanuts, soy, milk, tree nuts, celery, mustard, sesame, sulphites, lupin, molluscs.</li>
+                        <li><strong>Exclude &amp; swap</strong> — we avoid flagged ingredients and propose alternatives.</li>
+                        <li><strong>No medical advice</strong> — always verify labels; traces can’t be guaranteed.</li>
+                    </ul>
+                    <div class="home-allergens__chips" role="list" aria-label="Supported allergens">
+                        <?php foreach ($homeAllergens as $chip): ?>
+                            <span class="home-chip" role="listitem"><?php echo htmlspecialchars($chip); ?></span>
+                        <?php endforeach; ?>
+                    </div>
+                    <a href="<?php echo $base_path; ?>allergens.php"
+                       class="home-btn home-btn--primary"
+                       data-ev="home_allergens_click">
+                        Learn more
+                    </a>
                 </div>
             </div>
         </section>
@@ -287,6 +391,74 @@ include __DIR__ . '/templates/header.php';
              </div>
         </section>
 
+        <!-- ===== HOME MINI ESTIMATOR ===== -->
+        <section id="home-estimator" class="home-section" aria-labelledby="home-estimator-heading">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="home-card home-estimator" data-aos="fade-up">
+                    <div class="home-estimator__intro">
+                        <h2 id="home-estimator-heading">Save money, waste less ♻️</h2>
+                        <p>Estimate the impact of cutting food waste — then dive deeper in our sustainability guide.</p>
+                    </div>
+                    <form class="home-estimator__form" id="home-estimator-form" novalidate>
+                        <div class="home-field">
+                            <label class="sr-only" for="home-estimator-portions">Portions wasted per week</label>
+                            <span class="home-field__label">Portions wasted/week</span>
+                            <input type="number"
+                                   id="home-estimator-portions"
+                                   name="portions"
+                                   min="0"
+                                   step="0.1"
+                                   value="5.5"
+                                   data-ev="home_estimator_change"
+                                   inputmode="decimal">
+                        </div>
+                        <div class="home-field">
+                            <label class="sr-only" for="home-estimator-grams">Average portion weight (grams)</label>
+                            <span class="home-field__label">Portion weight (g)</span>
+                            <input type="number"
+                                   id="home-estimator-grams"
+                                   name="grams"
+                                   min="0"
+                                   step="10"
+                                   value="250"
+                                   data-ev="home_estimator_change"
+                                   inputmode="decimal">
+                        </div>
+                        <div class="home-field">
+                            <label class="sr-only" for="home-estimator-price">€ per kg (local)</label>
+                            <span class="home-field__label">€ per kg (local)</span>
+                            <input type="number"
+                                   id="home-estimator-price"
+                                   name="price"
+                                   min="0"
+                                   step="0.1"
+                                   value="6"
+                                   data-ev="home_estimator_change"
+                                   inputmode="decimal">
+                        </div>
+                    </form>
+                    <div class="home-estimator__results" role="group" aria-labelledby="home-estimator-heading">
+                        <div class="home-estimator__kpi">
+                            <span class="home-estimator__kpi-label">Yearly waste mass</span>
+                            <span class="home-estimator__kpi-value" id="home-estimator-out-kg">—</span>
+                        </div>
+                        <div class="home-estimator__kpi">
+                            <span class="home-estimator__kpi-label">Yearly savings</span>
+                            <span class="home-estimator__kpi-value" id="home-estimator-out-money">—</span>
+                        </div>
+                        <div class="home-estimator__kpi">
+                            <span class="home-estimator__kpi-label">CO₂e range</span>
+                            <span class="home-estimator__kpi-value" id="home-estimator-out-co2">—</span>
+                        </div>
+                    </div>
+                    <p class="home-estimator__live" id="home-estimator-live" aria-live="polite"></p>
+                    <a href="<?php echo $base_path; ?>sustainability.php#estimator" class="home-btn-link">
+                        Open full calculator
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- ============================================= -->
         <!--          GENERATOR PREVIEW SECTION          -->
         <!-- ============================================= -->
@@ -308,6 +480,59 @@ include __DIR__ . '/templates/header.php';
                         $is_demo = true;
                         include __DIR__ . '/templates/_recipe_generator_form.php';
                     ?>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== HOME FAQ ===== -->
+        <section id="home-faq" class="home-section" aria-labelledby="home-faq-heading">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="home-card home-faq" data-aos="fade-up">
+                    <h2 id="home-faq-heading">Quick answers</h2>
+                    <div class="home-faq__items" role="list">
+                        <div class="home-faq__item" role="listitem">
+                            <button class="home-faq__btn" type="button" aria-expanded="false" aria-controls="home-faq-panel-1" id="home-faq-1">
+                                <span>Do I need a subscription?</span>
+                                <svg class="home-faq__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </button>
+                            <div class="home-faq__panel" id="home-faq-panel-1" role="region" aria-labelledby="home-faq-1" hidden>
+                                No, tokens only. Top up whenever you need and pay per generation.
+                            </div>
+                        </div>
+                        <div class="home-faq__item" role="listitem">
+                            <button class="home-faq__btn" type="button" aria-expanded="false" aria-controls="home-faq-panel-2" id="home-faq-2">
+                                <span>Can I export PDFs?</span>
+                                <svg class="home-faq__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </button>
+                            <div class="home-faq__panel" id="home-faq-panel-2" role="region" aria-labelledby="home-faq-2" hidden>
+                                Yes, every recipe you generate is saved to your account and downloadable as a PDF.
+                            </div>
+                        </div>
+                        <div class="home-faq__item" role="listitem">
+                            <button class="home-faq__btn" type="button" aria-expanded="false" aria-controls="home-faq-panel-3" id="home-faq-3">
+                                <span>Allergens covered?</span>
+                                <svg class="home-faq__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </button>
+                            <div class="home-faq__panel" id="home-faq-panel-3" role="region" aria-labelledby="home-faq-3" hidden>
+                                Absolutely — we handle 14 EU allergens and highlight suggested swaps in every output.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== HOME CTA FOOTER ===== -->
+        <section id="home-cta" class="home-section home-cta" aria-labelledby="home-cta-heading">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="home-cta__inner" data-aos="fade-up">
+                    <div>
+                        <h2 id="home-cta-heading">Ready to cook smarter?</h2>
+                        <p>Tell us what you’ve got — get a clean, printable PDF in minutes.</p>
+                    </div>
+                    <a href="<?php echo $base_path; ?>register" class="home-btn home-btn--primary" data-ev="home_cta_click">
+                        Open generator
+                    </a>
                 </div>
             </div>
         </section>

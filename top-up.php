@@ -6,7 +6,10 @@ require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/currency-utils.php';
 
 $page_title = 'Top-Up Balance';
-$base_path = '/';
+// Base path is set by config.php/config.local.php
+if (!isset($base_path)) {
+    $base_path = '/';
+}
 
 // Get current currency
 $current_currency = get_user_currency();

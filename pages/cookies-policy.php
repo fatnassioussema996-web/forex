@@ -1,10 +1,9 @@
 <?php
 // pages/cookies-policy.php - v3 - Redesigned with Tailwind CSS
 
-$page_title = 'Cookies Policy';
+require_once __DIR__ . '/../config.php';
 
-// For files in subdirectories, the base path MUST point to the root.
-$base_path = '/';
+$page_title = 'Cookies Policy';
 
 // --- Session and User Data (good practice for header) ---
 $current_user_data = null;
@@ -21,19 +20,21 @@ if (isset($_SESSION['user_id'])) {
 // --- Include Header ---
 require_once __DIR__ . '/../currency-utils.php';
 require_once __DIR__ . '/../policy_helpers.php';
+$additional_css = $additional_css ?? [];
+$additional_css[] = 'assets/css/policy.css';
 include __DIR__ . '/../templates/header.php';
 ?>
 
-<main class="bg-white">
-    <!-- Main Content Area -->
-    <div class="py-16 sm:py-20">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center" data-aos="fade-up">
-                <h1 class="text-3xl font-extrabold text-text-main sm:text-4xl lg:text-5xl">Cookies Policy</h1>
-                <p class="mt-3 text-base text-text-secondary">Effective date: 18 September 2025</p>
+<main class="policy-page">
+    <div class="policy-wrapper">
+        <div class="policy-container">
+            <div class="policy-header" data-aos="fade-up">
+                <span class="policy-pill">🍪 Cookies</span>
+                <h1 class="policy-title">Cookies Policy</h1>
+                <p class="policy-meta">Effective date: 18 September 2025</p>
             </div>
 
-            <div class="mt-10 space-y-10 text-text-secondary" data-aos="fade-up" data-aos-delay="100">
+            <div class="policy-stack" data-aos="fade-up" data-aos-delay="100">
                 <section>
                     <h2 class="text-xl font-semibold text-text-main">1. Overview</h2>
                     <p class="mt-3">This Cookies Policy explains how RecipeGen (“we”, “us”, “our”) uses cookies and similar technologies (including localStorage, sessionStorage, pixels, and SDKs) on recipegen.co.uk and related services (the “Service”). It complements our Privacy Policy.</p>
@@ -181,14 +182,16 @@ include __DIR__ . '/../templates/header.php';
                     </address>
                 </section>
             </div>
+
+            <div class="policy-cta" data-aos="fade-up" data-aos-delay="150">
+                <div>
+                    <h3>Want to adjust your cookie choices?</h3>
+                    <p>Use the Cookie Settings link in the footer or contact us if you need help interpreting categories.</p>
+                </div>
+                <a href="<?php echo $base_path; ?>contact" class="policy-btn" data-ev="policy_contact_cookies">Get support</a>
+            </div>
         </div>
     </div>
-
-    <?php
-    // We can add a generic contact form component here later if needed.
-    // For now, let's keep it simple.
-    // include __DIR__ . '/../templates/contact_form_section.php';
-    ?>
 </main>
 
 

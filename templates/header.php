@@ -31,7 +31,14 @@ $all_currencies = get_available_currencies();
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <!-- Linking to the generated style.css -->
-    <link rel="stylesheet" href="/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo $base_path; ?>style.css?v=<?php echo time(); ?>">
+    
+    <!-- Additional page-specific CSS -->
+    <?php if (isset($additional_css) && !empty($additional_css)): ?>
+        <?php foreach ($additional_css as $css_file): ?>
+            <link rel="stylesheet" href="<?php echo $base_path . $css_file; ?>?v=<?php echo time(); ?>" type="text/css">
+        <?php endforeach; ?>
+    <?php endif; ?>
     
     <!-- Temporary favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍳</text></svg>">
@@ -55,9 +62,17 @@ $all_currencies = get_available_currencies();
             <nav class="hidden md:flex md:items-center md:space-x-8 flex-1">
                 <?php if ($is_logged_in): ?>
                     <a href="<?php echo $base_path; ?>" class="font-medium text-text-main hover:text-primary transition">Generator</a>
+                    <a href="<?php echo $base_path; ?>samples.php" class="font-medium text-text-secondary hover:text-primary transition">Recipes</a>
+                    <a href="<?php echo $base_path; ?>allergens.php" class="font-medium text-text-secondary hover:text-primary transition">Allergens &amp; Safety</a>
+                    <a href="<?php echo $base_path; ?>nutrition.php" class="font-medium text-text-secondary hover:text-primary transition">Nutrition Guide</a>
+                    <a href="<?php echo $base_path; ?>sustainability.php" class="font-medium text-text-secondary hover:text-primary transition">Food Waste &amp; Sustainability</a>
+                    <a href="<?php echo $base_path; ?>faq" class="font-medium text-text-secondary hover:text-primary transition">FAQ</a>
                     <a href="<?php echo $base_path; ?>cabinet" class="font-medium text-text-secondary hover:text-primary transition">My Recipes</a>
                 <?php else: ?>
                     <a href="<?php echo $base_path; ?>about" class="font-medium text-text-secondary hover:text-primary transition">About</a>
+                    <a href="<?php echo $base_path; ?>samples.php" class="font-medium text-text-secondary hover:text-primary transition">Recipes</a>
+                    <a href="<?php echo $base_path; ?>allergens.php" class="font-medium text-text-secondary hover:text-primary transition">Allergens &amp; Safety</a>
+                    <a href="<?php echo $base_path; ?>sustainability.php" class="font-medium text-text-secondary hover:text-primary transition">Food Waste &amp; Sustainability</a>
                     <a href="<?php echo $base_path; ?>#pricing" class="font-medium text-text-secondary hover:text-primary transition">Pricing</a>
                     <a href="<?php echo $base_path; ?>faq" class="font-medium text-text-secondary hover:text-primary transition">FAQ</a>
                 <?php endif; ?>
@@ -72,7 +87,7 @@ $all_currencies = get_available_currencies();
                     <button id="currency-button" class="inline-flex items-center px-3 py-2 border border-border rounded-md text-sm font-medium text-text-secondary hover:text-text-main hover:bg-gray-50 transition">
                         <?php $__icon = $currency_config['flag_icon'] ?? ''; ?>
                         <?php if (!empty($__icon)): ?>
-                            <img src="<?php echo $__icon; ?>" alt="<?php echo $current_currency; ?>" class="h-4 w-4 mr-2 rounded-sm" />
+                            <img src="<?php echo $base_path . $__icon; ?>" alt="<?php echo $current_currency; ?>" class="h-4 w-4 mr-2 rounded-sm" />
                         <?php else: ?>
                             <span class="mr-1"><?php echo $currency_config['flag']; ?></span>
                         <?php endif; ?>
@@ -86,7 +101,7 @@ $all_currencies = get_available_currencies();
                             <a href="#" data-currency="<?php echo $code; ?>" class="block px-4 py-2 text-sm text-text-secondary hover:bg-gray-50 hover:text-text-main <?php echo $code === $current_currency ? 'bg-gray-100 font-semibold' : ''; ?>">
                                 <?php $__icon = $currency['flag_icon'] ?? ''; ?>
                                 <?php if (!empty($__icon)): ?>
-                                    <img src="<?php echo $__icon; ?>" alt="<?php echo $code; ?>" class="h-4 w-4 mr-2 rounded-sm inline-block" />
+                                    <img src="<?php echo $base_path . $__icon; ?>" alt="<?php echo $code; ?>" class="h-4 w-4 mr-2 rounded-sm inline-block" />
                                 <?php else: ?>
                                     <span class="mr-2"><?php echo $currency['flag']; ?></span>
                                 <?php endif; ?>
@@ -134,7 +149,7 @@ $all_currencies = get_available_currencies();
                     <a href="#" data-currency="<?php echo $code; ?>" class="flex-1 flex items-center justify-center px-3 py-2 border rounded-md text-sm font-medium transition <?php echo $code === $current_currency ? 'border-primary bg-primary text-white' : 'border-border text-text-secondary hover:bg-gray-50'; ?>">
                         <?php $__icon = $currency['flag_icon'] ?? ''; ?>
                         <?php if (!empty($__icon)): ?>
-                            <img src="<?php echo $__icon; ?>" alt="<?php echo $code; ?>" class="h-5 w-5 mr-2 rounded-sm" />
+                            <img src="<?php echo $base_path . $__icon; ?>" alt="<?php echo $code; ?>" class="h-5 w-5 mr-2 rounded-sm" />
                         <?php else: ?>
                             <span class="mr-1"><?php echo $currency['flag']; ?></span>
                         <?php endif; ?>
@@ -147,9 +162,21 @@ $all_currencies = get_available_currencies();
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <?php if ($is_logged_in): ?>
                 <a href="<?php echo $base_path; ?>" class="block px-3 py-2 rounded-md text-base font-medium text-text-main hover:bg-gray-50 hover:text-primary transition">Generator</a>
+                <a href="<?php echo $base_path; ?>samples.php" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">Recipes</a>
                 <a href="<?php echo $base_path; ?>cabinet" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">My Recipes</a>
+                <a href="<?php echo $base_path; ?>allergens.php" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">Allergens &amp; Safety</a>
+                <a href="<?php echo $base_path; ?>nutrition.php" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">Nutrition Guide</a>
+                <a href="<?php echo $base_path; ?>sustainability.php" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">Food Waste &amp; Sustainability</a>
+                <a href="<?php echo $base_path; ?>faq" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">FAQ</a>
             <?php else: ?>
                 <a href="<?php echo $base_path; ?>about" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">About</a>
+                <a href="<?php echo $base_path; ?>samples.php" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">Recipes</a>
+                <a href="<?php echo $base_path; ?>allergens.php" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">Allergens &amp; Safety</a>
+                <a href="<?php echo $base_path; ?>nutrition.php" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">Nutrition Guide</a>
+                <a href="<?php echo $base_path; ?>sustainability.php" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">Food Waste &amp; Sustainability</a>
+                <a href="<?php echo $base_path; ?>samples.php" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">Recipes</a>
+                <a href="<?php echo $base_path; ?>allergens.php" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">Allergens &amp; Safety</a>
+                <a href="<?php echo $base_path; ?>nutrition.php" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">Nutrition Guide</a>
                 <a href="<?php echo $base_path; ?>#pricing" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">Pricing</a>
                 <a href="<?php echo $base_path; ?>faq" class="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:bg-gray-50 hover:text-primary transition">FAQ</a>
             <?php endif; ?>

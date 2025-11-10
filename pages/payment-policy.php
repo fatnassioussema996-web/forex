@@ -1,8 +1,9 @@
 <?php
 // pages/payment-policy.php - v3 - Redesigned with Tailwind CSS
 
+require_once __DIR__ . '/../config.php';
+
 $page_title = 'Payment Policy';
-$base_path = '/';
 
 // --- Setup for Header ---
 $current_user_data = null;
@@ -17,20 +18,22 @@ if (isset($_SESSION['user_id'])) {
 // --- Include Header ---
 require_once __DIR__ . '/../currency-utils.php';
 require_once __DIR__ . '/../policy_helpers.php';
+$additional_css = $additional_css ?? [];
+$additional_css[] = 'assets/css/policy.css';
 include __DIR__ . '/../templates/header.php';
 ?>
 
-<main class="bg-white">
-    <!-- Main Content Area -->
-    <div class="py-16 sm:py-20">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center" data-aos="fade-up">
-                <h1 class="text-3xl font-extrabold text-text-main sm:text-4xl lg:text-5xl">Payment Policy</h1>
-                <p class="mt-3 text-base text-text-secondary">Effective date: 18 September 2025</p>
-                <p class="mt-2 text-sm text-text-secondary">Company: WINTER WORLD LIMITED (Company No. 16133390), 16 Tiller Road, London, England, E14 8PX · Website: recipegen.co.uk · Contact (billing/support): <a href="mailto:info@recipegen.co.uk" class="text-primary hover:underline">info@recipegen.co.uk</a></p>
+<main class="policy-page">
+    <div class="policy-wrapper">
+        <div class="policy-container">
+            <div class="policy-header" data-aos="fade-up">
+                <span class="policy-pill">💳 Payments</span>
+                <h1 class="policy-title">Payment Policy</h1>
+                <p class="policy-meta">Effective date: 18 September 2025</p>
+                <p class="policy-meta policy-meta--sub">Company: WINTER WORLD LIMITED (Company No. 16133390), 16 Tiller Road, London, England, E14 8PX · Website: recipegen.co.uk · Contact (billing/support): <a href="mailto:info@recipegen.co.uk" class="text-primary hover:underline">info@recipegen.co.uk</a></p>
             </div>
 
-            <div class="mt-10 space-y-10 text-text-secondary" data-aos="fade-up" data-aos-delay="100">
+            <div class="policy-stack" data-aos="fade-up" data-aos-delay="100">
                 <section>
                     <h2 class="text-xl font-semibold text-text-main">1) Purpose & Scope</h2>
                     <p class="mt-3">This Policy explains how payments are accepted and processed on RecipeGen, including payment methods, currencies, security practices, and what happens in case of errors, disputes, or refunds. It complements our Terms & Conditions and Refund / Return Policy.</p>
@@ -167,11 +170,17 @@ include __DIR__ . '/../templates/header.php';
                     </address>
                 </section>
             </div>
+
+            <div class="policy-cta" data-aos="fade-up" data-aos-delay="150">
+                <div>
+                    <h3>Need help with a payment?</h3>
+                    <p>Share your order ID, amount, and issue with our billing team — we’ll review within two business days.</p>
+                </div>
+                <a href="<?php echo $base_path; ?>contact" class="policy-btn" data-ev="policy_contact_payment">Contact billing</a>
+            </div>
         </div>
     </div>
-
 </main>
-
 
 <?php
 // --- Include Footer ---

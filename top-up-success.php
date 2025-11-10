@@ -2,7 +2,10 @@
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
 require_once __DIR__ . '/config.php';
 $page_title = 'Payment Successful';
-$base_path = '/';
+// Base path is set by config.php/config.local.php
+if (!isset($base_path)) {
+    $base_path = '/';
+}
 
 $current_user_data = null;
 $is_logged_in = false;

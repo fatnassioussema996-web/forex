@@ -1,8 +1,9 @@
 <?php
 // pages/refund-policy.php - v3 - Redesigned with Tailwind CSS
 
+require_once __DIR__ . '/../config.php';
+
 $page_title = 'Refund / Return Policy';
-$base_path = '/';
 
 // --- Setup for Header ---
 $current_user_data = null;
@@ -17,19 +18,21 @@ if (isset($_SESSION['user_id'])) {
 // --- Include Header ---
 require_once __DIR__ . '/../currency-utils.php';
 require_once __DIR__ . '/../policy_helpers.php';
+$additional_css = $additional_css ?? [];
+$additional_css[] = 'assets/css/policy.css';
 include __DIR__ . '/../templates/header.php';
 ?>
 
-<main class="bg-white">
-    <!-- Main Content Area -->
-    <div class="py-16 sm:py-20">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center" data-aos="fade-up">
-                <h1 class="text-3xl font-extrabold text-text-main sm:text-4xl lg:text-5xl">Refund / Return Policy</h1>
-                <p class="mt-3 text-base text-text-secondary">Effective date: 14 September 2025</p>
+<main class="policy-page">
+    <div class="policy-wrapper">
+        <div class="policy-container">
+            <div class="policy-header" data-aos="fade-up">
+                <span class="policy-pill">💰 Refunds</span>
+                <h1 class="policy-title">Refund / Return Policy</h1>
+                <p class="policy-meta">Effective date: 14 September 2025</p>
             </div>
 
-            <div class="mt-10 space-y-10 text-text-secondary" data-aos="fade-up" data-aos-delay="100">
+            <div class="policy-stack" data-aos="fade-up" data-aos-delay="100">
                 <section>
                     <h2 class="text-xl font-semibold text-text-main">1. Summary (customer-facing)</h2>
                     <ul class="mt-3 list-disc pl-5 space-y-2">
@@ -149,6 +152,14 @@ include __DIR__ . '/../templates/header.php';
                         Accepted currencies: GBP (<?php echo policy_currency_symbol('GBP'); ?>), EUR (<?php echo policy_currency_symbol('EUR'); ?>) · Payment methods: Visa, Mastercard
                     </address>
                 </section>
+            </div>
+
+            <div class="policy-cta" data-aos="fade-up" data-aos-delay="150">
+                <div>
+                    <h3>Questions about refunds?</h3>
+                    <p>Send your order reference and details to our support team — we’ll review requests within 2 business days.</p>
+                </div>
+                <a href="<?php echo $base_path; ?>contact" class="policy-btn" data-ev="policy_contact_refund">Submit a request</a>
             </div>
         </div>
     </div>

@@ -5,6 +5,7 @@ libs/vendor/
 
 # Environment & Config (contains sensitive API keys)
 config.php
+config.local.php
 
 # User-generated content
 recipes/generated/*

@@ -1,0 +1,393 @@
+/* sustainability.css - Food Waste & Sustainability page */
+
+.sus-page {
+    background: #ffffff;
+    color: #232323;
+}
+
+.sus-section {
+    padding: 2.75rem 0;
+}
+
+.sus-section--tight {
+    padding-top: 2.25rem;
+    padding-bottom: 2.5rem;
+}
+
+.sus-hero {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.25rem;
+    align-items: center;
+}
+
+.sus-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid #d1eede;
+    background: #ecf8f0;
+    color: #3cb371;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+}
+
+.sus-hero__title {
+    margin: 0;
+    font-size: clamp(2.3rem, 4vw, 3.3rem);
+    font-weight: 800;
+}
+
+.sus-hero__subtitle {
+    color: #6d7680;
+    font-size: 1.05rem;
+    margin: 0.5rem 0 0;
+}
+
+.sus-hero__actions {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.sus-hero__media {
+    border-radius: 22px;
+    border: 1px solid #e2efe7;
+    overflow: hidden;
+    background: linear-gradient(140deg, #f4fbf7 0%, #ffffff 100%);
+    box-shadow: 0 24px 70px -40px rgba(18, 78, 46, 0.35);
+}
+
+.sus-hero__media img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.sus-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: background 0.2s ease, border 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+.sus-btn--primary {
+    background: #62d487;
+    border-color: #62d487;
+    color: #ffffff;
+    box-shadow: 0 14px 36px -20px rgba(98, 212, 135, 0.45);
+}
+
+.sus-btn--primary:hover {
+    background: #3cb371;
+    border-color: #3cb371;
+}
+
+.sus-btn--secondary {
+    background: #ffffff;
+    border: 1px solid #d8eadf;
+    color: #232323;
+}
+
+.sus-btn--secondary:hover {
+    border-color: #62d487;
+    color: #3cb371;
+}
+
+.sus-grid {
+    display: grid;
+    gap: 1.1rem;
+}
+
+.sus-grid--cols-3 {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.sus-grid--cols-2 {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.sus-grid--cols-4 {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.sus-card {
+    background: #ffffff;
+    border: 1px solid #e2efe7;
+    border-radius: 20px;
+    padding: 1.75rem;
+    box-shadow: 0 18px 60px -36px rgba(18, 78, 46, 0.3);
+}
+
+.sus-card h2,
+.sus-card h3 {
+    margin: 0;
+    color: #232323;
+    font-weight: 700;
+}
+
+.sus-card p {
+    margin: 0.75rem 0 0;
+    color: #6d7680;
+    font-size: 0.95rem;
+}
+
+.sus-tile {
+    border-radius: 18px;
+    border: 1px solid #dbe7df;
+    background: linear-gradient(135deg, #f4fbf7 0%, #ffffff 100%);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.sus-kpi {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #3cb371;
+}
+
+.sus-small {
+    font-size: 0.85rem;
+    color: #6d7680;
+}
+
+.sus-estimator__grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    margin-top: 1.2rem;
+    align-items: end;
+}
+
+.sus-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    border: 1px solid #dbe7df;
+    background: #ffffff;
+    color: #232323;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sus-input:focus {
+    outline: none;
+    border-color: #62d487;
+    box-shadow: 0 0 0 3px rgba(98, 212, 135, 0.18);
+}
+
+.sus-tip-card {
+    border-radius: 20px;
+    border: 1px solid #dbe7df;
+    background: #f8faf9;
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sus-tip-card__img {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #d8eadf;
+    background: #ffffff;
+}
+
+.sus-tip-card__img img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.sus-tip {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    color: #495057;
+}
+
+.sus-tip b {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ecf8f0;
+    color: #3cb371;
+    font-size: 1rem;
+}
+
+.sus-note {
+    border-radius: 16px;
+    border: 1px dashed #dbe7df;
+    background: #f8faf9;
+    padding: 1.1rem 1.25rem;
+    color: #495057;
+}
+
+.sus-accordion {
+    border: 1px solid #e2efe7;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.sus-acc-item + .sus-acc-item {
+    border-top: 1px solid #e2efe7;
+}
+
+.sus-acc-btn {
+    width: 100%;
+    background: #ffffff;
+    border: none;
+    font-weight: 600;
+    color: #232323;
+    padding: 1rem 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.sus-acc-btn span:last-child {
+    transition: transform 0.2s ease;
+}
+
+.sus-acc-item[aria-expanded="true"] .sus-acc-btn span:last-child {
+    transform: rotate(45deg);
+}
+
+.sus-acc-panel {
+    display: none;
+    padding: 0 1.2rem 1rem;
+    color: #6d7680;
+}
+
+.sus-acc-item[aria-expanded="true"] .sus-acc-panel {
+    display: block;
+}
+
+.sus-cta {
+    border-radius: 20px;
+    border: 1px solid #e2efe7;
+    background: linear-gradient(140deg, #f4fbf7 0%, #ffffff 100%);
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 20px 70px -40px rgba(18, 78, 46, 0.35);
+}
+
+.sus-list {
+    margin: 0.75rem 0 0;
+    padding-left: 1.1rem;
+    color: #495057;
+    line-height: 1.6;
+}
+
+.sus-sources {
+    border-radius: 20px;
+    border: 1px solid #e2efe7;
+    background: #ffffff;
+    padding: 1.5rem;
+}
+
+.sus-source-item {
+    margin-top: 0.5rem;
+    color: #495057;
+}
+
+.sus-result {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #232323;
+}
+
+.sus-estimator-note {
+    margin-top: 0.75rem;
+    color: #6d7680;
+    font-size: 0.85rem;
+}
+
+.sus-live {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .sus-section {
+        padding: 2.25rem 0;
+    }
+
+    .sus-card {
+        padding: 1.5rem;
+    }
+
+.sus-card--center {
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+}
+}
+
+.sus-card--center .sus-list {
+    display: inline-block;
+    text-align: left;
+}
+
+.sus-reduce {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.sus-reduce__content {
+    max-width: 440px;
+    text-align: left;
+}
+
+.sus-reduce__img {
+    width: 260px;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid #dbe7df;
+    background: #ffffff;
+    box-shadow: 0 12px 40px -26px rgba(18, 78, 46, 0.3);
+}
+
+.sus-reduce__img img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+@media (min-width: 768px) {
+    .sus-reduce {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+}
+

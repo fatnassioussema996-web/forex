@@ -4,7 +4,10 @@
 // --- Basic Setup ---
 require_once __DIR__ . '/config.php';
 $page_title = 'Trusted By The Best';
-$base_path = '/'; 
+// Base path is set by config.php/config.local.php
+if (!isset($base_path)) {
+    $base_path = '/';
+} 
 
 // --- Data for Logos (Update paths as needed) ---
 $logos = [

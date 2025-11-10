@@ -3,7 +3,10 @@
 
 require_once __DIR__ . '/config.php';
 $page_title = 'Create an Account';
-$base_path = '/'; 
+// Base path is set by config.php/config.local.php
+if (!isset($base_path)) {
+    $base_path = '/';
+} 
 
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
 
@@ -32,7 +35,7 @@ include __DIR__ . '/templates/header.php';
                     <?php unset($_SESSION['register_error']); 
                 endif; ?>
 
-                <form class="space-y-6" action="handle_register.php" method="POST">
+                <form id="register-form" class="space-y-6" action="handle_register.php" method="POST">
                     <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
                         <div>
                             <label for="first_name" class="block text-sm font-medium text-text-main">First Name</label>
@@ -72,7 +75,21 @@ include __DIR__ . '/templates/header.php';
                         </div>
                     </div>
                     <div>
-                        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="agree_terms" name="agree_terms" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-border rounded" />
+                            </div>
+                            <label for="agree_terms" class="ml-3 text-sm text-text-secondary">
+                                I have read and agree to the
+                                <a href="<?php echo $base_path; ?>pages/terms-and-conditions" class="text-primary font-semibold hover:underline">Terms and Conditions</a>
+                            </label>
+                        </div>
+                        <p id="terms-error" class="mt-2 text-sm text-red-600 hidden">
+                            Please confirm that you have read and agree to the Terms and Conditions.
+                        </p>
+                    </div>
+                    <div>
+                        <button id="register-submit" type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary opacity-60 cursor-not-allowed" disabled>
                             Create Account
                         </button>
                     </div>
@@ -104,4 +121,39 @@ include __DIR__ . '/templates/header.php';
         </div>
     </div>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('register-form');
+    const checkbox = document.getElementById('agree_terms');
+    const submitButton = document.getElementById('register-submit');
+    const errorMessage = document.getElementById('terms-error');
+
+    if (!form || !checkbox || !submitButton) {
+        return;
+    }
+
+    const toggleSubmitState = () => {
+        const isChecked = checkbox.checked;
+        submitButton.disabled = !isChecked;
+        submitButton.classList.toggle('opacity-60', !isChecked);
+        submitButton.classList.toggle('cursor-not-allowed', !isChecked);
+        if (isChecked && errorMessage) {
+            errorMessage.classList.add('hidden');
+        }
+    };
+
+    checkbox.addEventListener('change', toggleSubmitState);
+
+    form.addEventListener('submit', (event) => {
+        if (!checkbox.checked) {
+            event.preventDefault();
+            if (errorMessage) {
+                errorMessage.classList.remove('hidden');
+            }
+            checkbox.focus();
+        }
+    });
+});
+</script>
 <?php include __DIR__ . '/templates/footer.php'; ?>

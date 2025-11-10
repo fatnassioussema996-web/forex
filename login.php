@@ -3,7 +3,10 @@
 
 require_once __DIR__ . '/config.php';
 $page_title = 'Log In';
-$base_path = '/'; 
+// Base path is set by config.php/config.local.php
+if (!isset($base_path)) {
+    $base_path = '/';
+} 
 
 // This is a public page, so we don't need to fetch user data here.
 // But we still need to start the session to show error messages.
