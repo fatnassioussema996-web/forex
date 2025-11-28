@@ -36,10 +36,10 @@ export const authOptions: NextAuthOptions = {
         }
 
         return {
-          id: user.id.toString(),
+          id: user.id,
           email: user.email,
           name: `${user.first_name} ${user.last_name || ''}`.trim(),
-          balance: user.balance,
+          balance: Number(user.balance),
         }
       },
     }),
