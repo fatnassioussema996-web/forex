@@ -14,11 +14,14 @@ export default getRequestConfig(async ({ locale }) => {
     notFound()
   }
 
+  // After validation, we know locale is a valid Locale (which is a string)
+  const validLocale = locale as Locale
+
   return {
-    locale,
+    locale: validLocale,
     messages: {
-      common: (await import(`./${locale}/common.json`)).default,
-      home: (await import(`./${locale}/home.json`)).default,
+      common: (await import(`./${validLocale}/common.json`)).default,
+      home: (await import(`./${validLocale}/home.json`)).default,
     },
   }
 })
