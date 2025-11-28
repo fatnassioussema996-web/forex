@@ -67,18 +67,20 @@ export function TradingViewWidget() {
   }, [])
 
   useEffect(() => {
-    if (!containerRef.current) return
+    // Capture containerRef.current in a variable to use in cleanup
+    const container = containerRef.current
+    if (!container) return
 
     // Complete cleanup: remove all scripts and content
     try {
       // Remove our tracked script
-      if (scriptRef.current && containerRef.current.contains(scriptRef.current)) {
-        containerRef.current.removeChild(scriptRef.current)
+      if (scriptRef.current && container.contains(scriptRef.current)) {
+        container.removeChild(scriptRef.current)
       }
       scriptRef.current = null
 
       // Remove all scripts that TradingView might have created
-      const allScripts = containerRef.current.querySelectorAll('script')
+      const allScripts = container.querySelectorAll('script')
       allScripts.forEach((s) => {
         try {
           if (s.parentNode) {
@@ -90,28 +92,29 @@ export function TradingViewWidget() {
       })
 
       // Completely clear the container and recreate structure
-      containerRef.current.innerHTML = ''
+      container.innerHTML = ''
 
       // Recreate the widget container div based on active tab
       const widgetDiv = document.createElement('div')
       widgetDiv.className = 'tradingview-widget-container__widget'
       widgetDiv.style.width = '100%'
       widgetDiv.style.height = activeTab === 'chart' ? 'calc(100% - 32px)' : '100%'
-      containerRef.current.appendChild(widgetDiv)
+      container.appendChild(widgetDiv)
     } catch (e) {
       // If cleanup fails, try to reset completely
-      if (containerRef.current) {
-        containerRef.current.innerHTML = ''
+      if (container) {
+        container.innerHTML = ''
         const widgetDiv = document.createElement('div')
         widgetDiv.className = 'tradingview-widget-container__widget'
         widgetDiv.style.width = '100%'
         widgetDiv.style.height = activeTab === 'chart' ? 'calc(100% - 32px)' : '100%'
-        containerRef.current.appendChild(widgetDiv)
+        container.appendChild(widgetDiv)
       }
     }
 
     // Small delay to ensure DOM is ready
     const timeoutId = setTimeout(() => {
+      // Use containerRef.current here as it may have changed
       if (!containerRef.current) return
 
       // Create new script based on active tab
@@ -255,19 +258,20 @@ export function TradingViewWidget() {
     // Cleanup function
     return () => {
       clearTimeout(timeoutId)
-      if (scriptRef.current && containerRef.current) {
+      // Use captured container variable in cleanup
+      if (scriptRef.current && container) {
         try {
-          if (containerRef.current.contains(scriptRef.current)) {
-            containerRef.current.removeChild(scriptRef.current)
+          if (container.contains(scriptRef.current)) {
+            container.removeChild(scriptRef.current)
           }
         } catch (e) {
           // Script may have been removed already
         }
         scriptRef.current = null
       }
-      // Remove all scripts
-      if (containerRef.current) {
-        const allScripts = containerRef.current.querySelectorAll('script')
+      // Remove all scripts using captured container
+      if (container) {
+        const allScripts = container.querySelectorAll('script')
         allScripts.forEach((s) => {
           try {
             if (s.parentNode) {
