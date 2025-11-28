@@ -1,0 +1,173 @@
+{
+  "hero": {
+    "badgeLeft": "Avenqor Club",
+    "badgeRight": "Education only",
+    "title": "Premium education for high-risk markets.",
+    "subtitle": "Structured Forex, Crypto and Binary options courses with custom PDFs and AI-generated strategies. No signals, no promises – just clear learning paths.",
+    "ctaPrimaryLabel": "Explore courses",
+    "ctaSecondaryLabel": "Request custom course",
+    "bullets": [
+      "No financial advice – education only.",
+      "Courses delivered as structured PDFs.",
+      "AI strategies with token-based access."
+    ]
+  },
+  "heroSlideshow": {
+    "labelTop": "Featured today",
+    "labelSub": "Selected Avenqor courses",
+    "ctaViewCourse": "View course",
+    "slideCounterPrefix": "Slide",
+    "slideCounterOf": "of",
+    "slides": [
+      {
+        "level": "Beginner",
+        "market": "Forex",
+        "title": "Forex Foundations: From Zero to First Trade",
+        "summary": "A base in core concepts, order types and risk per trade."
+      },
+      {
+        "level": "Intermediate",
+        "market": "Crypto",
+        "title": "Crypto Volatility Structures",
+        "summary": "Volatility cycles, liquidity zones and structured approaches to managing major crypto pairs."
+      },
+      {
+        "level": "Advanced",
+        "market": "Binary",
+        "title": "Binary Risk & Payout Geometry",
+        "summary": "Payout curves, risk stacking and the structure of binary exposure."
+      }
+    ]
+  },
+  "marketSnapshot": {
+    "title": "Market snapshot",
+    "subtitle": "Live prices from major markets to support your learning. Avenqor never provides trading signals or investment advice.",
+    "disclaimer": "Data is shown for educational purposes only.",
+    "widgetHint": "Data widget placeholder (TradingView).",
+    "chartHint": "Real-time BTC / FX chart placeholder"
+  },
+  "featuredCourses": {
+    "title": "Courses designed for clarity, not hype.",
+    "subtitle": "Choose by market and level. Each course is a structured PDF you can study at your own pace.",
+    "ctaViewAll": "View all courses",
+    "filtersLabel": "Filters",
+    "levelFilters": ["All", "Beginner", "Intermediate", "Advanced"],
+    "marketFilters": ["Forex", "Crypto", "Binary"]
+  },
+  "paths": {
+    "title": "Three ways to learn with Avenqor.",
+    "subtitle": "Pick the format that fits your current stage and time.",
+    "items": [
+      {
+        "title": "Structured PDF courses",
+        "text": "Pre-built learning paths for Forex, Crypto and Binary, organised by level.",
+        "cta": "Browse courses"
+      },
+      {
+        "title": "Custom course by a pro trader",
+        "text": "Share your experience, deposit size, risk tolerance and goals. Receive a tailored PDF within 48–96 hours.",
+        "badge": "Delivered via email",
+        "cta": "Request custom course"
+      },
+      {
+        "title": "AI strategy in seconds",
+        "text": "Generate a structured trading plan with entry/exit logic and a risk checklist, based on your inputs.",
+        "badge": "Instant",
+        "cta": "Open AI Strategy Builder"
+      }
+    ]
+  },
+  "howItWorks": {
+    "title": "How Avenqor fits into your learning.",
+    "subtitle": "A simple sequence that keeps education and risk awareness at the center.",
+    "steps": [
+      {
+        "title": "Define your path",
+        "text": "Choose between ready-made courses, a custom PDF or an AI-generated strategy."
+      },
+      {
+        "title": "Add balance or pay directly",
+        "text": "Use tokens across products or pay in EUR, GBP, USD or AED at checkout."
+      },
+      {
+        "title": "Get your PDF",
+        "text": "Download and study at your own pace with a clear module structure."
+      },
+      {
+        "title": "Refine with AI strategies",
+        "text": "Generate additional AI plans as your understanding and needs evolve."
+      }
+    ]
+  },
+  "tokensTeaser": {
+    "title": "Tokens and direct payments.",
+    "subtitle": "Pick what's more convenient: token packs, custom top-ups or direct payments for courses.",
+    "items": [
+      {
+        "title": "Token packs",
+        "text": "Buy predefined token packs and use them across all Avenqor products."
+      },
+      {
+        "title": "Custom top-up",
+        "text": "Add any amount to your balance and spend tokens as you go."
+      },
+      {
+        "title": "Direct course payments",
+        "text": "Pay for ready-made courses in EUR, GBP, USD or AED at checkout."
+      }
+    ],
+    "ctaPricing": "View full pricing & tokens"
+  },
+  "glossaryResources": {
+    "glossary": {
+      "title": "Glossary",
+      "subtitle": "Clear explanations of key Forex, Crypto and Binary terms – without jargon.",
+      "items": [
+        {
+          "term": "Leverage",
+          "definition": "How much exposure you control per unit of capital."
+        },
+        {
+          "term": "Drawdown",
+          "definition": "The peak-to-trough decline of your account."
+        },
+        {
+          "term": "Risk per trade",
+          "definition": "The percentage of capital you put at stake in one idea."
+        }
+      ],
+      "cta": "Open full glossary"
+    },
+    "resources": {
+      "title": "Resources",
+      "subtitle": "Printable PDFs and templates to support your daily routine.",
+      "items": [
+        {
+          "label": "Risk Management Checklist (PDF)",
+          "definition": "A step-by-step list to review before any trade."
+        },
+        {
+          "label": "Position Sizing Template (PDF)",
+          "definition": "A simple structure to calculate lot size based on risk."
+        }
+      ],
+      "cta": "View all resources"
+    }
+  },
+  "riskNotice": {
+    "title": "High-risk markets require high awareness.",
+    "body": "Trading Forex, Crypto and Binary options is highly speculative and can lead to substantial or total loss of capital. Avenqor provides education only. We do not manage funds, execute trades or offer financial advice.",
+    "cta": "Read full risk & disclaimer"
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "subtitle": "Key points about what Avenqor is – and what it is not."
+  },
+  "footerCta": {
+    "title": "Start with one course or a single AI plan.",
+    "subtitle": "No signals. No promises. Just structured education for Forex, Crypto and Binary markets.",
+    "ctaPrimary": "Explore courses",
+    "ctaSecondary": "Request custom course"
+  }
+}
+

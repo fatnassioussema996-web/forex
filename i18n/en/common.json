@@ -1,0 +1,56 @@
+{
+  "brand": {
+    "name": "Avenqor",
+    "tagline": "Education only"
+  },
+  "nav": {
+    "courses": "Courses",
+    "customCourse": "Custom course",
+    "aiStrategy": "AI Strategy",
+    "pricing": "Pricing",
+    "glossary": "Glossary",
+    "resources": "Resources",
+    "faq": "FAQ",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "getStarted": "Get started"
+  },
+  "currency": {
+    "gbp": "GBP",
+    "eur": "EUR",
+    "usd": "USD",
+    "aed": "AED"
+  },
+  "language": {
+    "en": "EN",
+    "ar": "AR"
+  },
+  "footer": {
+    "educationOnlyLine": "Avenqor provides education only. We do not offer financial advice.",
+    "productsTitle": "Products",
+    "legalTitle": "Legal",
+    "links": {
+      "riskDisclaimer": "Risk & Disclaimer",
+      "terms": "Terms & Conditions",
+      "privacy": "Privacy Policy",
+      "cookies": "Cookies",
+      "contact": "Contact"
+    }
+  },
+  "buttons": {
+    "viewAllCourses": "View all courses",
+    "viewFullPricing": "View full pricing & tokens",
+    "openFullGlossary": "Open full glossary",
+    "viewAllResources": "View all resources",
+    "readFullRiskDisclaimer": "Read full risk & disclaimer"
+  },
+  "badges": {
+    "educationOnly": "Education only",
+    "deliveredByEmail": "Delivered via email",
+    "instant": "Instant"
+  }
+}
+

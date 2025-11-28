@@ -1,0 +1,56 @@
+{
+  "brand": {
+    "name": "أفِنكور",
+    "tagline": "لأغراض تعليمية فقط"
+  },
+  "nav": {
+    "courses": "الدورات",
+    "customCourse": "دورة مخصصة",
+    "aiStrategy": "استراتيجية الذكاء الاصطناعي",
+    "pricing": "الأسعار",
+    "glossary": "القاموس",
+    "resources": "الموارد",
+    "faq": "الأسئلة الشائعة",
+    "about": "من نحن",
+    "contact": "اتصل بنا"
+  },
+  "auth": {
+    "signIn": "تسجيل الدخول",
+    "getStarted": "ابدأ الآن"
+  },
+  "currency": {
+    "gbp": "GBP",
+    "eur": "EUR",
+    "usd": "USD",
+    "aed": "AED"
+  },
+  "language": {
+    "en": "EN",
+    "ar": "AR"
+  },
+  "footer": {
+    "educationOnlyLine": "أفِنكور يقدّم محتوىً تعليمياً فقط ولا يقدّم نصائح مالية.",
+    "productsTitle": "المنتجات",
+    "legalTitle": "الشؤون القانونية",
+    "links": {
+      "riskDisclaimer": "المخاطر والتنصل القانوني",
+      "terms": "الشروط والأحكام",
+      "privacy": "سياسة الخصوصية",
+      "cookies": "ملفات تعريف الارتباط",
+      "contact": "اتصل بنا"
+    }
+  },
+  "buttons": {
+    "viewAllCourses": "استعرض جميع الدورات",
+    "viewFullPricing": "عرض التفاصيل الكاملة للأسعار والرموز",
+    "openFullGlossary": "فتح القاموس الكامل",
+    "viewAllResources": "عرض جميع الموارد",
+    "readFullRiskDisclaimer": "قراءة صفحة المخاطر والتنصل القانونية بالكامل"
+  },
+  "badges": {
+    "educationOnly": "لأغراض تعليمية فقط",
+    "deliveredByEmail": "تُرسل عبر البريد الإلكتروني",
+    "instant": "فوري"
+  }
+}
+

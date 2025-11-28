@@ -1,42 +1,57 @@
-# Dependencies
-node_modules/
-vendor/
-libs/vendor/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Environment & Config (contains sensitive API keys)
-config.php
-config.local.php
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
 
-# User-generated content
-recipes/generated/*
-!recipes/generated/.gitkeep
+# testing
+/coverage
 
-# Logs
-*.log
-error_log
-api/error_log
+# next.js
+/.next/
+/out/
 
-# OS Files
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Composer
-composer.phar
-
-# Build files
-/dist
+# production
 /build
 
-# Temporary files
-*.tmp
-*.temp
-*.cache
+# misc
+.DS_Store
+*.pem
 
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+.env
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# prisma
+/prisma/migrations
+
+# generated files
+/public/recipes/generated/*
+!/public/recipes/generated/.gitkeep
+/public/images/generated/*
+!/public/images/generated/.gitkeep
+
+# Legacy PHP files (removed during migration)
+*.php
+/vendor
+/composer.json
+/composer.lock
+/libs
+/templates
+/content
+/api/*.php
+/assets/css
+/assets/js

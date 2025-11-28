@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Avenqor Design System - Global Styles */
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+
+  body {
+    @apply bg-avenqor-black text-text-main;
+    /* Dark gradient background */
+    background: linear-gradient(to bottom right, #020617, #0F172A, #020617);
+  }
+
+  /* Radial glow overlays */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(circle at top, rgba(56, 189, 248, 0.28), transparent 50%),
+                radial-gradient(circle at bottom, rgba(129, 140, 248, 0.18), transparent 55%);
+  }
+
+  /* Ensure content is above glow */
+  main {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@layer utilities {
+  /* Semantic background tokens */
+  .bg-page {
+    @apply bg-avenqor-black;
+  }
+
+  .bg-elevated {
+    @apply bg-slate-950/90;
+  }
+
+  .bg-elevated-soft {
+    @apply bg-slate-900/60;
+  }
+
+  /* Semantic text tokens */
+  .text-main {
+    @apply text-slate-50;
+  }
+
+  .text-muted {
+    @apply text-slate-300/90;
+  }
+
+  .text-soft {
+    @apply text-slate-400;
+  }
+
+  /* Semantic border tokens */
+  .border-subtle {
+    @apply border-slate-900;
+  }
+
+  .border-strong {
+    @apply border-slate-700;
+  }
+
+  /* Accent colors */
+  .accent-primary {
+    @apply text-cyan-400;
+  }
+
+  .accent-secondary {
+    @apply text-indigo-500;
+  }
+
+  .accent-warning {
+    @apply text-amber-300;
+  }
+}
+

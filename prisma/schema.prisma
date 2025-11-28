@@ -1,0 +1,141 @@
+// Prisma Schema для RecipeGen
+// Database: PostgreSQL (локально и Neon в продакшне)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Пользователи
+model User {
+  id            Int       @id @default(autoincrement())
+  email         String    @unique
+  password      String?   // null для Google OAuth пользователей
+  first_name    String
+  last_name     String?
+  company       String?
+  balance       Decimal   @default(0) @db.Decimal(10, 2)
+  citizenship   String?   // ISO country code
+  date_of_birth DateTime? @db.Date
+  phone         String?
+  bill_address  String?
+  bill_address_2 String?
+  bill_city     String?
+  bill_state    String?
+  bill_postal   String?
+  bill_country  String?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+
+  // Relations
+  recipes       Recipe[]
+  topups        Topup[]
+  sessions      Session[]
+  accounts      Account[]
+}
+
+// NextAuth Sessions
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       Int
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// NextAuth Accounts (для OAuth)
+model Account {
+  id                String  @id @default(cuid())
+  userId            Int
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+// Сгенерированные рецепты
+model Recipe {
+  id             Int      @id @default(autoincrement())
+  user_id        Int
+  recipe_title   String
+  recipe_prompt  String   @db.Text
+  pdf_file_path  String
+  image_file_path String?
+  cost           Decimal  @db.Decimal(10, 2)
+  created_at     DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@index([created_at])
+}
+
+// Пополнения баланса
+model Topup {
+  id         Int      @id @default(autoincrement())
+  user_id   Int
+  amount    Decimal  @db.Decimal(10, 2)
+  created_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+}
+
+// TransferMit платежи
+model TransferMitTopup {
+  id            Int      @id @default(autoincrement())
+  topup_id      Int?
+  user_id       Int
+  reference_id  String   @unique
+  payment_id    String?
+  amount        Decimal  @db.Decimal(10, 2)
+  currency      String
+  tokens        Int
+  bonus_percent Int      @default(0)
+  state         String   // INITIATED, COMPLETED, DECLINED, CANCELLED
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  @@index([user_id])
+  @@index([reference_id])
+  @@index([state])
+}
+
+// Курсы
+model Course {
+  id            Int      @id @default(autoincrement())
+  slug          String   @unique
+  title         String
+  title_ar      String?
+  description   String   @db.Text
+  description_ar String? @db.Text
+  level         String   // Beginner, Intermediate, Advanced
+  market        String   // Forex, Crypto, Binary
+  price_gbp     Decimal  @db.Decimal(10, 2) // Base price in GBP
+  tokens        Int      // Token cost
+  pdf_path      String
+  cover_image   String?
+  featured      Boolean  @default(false)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  @@index([level])
+  @@index([market])
+  @@index([featured])
+}
+

@@ -1,0 +1,23 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "functions": {
+    "app/api/generation/route.ts": {
+      "maxDuration": 60,
+      "memory": 3008
+    },
+    "app/api/topup/init/route.ts": {
+      "maxDuration": 30
+    },
+    "app/api/transfermit-webhook/route.ts": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
+
