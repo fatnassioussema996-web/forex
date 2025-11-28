@@ -12,15 +12,18 @@ import { TradingViewWidget } from '@/components/TradingViewWidget'
 import { CourseCard } from '@/components/CourseCard'
 import { PathCard } from '@/components/PathCard'
 import FAQAccordion from '@/components/FAQAccordion'
+import { TokenPacks } from '@/components/TokenPacks'
 
 // Temporary course data - will be replaced with DB data
+// Note: price_gbp is kept for backward compatibility but not used in calculations
+// Prices are calculated from tokens: 1.00 GBP = 100 tokens
 const featuredCourses = [
   {
     level: 'Beginner',
     market: 'Forex',
     title: 'Forex Foundations: From Zero to First Trade',
     desc: 'Build a base in Forex – from key terms and order types to risk per trade and journaling.',
-    price_gbp: 0.79,
+    price_gbp: 79, // 7900 tokens / 100 = 79 GBP
     tokens: 7900,
     slug: 'forex-foundations',
   },
@@ -29,7 +32,7 @@ const featuredCourses = [
     market: 'Crypto',
     title: 'Crypto Volatility Structures',
     desc: 'Understand volatility cycles, liquidity zones and structured approaches to managing crypto swings.',
-    price_gbp: 0.99,
+    price_gbp: 99, // 9900 tokens / 100 = 99 GBP
     tokens: 9900,
     slug: 'crypto-volatility',
   },
@@ -38,7 +41,7 @@ const featuredCourses = [
     market: 'Binary',
     title: 'Binary Risk & Payout Geometry',
     desc: 'A deep dive into payout curves, risk stacking and how to structure binary exposure.',
-    price_gbp: 1.19,
+    price_gbp: 119, // 11900 tokens / 100 = 119 GBP
     tokens: 11900,
     slug: 'binary-risk',
   },
@@ -49,12 +52,12 @@ export default function HomePage() {
   const tCommon = useTranslations('common')
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-50">
+    <div className="bg-slate-950 text-slate-50 min-h-screen relative">
       {/* Background gradients */}
       <div className="fixed inset-0 -z-20 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
       <div className="fixed inset-0 -z-10 opacity-30 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.28),_transparent_50%),_radial-gradient(circle_at_bottom,_rgba(129,140,248,0.18),_transparent_55%)]" />
 
-      <main className="pb-16">
+      <main className="pb-16 relative z-10 min-h-screen">
         {/* Hero */}
         <HomeSection className="pt-10 pb-14 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-6 flex flex-col gap-5">
@@ -252,14 +255,17 @@ export default function HomePage() {
                 </motion.div>
               ))}
             </div>
-            <Link href="/pricing" className="inline-flex items-center gap-2 text-xs font-medium text-cyan-300 hover:text-cyan-200">
-              <span>{t('tokensTeaser.ctaPricing')}</span>
-              <span>→</span>
-            </Link>
-          </div>
-        </HomeSection>
+                  <Link href="/pricing" className="inline-flex items-center gap-2 text-xs font-medium text-cyan-300 hover:text-cyan-200">
+                    <span>{t('tokensTeaser.ctaPricing')}</span>
+                    <span>→</span>
+                  </Link>
+                </div>
+              </HomeSection>
 
-        {/* Glossary & resources */}
+              {/* Token packs */}
+              <TokenPacks />
+
+              {/* Glossary & resources */}
         <HomeSection className="pb-14">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <motion.div

@@ -12,11 +12,25 @@
     "resources": "Resources",
     "faq": "FAQ",
     "about": "About",
-    "contact": "Contact"
+    "contact": "Contact",
+    "home": "Home",
+    "cabinet": "Cabinet"
   },
   "auth": {
     "signIn": "Sign in",
-    "getStarted": "Get started"
+    "getStarted": "Get started",
+    "signUp": "Sign Up",
+    "logIn": "Log In",
+    "logOut": "Log Out",
+    "alreadyHaveAccount": "Already have an account?",
+    "signOut": "Sign Out"
+  },
+  "header": {
+    "balance": "Balance",
+    "tokens": "Tokens",
+    "topUp": "Top-Up",
+    "topUpBalance": "Top-Up Balance",
+    "openMainMenu": "Open main menu"
   },
   "currency": {
     "gbp": "GBP",
@@ -31,7 +45,12 @@
   "footer": {
     "educationOnlyLine": "Avenqor provides education only. We do not offer financial advice.",
     "productsTitle": "Products",
+    "usefulLinksTitle": "Useful Links",
     "legalTitle": "Legal",
+    "getInTouchTitle": "Get In Touch",
+    "companyNumber": "Company number",
+    "haveQuestions": "Have questions or feedback? Reach out!",
+    "allRightsReserved": "All Rights Reserved",
     "links": {
       "riskDisclaimer": "Risk & Disclaimer",
       "terms": "Terms & Conditions",
@@ -45,7 +64,10 @@
     "viewFullPricing": "View full pricing & tokens",
     "openFullGlossary": "Open full glossary",
     "viewAllResources": "View all resources",
-    "readFullRiskDisclaimer": "Read full risk & disclaimer"
+    "readFullRiskDisclaimer": "Read full risk & disclaimer",
+    "viewDetails": "View details",
+    "courseCover": "Course cover",
+    "tokens": "tokens"
   },
   "badges": {
     "educationOnly": "Education only",

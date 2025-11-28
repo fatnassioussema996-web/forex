@@ -18,24 +18,31 @@
     "ctaViewCourse": "View course",
     "slideCounterPrefix": "Slide",
     "slideCounterOf": "of",
+    "slideShow": "Slide show",
     "slides": [
       {
         "level": "Beginner",
         "market": "Forex",
         "title": "Forex Foundations: From Zero to First Trade",
-        "summary": "A base in core concepts, order types and risk per trade."
+        "summary": "Build a clear base in Forex – core concepts, order types, risk per trade and journaling habits."
       },
       {
         "level": "Intermediate",
         "market": "Crypto",
         "title": "Crypto Volatility Structures",
-        "summary": "Volatility cycles, liquidity zones and structured approaches to managing major crypto pairs."
+        "summary": "Learn how volatility cycles and liquidity zones shape major crypto pairs – with a structured, risk-first approach."
       },
       {
         "level": "Advanced",
         "market": "Binary",
         "title": "Binary Risk & Payout Geometry",
-        "summary": "Payout curves, risk stacking and the structure of binary exposure."
+        "summary": "Go deep into payout curves, stacked risk and how to structure binary exposure without chasing signals."
+      },
+      {
+        "level": "All levels",
+        "market": "Cross-market",
+        "title": "Risk Management & Trading Discipline",
+        "summary": "A practical framework for managing risk, setting limits and using a trading journal across Forex, Crypto and Binary markets."
       }
     ]
   },
@@ -44,7 +51,12 @@
     "subtitle": "Live prices from major markets to support your learning. Avenqor never provides trading signals or investment advice.",
     "disclaimer": "Data is shown for educational purposes only.",
     "widgetHint": "Data widget placeholder (TradingView).",
-    "chartHint": "Real-time BTC / FX chart placeholder"
+    "chartHint": "Real-time BTC / FX chart placeholder",
+    "tabs": {
+      "chart": "Advanced Real-Time Chart",
+      "overview": "Market Overview",
+      "stock": "Stock Market"
+    }
   },
   "featuredCourses": {
     "title": "Courses designed for clarity, not hype.",
@@ -118,6 +130,57 @@
     ],
     "ctaPricing": "View full pricing & tokens"
   },
+  "tokenPacks": {
+    "title": "Token packs & custom top-up.",
+    "subtitle": "Start small or load a balance – tokens work across Avenqor courses and AI strategies.",
+    "tokens": "tokens",
+    "mostPopular": "Most popular",
+    "packs": [
+      {
+        "id": "focused-start",
+        "name": "Focused Start",
+        "subtitle": "First courses and AI plans.",
+        "tokens": 4000,
+        "description": "simple entry pack.",
+        "benefits": [
+          "Good for starting with one course or a few AI strategies.",
+          "Stay small while you test Avenqor workflows."
+        ],
+        "cta": "Buy Starter pack"
+      },
+      {
+        "id": "structured-growth",
+        "name": "Structured Growth",
+        "subtitle": "Most popular balance.",
+        "tokens": 7000,
+        "description": "better rate per token.",
+        "benefits": [
+          "Comfortable room for several courses and AI strategies.",
+          "Good fit if you plan to explore more than one market."
+        ],
+        "cta": "Buy Growth pack"
+      },
+      {
+        "id": "discipline-pro",
+        "name": "Discipline Pro",
+        "subtitle": "For long-term learners.",
+        "tokens": 10000,
+        "description": "best value per token.",
+        "benefits": [
+          "For systematic study across levels and markets.",
+          "Leave headroom for future AI strategies and custom content."
+        ],
+        "cta": "Buy Pro pack"
+      }
+    ],
+    "customTopUp": {
+      "title": "Custom top-up",
+      "subtitle": "Set any amount, we convert it to tokens.",
+      "amountLabel": "Amount",
+      "minAmount": "Minimum 0.01 in the currency selected in the header. No maximum – larger top-ups are simply converted to tokens.",
+      "cta": "Preview top-up in tokens"
+    }
+  },
   "glossaryResources": {
     "glossary": {
       "title": "Glossary",
@@ -161,7 +224,54 @@
   },
   "faq": {
     "title": "Frequently asked questions",
-    "subtitle": "Key points about what Avenqor is – and what it is not."
+    "subtitle": "Key points about what Avenqor is – and what it is not.",
+    "noQuestionsMatch": "No questions match your filters 🤔",
+    "tryAdjusting": "Try adjusting the category or search term, or explore our",
+    "pricing": "pricing",
+    "and": "and",
+    "guides": "guides.",
+    "items": [
+      {
+        "id": "what-is-avenqor",
+        "question": "What is Avenqor?",
+        "answer": "Avenqor is an education-only platform providing structured courses for Forex, Crypto, and Binary options markets. We deliver PDF courses, custom course requests, and AI-generated trading strategies. We do not provide financial advice, trading signals, or manage funds."
+      },
+      {
+        "id": "how-tokens-work",
+        "question": "How do tokens work?",
+        "answer": "Tokens are credits used to access Avenqor products. 1.00 GBP equals 100 tokens. You can buy token packs, make custom top-ups, or pay directly for courses. Tokens do not expire and can be used across all products."
+      },
+      {
+        "id": "what-in-courses",
+        "question": "What is included in the courses?",
+        "answer": "Each course is delivered as a structured PDF with clear modules covering key concepts, strategies, and risk management. Courses are organized by market (Forex, Crypto, Binary) and level (Beginner, Intermediate, Advanced)."
+      },
+      {
+        "id": "can-cancel",
+        "question": "Can I cancel an order?",
+        "answer": "For ready-made courses, you can cancel before payment is processed. For custom course requests, cancellation is possible within 24 hours of submission. Once a course is generated or delivered, tokens are consumed and cannot be refunded unless there is a technical issue on our side."
+      },
+      {
+        "id": "refund-policy",
+        "question": "What is your refund policy?",
+        "answer": "Refunds are available for duplicate purchases, technical failures, or unauthorized charges. We do not offer refunds for subjective dissatisfaction with course content. Contact support with your payment ID and details for review. We respond within 2 business days."
+      },
+      {
+        "id": "need-account",
+        "question": "Do I need an account?",
+        "answer": "Yes, an account is required to purchase courses, track your token balance, access purchased PDFs, and request custom courses. You can sign up with email or use Google OAuth for quick registration."
+      },
+      {
+        "id": "financial-advice",
+        "question": "Does Avenqor provide financial advice?",
+        "answer": "No. Avenqor provides education only. We do not offer financial advice, trading signals, investment recommendations, or fund management services. All content is for educational purposes. Trading involves substantial risk of loss."
+      },
+      {
+        "id": "access-course",
+        "question": "How do I access my purchased course?",
+        "answer": "After purchase, you will receive an email with a download link to your PDF course. You can also access all purchased courses from your account dashboard. PDFs are available for download at any time after purchase."
+      }
+    ]
   },
   "footerCta": {
     "title": "Start with one course or a single AI plan.",

@@ -4,7 +4,8 @@
 
 import { BookOpen } from 'lucide-react'
 import Link from 'next/link'
-import { formatPrice } from '@/lib/currency-utils'
+import { useTranslations } from 'next-intl'
+import { calculatePriceForTokens, formatPrice } from '@/lib/currency-utils'
 import { getUserCurrency } from '@/lib/currency-client'
 import { useState, useEffect } from 'react'
 
@@ -22,17 +23,20 @@ interface CourseCardProps {
 
 export function CourseCard({ course }: CourseCardProps) {
   const [currency, setCurrency] = useState('GBP')
+  const t = useTranslations('common.buttons')
 
   useEffect(() => {
     setCurrency(getUserCurrency())
   }, [])
 
-  const price = formatPrice(course.price_gbp, currency)
+  // Calculate price from tokens: 1.00 GBP = 100 tokens
+  const priceAmount = calculatePriceForTokens(course.tokens, currency)
+  const price = formatPrice(priceAmount, currency)
 
   return (
     <div className="flex flex-col bg-slate-900/60 border border-slate-800 rounded-2xl p-5 gap-4 hover:border-cyan-400/70 hover:-translate-y-1 transition-all duration-150 shadow-[0_18px_40px_rgba(0,0,0,0.55)]">
       <div className="aspect-[16/9] rounded-xl bg-gradient-to-br from-slate-700/40 via-slate-900 to-slate-950 flex items-center justify-center text-xs text-slate-300/70">
-        Course cover
+        {t('courseCover')}
       </div>
       <div className="flex items-center gap-2 text-xs font-medium text-slate-300">
         <span className="px-2 py-0.5 rounded-full bg-slate-800/80 border border-slate-700/70">
@@ -55,13 +59,13 @@ export function CourseCard({ course }: CourseCardProps) {
       <div className="mt-auto flex items-center justify-between pt-3 border-t border-slate-800/80 text-sm">
         <div>
           <div className="font-semibold text-slate-50">{price}</div>
-          <div className="text-[11px] text-slate-400">≈ {course.tokens.toLocaleString('en-US')} tokens</div>
+          <div className="text-[11px] text-slate-400">≈ {course.tokens.toLocaleString('en-US')} {t('tokens')}</div>
         </div>
         <Link
           href={course.slug ? `/courses/${course.slug}` : '#'}
           className="inline-flex items-center gap-1 text-xs font-medium text-cyan-300 hover:text-cyan-200"
         >
-          <span>View details</span>
+          <span>{t('viewDetails')}</span>
           <span className="inline-block translate-x-0 group-hover:translate-x-0.5 transition-transform">
             →
           </span>

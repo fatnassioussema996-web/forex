@@ -5,6 +5,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
+import { useTranslations } from 'next-intl'
 import { CurrencySelector, CurrencySelectorMobile } from './CurrencySelector'
 import { LanguageToggle } from './LanguageToggle'
 import { getUserCurrency } from '@/lib/currency-client'
@@ -13,6 +14,11 @@ export default function Header() {
   const { data: session } = useSession()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [currentCurrency, setCurrentCurrency] = useState('GBP')
+  const t = useTranslations('common')
+  const tNav = useTranslations('common.nav')
+  const tAuth = useTranslations('common.auth')
+  const tHeader = useTranslations('common.header')
+  const tBrand = useTranslations('common.brand')
 
   useEffect(() => {
     setCurrentCurrency(getUserCurrency())
@@ -32,8 +38,8 @@ export default function Header() {
               AV
             </div>
             <Link href="/" className="flex flex-col">
-              <span className="font-semibold tracking-tight text-sm text-slate-50">Avenqor</span>
-              <span className="text-[11px] uppercase tracking-[0.16em] text-slate-400">Education only</span>
+              <span className="font-semibold tracking-tight text-sm text-slate-50">{tBrand('name')}</span>
+              <span className="text-[11px] uppercase tracking-[0.16em] text-slate-400">{tBrand('tagline')}</span>
             </Link>
           </div>
 
@@ -42,28 +48,28 @@ export default function Header() {
             {isLoggedIn ? (
               <>
                 <Link href="/" className="hover:text-cyan-300 transition-colors">
-                  Home
+                  {tNav('home')}
                 </Link>
                 <Link href="/cabinet" className="hover:text-cyan-300 transition-colors">
-                  Cabinet
+                  {tNav('cabinet')}
                 </Link>
                 <Link href="/faq" className="hover:text-cyan-300 transition-colors">
-                  FAQ
+                  {tNav('faq')}
                 </Link>
               </>
             ) : (
               <>
                 <Link href="/about" className="hover:text-cyan-300 transition-colors">
-                  About
+                  {tNav('about')}
                 </Link>
                 <Link href="/pricing" className="hover:text-cyan-300 transition-colors">
-                  Pricing
+                  {tNav('pricing')}
                 </Link>
                 <Link href="/faq" className="hover:text-cyan-300 transition-colors">
-                  FAQ
+                  {tNav('faq')}
                 </Link>
                 <Link href="/contact" className="hover:text-cyan-300 transition-colors">
-                  Contact
+                  {tNav('contact')}
                 </Link>
               </>
             )}
@@ -76,16 +82,16 @@ export default function Header() {
             {isLoggedIn && user ? (
               <>
                 <div className="balance-text text-xs text-slate-300 whitespace-nowrap">
-                         Balance:{' '}
-                         <strong className="font-semibold text-slate-50">
-                           {user.balance ? Math.floor(user.balance).toLocaleString('en-US') : 0} Tokens
-                         </strong>
+                  {tHeader('balance')}:{' '}
+                  <strong className="font-semibold text-slate-50">
+                    {user.balance ? Math.floor(user.balance).toLocaleString('en-US') : 0} {tHeader('tokens')}
+                  </strong>
                 </div>
                 <Link
                   href="/top-up"
                   className="top-up-link inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-full border border-slate-700 text-slate-100 hover:border-slate-500 transition whitespace-nowrap"
                 >
-                  Top-Up
+                  {tHeader('topUp')}
                 </Link>
                 <Link
                   href="/cabinet"
@@ -100,13 +106,13 @@ export default function Header() {
                   href="/login"
                   className="hidden sm:inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-full border border-slate-700 text-slate-100 hover:border-slate-500 transition"
                 >
-                  Sign in
+                  {tAuth('signIn')}
                 </Link>
                 <Link
                   href="/register"
                   className="inline-flex items-center px-3.5 py-1.5 text-xs font-semibold rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_12px_30px_rgba(8,145,178,0.55)] transition"
                 >
-                  Get started
+                  {tAuth('getStarted')}
                 </Link>
               </>
             )}
@@ -118,7 +124,7 @@ export default function Header() {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-slate-300 hover:text-slate-50 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-400"
             >
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">{tHeader('openMainMenu')}</span>
               {isMobileMenuOpen ? (
                 <svg
                   className="h-6 w-6"
@@ -165,21 +171,21 @@ export default function Header() {
                   className="block px-3 py-2 rounded-md text-base font-medium text-slate-50 hover:bg-slate-800 hover:text-cyan-300 transition"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Home
+                  {tNav('home')}
                 </Link>
                 <Link
                   href="/cabinet"
                   className="block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-300 transition"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Cabinet
+                  {tNav('cabinet')}
                 </Link>
                 <Link
                   href="/faq"
                   className="block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-300 transition"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  FAQ
+                  {tNav('faq')}
                 </Link>
               </>
             ) : (
@@ -189,28 +195,28 @@ export default function Header() {
                   className="block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-300 transition"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  About
+                  {tNav('about')}
                 </Link>
                 <Link
                   href="/pricing"
                   className="block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-300 transition"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Pricing
+                  {tNav('pricing')}
                 </Link>
                 <Link
                   href="/faq"
                   className="block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-300 transition"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  FAQ
+                  {tNav('faq')}
                 </Link>
                 <Link
                   href="/contact"
                   className="block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-300 transition"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Contact
+                  {tNav('contact')}
                 </Link>
               </>
             )}
@@ -227,7 +233,7 @@ export default function Header() {
                   <div className="ml-3">
                     <div className="text-base font-medium text-slate-50">{user.name}</div>
                     <div className="text-sm font-medium text-slate-300">
-                      Balance: {user.balance ? Math.floor(user.balance).toLocaleString('en-US') : 0} Tokens
+                      {tHeader('balance')}: {user.balance ? Math.floor(user.balance).toLocaleString('en-US') : 0} {tHeader('tokens')}
                     </div>
                   </div>
                 </div>
@@ -237,7 +243,7 @@ export default function Header() {
                     className="block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-slate-50 hover:bg-slate-800 transition"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Top-Up Balance
+                    {tHeader('topUpBalance')}
                   </Link>
                   <button
                     onClick={() => {
@@ -246,7 +252,7 @@ export default function Header() {
                     }}
                     className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-slate-50 hover:bg-slate-800 transition"
                   >
-                    Log Out
+                    {tAuth('logOut')}
                   </button>
                 </div>
               </>
@@ -257,12 +263,12 @@ export default function Header() {
                   className="block w-full text-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-slate-950 bg-cyan-400 hover:bg-cyan-300 transition"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Sign Up
+                  {tAuth('signUp')}
                 </Link>
                 <p className="mt-3 text-center text-base font-medium text-slate-300">
-                  Already have an account?{' '}
+                  {tAuth('alreadyHaveAccount')}{' '}
                   <Link href="/login" className="text-cyan-300 hover:text-cyan-200 hover:underline">
-                    Log In
+                    {tAuth('logIn')}
                   </Link>
                 </p>
               </div>

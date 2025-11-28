@@ -1,24 +1,31 @@
 // components/Footer.tsx - Main footer component
 
+'use client'
+
 import Link from 'next/link'
+import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
+  const t = useTranslations('common')
+  const tNav = useTranslations('common.nav')
+  const tFooter = useTranslations('common.footer')
 
   return (
-    <footer className="bg-slate-950/95 border-t border-slate-900">
+    <footer className="relative z-10 bg-slate-950/95 border-t border-slate-900">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           {/* Column 1: Company Info */}
           <div className="col-span-2 md:col-span-1">
-            <h3 className="text-2xl font-bold text-slate-50">Avenqor</h3>
+            <h3 className="text-2xl font-bold text-slate-50">{t('brand.name')}</h3>
             <p className="mt-2 text-xs text-slate-400">
-              Avenqor provides education only. We do not offer financial advice.
+              {tFooter('educationOnlyLine')}
             </p>
             <ul className="mt-4 space-y-1.5">
               <li className="text-sm font-semibold text-slate-200">OVERSEAS SUPPORT LIMITED</li>
               <li>
-                <span className="text-sm text-slate-400">Company number: 15969862</span>
+                <span className="text-sm text-slate-400">{tFooter('companyNumber')}: 15969862</span>
               </li>
               <li>
                 <span className="text-sm text-slate-400">
@@ -31,32 +38,32 @@ export default function Footer() {
           {/* Column 2: Products */}
           <div>
             <h4 className="text-sm font-semibold text-slate-200 tracking-wider uppercase">
-              Products
+              {tFooter('productsTitle')}
             </h4>
             <ul className="mt-4 space-y-2">
               <li>
                 <Link href="/courses" className="text-sm text-slate-400 hover:text-cyan-300 transition">
-                  Courses
+                  {tNav('courses')}
                 </Link>
               </li>
               <li>
                 <Link href="/learn?tab=custom" className="text-sm text-slate-400 hover:text-cyan-300 transition">
-                  Custom course
+                  {tNav('customCourse')}
                 </Link>
               </li>
               <li>
                 <Link href="/learn?tab=ai" className="text-sm text-slate-400 hover:text-cyan-300 transition">
-                  AI Strategy
+                  {tNav('aiStrategy')}
                 </Link>
               </li>
               <li>
                 <Link href="/glossary" className="text-sm text-slate-400 hover:text-cyan-300 transition">
-                  Glossary
+                  {tNav('glossary')}
                 </Link>
               </li>
               <li>
                 <Link href="/resources" className="text-sm text-slate-400 hover:text-cyan-300 transition">
-                  Resources
+                  {tNav('resources')}
                 </Link>
               </li>
             </ul>
@@ -65,22 +72,22 @@ export default function Footer() {
           {/* Column 3: Useful Links */}
           <div>
             <h4 className="text-sm font-semibold text-slate-200 tracking-wider uppercase">
-              Useful Links
+              {tFooter('usefulLinksTitle')}
             </h4>
             <ul className="mt-4 space-y-2">
               <li>
                 <Link href="/about" className="text-sm text-slate-400 hover:text-cyan-300 transition">
-                  About
+                  {tNav('about')}
                 </Link>
               </li>
               <li>
                 <Link href="/pricing" className="text-sm text-slate-400 hover:text-cyan-300 transition">
-                  Pricing
+                  {tNav('pricing')}
                 </Link>
               </li>
               <li>
                 <Link href="/faq" className="text-sm text-slate-400 hover:text-cyan-300 transition">
-                  FAQ
+                  {tNav('faq')}
                 </Link>
               </li>
             </ul>
@@ -88,14 +95,14 @@ export default function Footer() {
 
           {/* Column 4: Legal */}
           <div>
-            <h4 className="text-sm font-semibold text-slate-200 tracking-wider uppercase">Legal</h4>
+            <h4 className="text-sm font-semibold text-slate-200 tracking-wider uppercase">{tFooter('legalTitle')}</h4>
             <ul className="mt-4 space-y-2">
               <li>
                 <Link
                   href="/risk-and-disclaimer"
                   className="text-sm text-slate-400 hover:text-cyan-300 transition"
                 >
-                  Risk & Disclaimer
+                  {tFooter('links.riskDisclaimer')}
                 </Link>
               </li>
               <li>
@@ -103,7 +110,7 @@ export default function Footer() {
                   href="/terms"
                   className="text-sm text-slate-400 hover:text-cyan-300 transition"
                 >
-                  Terms & Conditions
+                  {tFooter('links.terms')}
                 </Link>
               </li>
               <li>
@@ -111,7 +118,7 @@ export default function Footer() {
                   href="/privacy"
                   className="text-sm text-slate-400 hover:text-cyan-300 transition"
                 >
-                  Privacy Policy
+                  {tFooter('links.privacy')}
                 </Link>
               </li>
               <li>
@@ -119,7 +126,7 @@ export default function Footer() {
                   href="/cookies"
                   className="text-sm text-slate-400 hover:text-cyan-300 transition"
                 >
-                  Cookies
+                  {tFooter('links.cookies')}
                 </Link>
               </li>
               <li>
@@ -127,7 +134,7 @@ export default function Footer() {
                   href="/contact"
                   className="text-sm text-slate-400 hover:text-cyan-300 transition"
                 >
-                  Contact
+                  {tFooter('links.contact')}
                 </Link>
               </li>
             </ul>
@@ -136,10 +143,10 @@ export default function Footer() {
           {/* Column 5: Get in Touch */}
           <div>
             <h4 className="text-sm font-semibold text-slate-200 tracking-wider uppercase">
-              Get In Touch
+              {tFooter('getInTouchTitle')}
             </h4>
             <p className="mt-4 text-sm text-slate-400">
-              Have questions or feedback? Reach out!
+              {tFooter('haveQuestions')}
             </p>
             <a
               href="mailto:info@avenqor.net"
@@ -158,10 +165,23 @@ export default function Footer() {
 
         <div className="mt-8 border-t border-slate-900 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-slate-400">
-            © {currentYear} OVERSEAS SUPPORT LIMITED. All Rights Reserved.
+            © {currentYear} OVERSEAS SUPPORT LIMITED. {tFooter('allRightsReserved')}.
           </p>
           <div className="flex items-center gap-4">
-            {/* Payment logos - will be added later */}
+            <Image
+              src="/visa-logo.svg"
+              alt="Visa"
+              width={40}
+              height={25}
+              className="h-6 w-auto opacity-80 hover:opacity-100 transition-opacity"
+            />
+            <Image
+              src="/mastercard-logo.svg"
+              alt="MasterCard"
+              width={40}
+              height={25}
+              className="h-6 w-auto opacity-80 hover:opacity-100 transition-opacity"
+            />
           </div>
         </div>
       </div>

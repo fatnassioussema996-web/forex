@@ -12,11 +12,25 @@
     "resources": "الموارد",
     "faq": "الأسئلة الشائعة",
     "about": "من نحن",
-    "contact": "اتصل بنا"
+    "contact": "اتصل بنا",
+    "home": "الرئيسية",
+    "cabinet": "الخزانة"
   },
   "auth": {
     "signIn": "تسجيل الدخول",
-    "getStarted": "ابدأ الآن"
+    "getStarted": "ابدأ الآن",
+    "signUp": "إنشاء حساب",
+    "logIn": "تسجيل الدخول",
+    "logOut": "تسجيل الخروج",
+    "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
+    "signOut": "تسجيل الخروج"
+  },
+  "header": {
+    "balance": "الرصيد",
+    "tokens": "رموز",
+    "topUp": "شحن الرصيد",
+    "topUpBalance": "شحن الرصيد",
+    "openMainMenu": "فتح القائمة الرئيسية"
   },
   "currency": {
     "gbp": "GBP",
@@ -31,7 +45,12 @@
   "footer": {
     "educationOnlyLine": "أفِنكور يقدّم محتوىً تعليمياً فقط ولا يقدّم نصائح مالية.",
     "productsTitle": "المنتجات",
+    "usefulLinksTitle": "روابط مفيدة",
     "legalTitle": "الشؤون القانونية",
+    "getInTouchTitle": "تواصل معنا",
+    "companyNumber": "رقم الشركة",
+    "haveQuestions": "لديك أسئلة أو ملاحظات؟ تواصل معنا!",
+    "allRightsReserved": "جميع الحقوق محفوظة",
     "links": {
       "riskDisclaimer": "المخاطر والتنصل القانوني",
       "terms": "الشروط والأحكام",
@@ -45,7 +64,10 @@
     "viewFullPricing": "عرض التفاصيل الكاملة للأسعار والرموز",
     "openFullGlossary": "فتح القاموس الكامل",
     "viewAllResources": "عرض جميع الموارد",
-    "readFullRiskDisclaimer": "قراءة صفحة المخاطر والتنصل القانونية بالكامل"
+    "readFullRiskDisclaimer": "قراءة صفحة المخاطر والتنصل القانونية بالكامل",
+    "viewDetails": "عرض التفاصيل",
+    "courseCover": "غلاف الدورة",
+    "tokens": "رموز"
   },
   "badges": {
     "educationOnly": "لأغراض تعليمية فقط",
