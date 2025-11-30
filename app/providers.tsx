@@ -16,6 +16,7 @@ import enPricing from '@/i18n/en/pricing.json'
 import enDashboard from '@/i18n/en/dashboard.json'
 import enAuth from '@/i18n/en/auth.json'
 import enFaq from '@/i18n/en/faq.json'
+import enGlossary from '@/i18n/en/glossary.json'
 
 const LOCALE_COOKIE_NAME = 'user_locale'
 const defaultLocale = 'en'
@@ -31,6 +32,7 @@ const defaultMessages = {
   dashboard: enDashboard,
   auth: enAuth,
   faq: enFaq,
+  glossary: enGlossary,
 }
 
 function getLocaleFromCookie(): string {
@@ -75,8 +77,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
       import(`@/i18n/${currentLocale}/dashboard.json`),
       import(`@/i18n/${currentLocale}/auth.json`),
       import(`@/i18n/${currentLocale}/faq.json`),
+      import(`@/i18n/${currentLocale}/glossary.json`),
     ])
-      .then(([common, home, courses, cart, learn, pricing, dashboard, auth, faq]) => {
+      .then(([common, home, courses, cart, learn, pricing, dashboard, auth, faq, glossary]) => {
         setMessages({
           common: common.default,
           home: home.default,
@@ -87,6 +90,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           dashboard: dashboard.default,
           auth: auth.default,
           faq: faq.default,
+          glossary: glossary.default,
         })
       })
       .catch((error) => {

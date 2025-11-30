@@ -29,6 +29,7 @@ export default getRequestConfig(async ({ locale }) => {
       dashboard: (await import(`./${validLocale}/dashboard.json`)).default,
       auth: (await import(`./${validLocale}/auth.json`)).default,
       faq: (await import(`./${validLocale}/faq.json`)).default,
+      glossary: (await import(`./${validLocale}/glossary.json`)).default,
     },
   }
 })

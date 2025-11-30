@@ -1,0 +1,147 @@
+{
+  "breadcrumb": {
+    "home": "Home",
+    "glossary": "Glossary"
+  },
+  "hero": {
+    "title": "A practical glossary for Forex, Crypto and Binary education.",
+    "subtitle": "Short, readable definitions that stay as close as possible to how traders actually use these terms. No hype, no marketing language – just context for your learning.",
+    "sideCard": {
+      "title": "How to use this glossary",
+      "subtitle": "Support for your courses, not a standalone strategy guide.",
+      "paragraph1": "The glossary is designed to sit next to your Avenqor PDFs and AI strategies. If you meet a term you do not recognise, you can quickly look it up here, then return to the main material.",
+      "paragraph2": "Definitions are intentionally conservative and do not attempt to predict markets or tell you what to trade. They simply give structure to the language used in courses."
+    }
+  },
+  "search": {
+    "placeholder": "Search a term",
+    "info": "Search will filter terms in real-time as you type.",
+    "noResults": "No terms found matching your search."
+  },
+  "categories": {
+    "all": "All",
+    "forex": "Forex",
+    "crypto": "Crypto",
+    "binary": "Binary",
+    "risk": "Risk",
+    "process": "Process",
+    "psychology": "Psychology"
+  },
+  "terms": {
+    "title": "Selected terms from the Avenqor glossary.",
+    "subtitle": "In the full product you will be able to search, filter and open dedicated glossary views directly from course modules.",
+    "disclaimer": "Definitions here are for preview. Full glossary will be extended per release.",
+    "items": [
+      {
+        "id": "leverage",
+        "label": "Leverage",
+        "category": "Risk",
+        "short": "How much exposure you control per unit of capital.",
+        "explanation": "Leverage is the ratio between the size of your position and the amount of capital you put at risk. Higher leverage amplifies both gains and losses. Misusing leverage is one of the fastest ways to blow an account.",
+        "tag": "Core risk concept"
+      },
+      {
+        "id": "drawdown",
+        "label": "Drawdown",
+        "category": "Risk",
+        "short": "The peak-to-trough decline of your account or system.",
+        "explanation": "Drawdown measures how much your equity curve has fallen from its last high. It is usually expressed as a percentage. Deep or prolonged drawdowns are often a sign that risk is too high or the strategy is misaligned with current conditions.",
+        "tag": "Risk tracking"
+      },
+      {
+        "id": "risk-per-trade",
+        "label": "Risk per trade",
+        "category": "Risk",
+        "short": "The percentage of capital you put at stake in one idea.",
+        "explanation": "Risk per trade defines how much of your account you are willing to lose if a single idea fails. Many educational frameworks use fixed percentages (for example 0.5–2%) to avoid oversized losses from any one position."
+      },
+      {
+        "id": "pip",
+        "label": "Pip",
+        "category": "Forex",
+        "short": "A small unit used to measure price movement in Forex.",
+        "explanation": "A pip (percentage in point) is a standardised unit that represents a change in value between two currencies. For most major pairs one pip is 0.0001, although some brokers quote fractional (\"pipette\") values."
+      },
+      {
+        "id": "lot-size",
+        "label": "Lot size",
+        "category": "Forex",
+        "short": "How big your position is in standardised contract units.",
+        "explanation": "Lot size defines the number of currency units you control in a Forex trade. Standard lots are typically 100,000 units, mini lots 10,000 and micro lots 1,000. Position sizing connects lot size to your risk per trade."
+      },
+      {
+        "id": "volatility",
+        "label": "Volatility",
+        "category": "Crypto",
+        "short": "How fast and how far the price moves over time.",
+        "explanation": "Volatility describes the magnitude of price changes in a given period. Crypto markets often show higher volatility than many traditional pairs. Higher volatility can create opportunity but also increases the risk of rapid losses."
+      },
+      {
+        "id": "liquidity-zones",
+        "label": "Liquidity zones",
+        "category": "Crypto",
+        "short": "Areas where a large number of orders may be resting.",
+        "explanation": "Liquidity zones are price areas where many orders are expected: previous highs/lows, consolidation ranges or obvious levels. Understanding where liquidity may sit can help frame potential sweeps or sharp moves."
+      },
+      {
+        "id": "strike-price",
+        "label": "Strike price",
+        "category": "Binary",
+        "short": "The level that defines the outcome of a binary option.",
+        "explanation": "The strike price is the level you compare the underlying price to at expiry. In many binary structures your payout depends purely on whether price is above or below this strike at a specific time."
+      },
+      {
+        "id": "expiry-time",
+        "label": "Expiry time",
+        "category": "Binary",
+        "short": "The moment when a binary option settles.",
+        "explanation": "Expiry time is the exact moment your binary option is evaluated. Very short expiries magnify noise and randomness. Educational material often emphasises understanding how expiry interacts with volatility and structure."
+      },
+      {
+        "id": "trading-plan",
+        "label": "Trading plan",
+        "category": "Process",
+        "short": "A documented set of rules for how you operate.",
+        "explanation": "A trading plan outlines when you trade, how you manage risk, which setups you look for and when you stand aside. It is a living document that evolves with experience, not a one-time checklist."
+      },
+      {
+        "id": "journal",
+        "label": "Trading journal",
+        "category": "Process",
+        "short": "A log of your trades, thoughts and lessons.",
+        "explanation": "A trading journal records entries, exits, reasoning and emotional state. Reviewing it regularly helps identify patterns, repeated mistakes and areas to adjust in your approach."
+      },
+      {
+        "id": "psych-capital",
+        "label": "Psychological capital",
+        "category": "Psychology",
+        "short": "Your ability to keep making clear decisions under stress.",
+        "explanation": "Psychological capital is the mental bandwidth you have for decision-making and risk. Over-leveraging, over-trading or constantly monitoring positions can quickly burn through it, leading to impulsive choices."
+      }
+    ]
+  },
+  "infoCards": {
+    "education": {
+      "title": "Education, not advice",
+      "subtitle": "Glossary entries do not tell you what to trade.",
+      "description": "The glossary explains language used in high-risk markets. It does not suggest instruments, position sizes or directions. Any decisions to trade remain fully your responsibility."
+    },
+    "linkFromCourses": {
+      "title": "Link from courses",
+      "subtitle": "In the app, you can jump here from inside PDFs.",
+      "description": "In production, key terms in Avenqor courses will link to glossary entries. You can open them, read the explanation and then return to your place in the PDF or module."
+    },
+    "updates": {
+      "title": "Updates over time",
+      "subtitle": "Glossary evolves with new modules and markets.",
+      "description": "As Avenqor adds new courses and AI templates, additional terms will be documented here. All updates will keep the same conservative, education-first tone."
+    }
+  },
+  "cta": {
+    "title": "Continue with a course or AI strategy.",
+    "subtitle": "Use the glossary as a support tool, then move back into structured learning – PDFs, custom courses and AI plans.",
+    "browseCourses": "Browse courses",
+    "generateAI": "Generate AI strategy"
+  }
+}
+
