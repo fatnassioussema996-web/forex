@@ -23,15 +23,15 @@ function transformStaticCourse(course: typeof demoCourses[0]) {
     id: 1, // Temporary ID
     slug: course.slug,
     title: course.title,
-    title_ar: null,
+    title_ar: undefined,
     description: course.longDescription,
-    description_ar: null,
+    description_ar: undefined,
     level: capitalizeFirst(course.level),
     market: capitalizeFirst(course.market),
     tokens: course.price.tokens,
     price_gbp: course.price.GBP,
     pdf_path: course.pdfUrl,
-    cover_image: null,
+    cover_image: undefined,
     featured: course.isFeatured,
     modules: course.modules.map((m) => ({
       order: m.order,
@@ -40,6 +40,36 @@ function transformStaticCourse(course: typeof demoCourses[0]) {
     })),
     duration_hours_min: course.durationHoursMin,
     duration_hours_max: course.durationHoursMax,
+  }
+}
+
+// Helper function to normalize course data: convert null to undefined for optional fields
+// This ensures compatibility with CourseDetailPageProps which expects undefined, not null
+function normalizeCourse(course: {
+  id: number
+  slug: string
+  title: string
+  title_ar?: string | null
+  description: string
+  description_ar?: string | null
+  level: string
+  market: string
+  tokens: number
+  price_gbp: number
+  pdf_path: string
+  cover_image?: string | null
+  featured: boolean
+  modules?: any
+  duration_hours_min?: number | null
+  duration_hours_max?: number | null
+}) {
+  return {
+    ...course,
+    title_ar: course.title_ar ?? undefined,
+    description_ar: course.description_ar ?? undefined,
+    cover_image: course.cover_image ?? undefined,
+    duration_hours_min: course.duration_hours_min ?? undefined,
+    duration_hours_max: course.duration_hours_max ?? undefined,
   }
 }
 
@@ -133,6 +163,9 @@ export default async function CourseDetailPageRoute({
     notFound()
   }
 
-  return <CourseDetailPage course={course} />
+  // Normalize course data: convert null to undefined for optional fields
+  const normalizedCourse = normalizeCourse(course)
+
+  return <CourseDetailPage course={normalizedCourse} />
 }
 
