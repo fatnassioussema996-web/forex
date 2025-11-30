@@ -1,14 +1,16 @@
 // lib/prisma.ts - Prisma Client singleton для Next.js
 
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Prisma } from '@prisma/client'
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
 // Connection pooling configuration for serverless (Vercel/Neon)
-const prismaClientOptions = {
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+const prismaClientOptions: Prisma.PrismaClientOptions = {
+  log: process.env.NODE_ENV === 'development' 
+    ? (['query', 'error', 'warn'] as Prisma.LogLevel[])
+    : (['error'] as Prisma.LogLevel[]),
   // For Neon and other serverless databases, connection pooling is handled via connection string
   // The connection string should include ?pgbouncer=true or use a pooling proxy
 }
