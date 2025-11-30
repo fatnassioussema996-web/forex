@@ -45,6 +45,7 @@ function transformStaticCourse(course: typeof demoCourses[0]) {
 
 // Helper function to normalize course data: convert null to undefined for optional fields
 // This ensures compatibility with CourseDetailPageProps which expects undefined, not null
+// Also converts Prisma Decimal types to number
 function normalizeCourse(course: {
   id: number
   slug: string
@@ -55,7 +56,7 @@ function normalizeCourse(course: {
   level: string
   market: string
   tokens: number
-  price_gbp: number
+  price_gbp: number | { toNumber?: () => number; toString?: () => string } // Prisma Decimal or number
   pdf_path: string
   cover_image?: string | null
   featured: boolean
@@ -63,8 +64,14 @@ function normalizeCourse(course: {
   duration_hours_min?: number | null
   duration_hours_max?: number | null
 }) {
+  // Convert Prisma Decimal to number if needed
+  const priceGbpNumber = typeof course.price_gbp === 'number' 
+    ? course.price_gbp 
+    : Number(course.price_gbp)
+
   return {
     ...course,
+    price_gbp: priceGbpNumber,
     title_ar: course.title_ar ?? undefined,
     description_ar: course.description_ar ?? undefined,
     cover_image: course.cover_image ?? undefined,
