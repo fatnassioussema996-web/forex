@@ -10,6 +10,7 @@ import {
   AlertTriangle,
   CheckCircle2,
   ChevronRight,
+  Cpu,
 } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 
