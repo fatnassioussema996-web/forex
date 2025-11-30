@@ -1,0 +1,667 @@
+// components/CourseDetailPage.tsx - Course detail page component
+
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
+import { motion } from 'framer-motion'
+import {
+  ShieldCheck,
+  BookOpen,
+  FileText,
+  Gauge,
+  Layers,
+  Globe2,
+  AlertTriangle,
+  CheckCircle2,
+  ChevronRight,
+  Cpu,
+} from 'lucide-react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { HomeSection } from './HomeSection'
+import { calculatePriceForTokens, formatPrice } from '@/lib/currency-utils'
+import { getUserCurrency } from '@/lib/currency-client'
+import { getCourseImagePath } from '@/lib/course-image-utils'
+import { useCart } from '@/contexts/CartContext'
+import { useToast } from '@/hooks/use-toast'
+
+interface CourseModule {
+  order: number
+  title: string
+  summary: string
+}
+
+interface CourseDetailPageProps {
+  course: {
+    id: number
+    slug: string
+    title: string
+    title_ar?: string
+    description: string
+    description_ar?: string
+    level: string
+    market: string
+    tokens: number
+    price_gbp: number
+    pdf_path: string
+    cover_image?: string
+    featured: boolean
+    modules?: CourseModule[] | null
+    duration_hours_min?: number | null
+    duration_hours_max?: number | null
+  }
+}
+
+// Static modules data - can be moved to DB later
+const getDefaultModules = (market: string, level: string) => {
+  if (market === 'Forex' && level === 'Beginner') {
+    return [
+      {
+        no: '01',
+        title: 'How the Forex market is structured',
+        desc: 'Sessions, major pairs, liquidity and where your orders actually travel in the system.',
+      },
+      {
+        no: '02',
+        title: 'Core terms & order types',
+        desc: 'Market vs limit, stop orders, spreads, slippage and how this affects execution.',
+      },
+      {
+        no: '03',
+        title: 'Risk per trade & position sizing',
+        desc: 'Calculating % risk, lot size and why a small, consistent risk model matters more than setups.',
+      },
+      {
+        no: '04',
+        title: 'Basic price structure & candles',
+        desc: 'Trends, ranges, support/resistance and how to read candles without overcomplicating charts.',
+      },
+      {
+        no: '05',
+        title: 'Building your first simple plan',
+        desc: 'Turning theory into a minimal trading plan you can actually follow and review.',
+      },
+      {
+        no: '06',
+        title: 'Journaling and review',
+        desc: 'What to track, how to log trades and how to run weekly reviews to learn from data.',
+      },
+      {
+        no: '07',
+        title: 'Common beginner traps',
+        desc: 'Overtrading, revenge trading, sizing up too fast and how to build guardrails against them.',
+      },
+    ]
+  }
+  // Default modules for other courses
+  return [
+    {
+      no: '01',
+      title: 'Introduction and fundamentals',
+      desc: 'Core concepts and market structure.',
+    },
+    {
+      no: '02',
+      title: 'Risk management basics',
+      desc: 'Understanding risk and position sizing.',
+    },
+    {
+      no: '03',
+      title: 'Practical application',
+      desc: 'Applying concepts in real scenarios.',
+    },
+  ]
+}
+
+export function CourseDetailPage({ course }: CourseDetailPageProps) {
+  const router = useRouter()
+  const { addToCart } = useCart()
+  const { showToast } = useToast()
+  const t = useTranslations('courses.detail')
+  const tCart = useTranslations('cart.messages')
+  const tBreadcrumb = useTranslations('courses.breadcrumb')
+  const [currency, setCurrency] = useState('GBP')
+  const [locale, setLocale] = useState('en')
+
+  useEffect(() => {
+    setCurrency(getUserCurrency())
+    // Get locale from cookie
+    const cookies = document.cookie.split(';')
+    const localeCookie = cookies.find((c) => c.trim().startsWith('user_locale='))
+    if (localeCookie) {
+      const loc = localeCookie.split('=')[1]?.trim()
+      if (loc === 'ar' || loc === 'en') {
+        setLocale(loc)
+      }
+    }
+  }, [])
+
+  const handleAddToCart = () => {
+    const imagePath = getCourseImagePath(course.slug)
+    addToCart({
+      id: course.id,
+      slug: course.slug,
+      title: course.title,
+      title_ar: course.title_ar,
+      tokens: course.tokens,
+      price_gbp: course.price_gbp,
+      image: imagePath || undefined,
+    })
+    showToast({
+      title: tCart('addedToCart'),
+      variant: 'success',
+    })
+  }
+
+  const handleBuyWithTokens = () => {
+    handleAddToCart()
+    router.push('/checkout')
+  }
+
+  const handleBuyWithCard = () => {
+    handleAddToCart()
+    router.push('/checkout')
+  }
+
+  const priceAmount = calculatePriceForTokens(course.tokens, currency)
+  const price = formatPrice(priceAmount, currency)
+  const tokensFormatted = course.tokens.toLocaleString('en-US')
+
+  // Use localized title and description if available
+  const displayTitle = locale === 'ar' && course.title_ar ? course.title_ar : course.title
+  const displayDescription =
+    locale === 'ar' && course.description_ar ? course.description_ar : course.description
+
+  // Get course image path
+  const imagePath = getCourseImagePath(course.slug)
+  const hasImage = imagePath !== null
+
+  // Use modules from DB if available, otherwise fallback to static data
+  const dbModules = course.modules && Array.isArray(course.modules) ? course.modules : null
+  const fallbackModules = getDefaultModules(course.market, course.level)
+  
+  // Transform DB modules to display format
+  const displayModules = dbModules
+    ? dbModules
+        .sort((a, b) => a.order - b.order)
+        .map((m) => ({
+          no: String(m.order).padStart(2, '0'),
+          title: m.title,
+          desc: m.summary,
+        }))
+    : fallbackModules
+
+  // Use duration from DB if available, otherwise calculate from modules
+  const estimatedDuration =
+    course.duration_hours_min && course.duration_hours_max
+      ? `${course.duration_hours_min}–${course.duration_hours_max} hours`
+      : `${displayModules.length * 1}–${displayModules.length * 1.5} hours`
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-50 pb-16">
+      {/* Background */}
+      <div className="fixed inset-0 -z-20 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
+      <div className="fixed inset-0 -z-10 opacity-30 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.28),_transparent_50%),_radial-gradient(circle_at_bottom,_rgba(129,140,248,0.18),_transparent_55%)]" />
+
+      {/* Header */}
+      <header className="sticky top-0 z-20 border-b border-slate-900/80 bg-slate-950/90 backdrop-blur-xl">
+        <HomeSection className="py-3 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-xs font-bold tracking-tight">
+              AV
+            </div>
+            <div className="flex flex-col">
+              <span className="font-semibold tracking-tight text-sm">Avenqor</span>
+              <span className="text-[11px] uppercase tracking-[0.16em] text-slate-400">
+                Course detail
+              </span>
+            </div>
+          </div>
+          <div className="hidden md:flex items-center gap-3 text-[11px] text-slate-400">
+            <span className="inline-flex items-center gap-1">
+              <ShieldCheck className="w-3 h-3 text-cyan-300" />
+              {t('header.educationOnly')}
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <BookOpen className="w-3 h-3 text-cyan-300" />
+              {t('header.pdfFormat')}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => router.push('/courses')}
+              className="inline-flex items-center px-3 py-1.5 text-[11px] font-medium rounded-full border border-slate-700 text-slate-100 hover:border-slate-500"
+            >
+              {t('header.backToCourses')}
+            </button>
+          </div>
+        </HomeSection>
+      </header>
+
+      <main className="pt-6">
+        {/* Breadcrumb + hero meta */}
+        <HomeSection className="pb-6 space-y-6">
+          <div className="flex flex-col gap-3">
+            <div className="text-[11px] text-slate-500 flex items-center gap-1">
+              <Link href="/" className="hover:text-slate-300">
+                {tBreadcrumb('home')}
+              </Link>
+              <span className="text-slate-600">/</span>
+              <Link href="/courses" className="hover:text-slate-300">
+                {tBreadcrumb('courses')}
+              </Link>
+              <span className="text-slate-600">/</span>
+              <span className="text-slate-300">{displayTitle}</span>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* Left: main info */}
+              <div className="lg:col-span-7 space-y-4">
+                <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-200">
+                  <span className="px-2.5 py-1 rounded-full bg-slate-100 text-slate-950 font-medium">
+                    {course.level}
+                  </span>
+                  <span className="px-2.5 py-1 rounded-full bg-slate-950/90 border border-slate-700">
+                    {course.market}
+                  </span>
+                  <span className="px-2.5 py-1 rounded-full bg-slate-950/90 border border-slate-700">
+                    {t('meta.pdfCourse')}
+                  </span>
+                  <span className="px-2.5 py-1 rounded-full bg-slate-950/90 border border-slate-700 flex items-center gap-1">
+                    <Globe2 className="w-3 h-3" />
+                    {t('meta.languages')}
+                  </span>
+                </div>
+
+                <div className="space-y-3">
+                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-slate-50">
+                    {displayTitle}
+                  </h1>
+                  {hasImage && (
+                    <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-slate-800">
+                      <Image
+                        src={imagePath}
+                        alt={displayTitle}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        priority
+                      />
+                    </div>
+                  )}
+                  <p className="text-sm text-slate-300/90 max-w-2xl">{displayDescription}</p>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-[11px] text-slate-300">
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-1 text-slate-400">
+                      <Gauge className="w-3 h-3" />
+                      <span>{t('meta.duration')}</span>
+                    </div>
+                    <div className="text-slate-100">{estimatedDuration} · self-paced</div>
+                  </div>
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-1 text-slate-400">
+                      <Layers className="w-3 h-3" />
+                      <span>{t('meta.modules')}</span>
+                    </div>
+                    <div className="text-slate-100">
+                      {displayModules.length} {t('meta.modules').toLowerCase()}
+                    </div>
+                  </div>
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-1 text-slate-400">
+                      <FileText className="w-3 h-3" />
+                      <span>{t('meta.format')}</span>
+                    </div>
+                    <div className="text-slate-100">{t('meta.pdfDownload')}</div>
+                  </div>
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-1 text-slate-400">
+                      <ShieldCheck className="w-3 h-3" />
+                      <span>{t('meta.focus')}</span>
+                    </div>
+                    <div className="text-slate-100">{t('meta.riskAwareness')}</div>
+                  </div>
+                </div>
+
+                <div className="rounded-2xl bg-slate-950/80 border border-slate-900 p-3 text-[11px] text-slate-300/90 space-y-1.5">
+                  <div className="font-semibold text-slate-100 text-xs">
+                    {t('whatYouWillLearn.title')}
+                  </div>
+                  <ul className="space-y-1 list-disc list-inside">
+                    <li>How the {course.market} market is structured and why that matters.</li>
+                    <li>
+                      How to define and calculate risk per trade before pressing any button.
+                    </li>
+                    <li>
+                      How to build a simple, minimal trading plan and journal framework.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Right: pricing & purchase */}
+              <div className="lg:col-span-5">
+                <motion.div
+                  className="bg-slate-950/90 border border-slate-900 rounded-2xl p-4 sm:p-5 flex flex-col gap-3 shadow-[0_18px_40px_rgba(15,23,42,0.95)]"
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <div className="h-9 w-9 rounded-xl bg-slate-900 flex items-center justify-center border border-slate-700">
+                        <BookOpen className="w-4 h-4 text-cyan-300" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-semibold text-slate-50">
+                          {t('pricing.courseAccess')}
+                        </div>
+                        <div className="text-[11px] text-slate-400">
+                          {t('pricing.immediateDownload')}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-right text-xs">
+                      <div className="font-semibold text-slate-50">{price}</div>
+                      <div className="text-[11px] text-slate-400">
+                        ≈ {tokensFormatted} tokens
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+                    <button
+                      onClick={handleBuyWithTokens}
+                      className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-cyan-400 text-slate-950 font-semibold text-xs hover:bg-cyan-300 shadow-[0_14px_32px_rgba(8,145,178,0.65)] transition"
+                    >
+                      <span>{t('pricing.buyWithTokens')}</span>
+                    </button>
+                    <button
+                      onClick={handleBuyWithCard}
+                      className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-slate-700 text-slate-100 font-medium hover:border-slate-500 transition"
+                    >
+                      <span>{t('pricing.buyWithCard')}</span>
+                    </button>
+                  </div>
+
+                  <div className="text-[11px] text-slate-400 space-y-1.5">
+                    <div>{t('pricing.paymentNote')}</div>
+                    <div className="flex items-start gap-2">
+                      <ShieldCheck className="w-3.5 h-3.5 text-cyan-300 mt-0.5" />
+                      <span>{t('pricing.educationDisclaimer')}</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-2 pt-3 border-t border-slate-900 text-[11px] text-slate-400 space-y-1.5">
+                    <div className="font-medium text-slate-200">{t('pricing.beforeBuying')}</div>
+                    <ul className="space-y-1 list-disc list-inside">
+                      <li>{t('pricing.riskNote1')}</li>
+                      <li>{t('pricing.riskNote2')}</li>
+                    </ul>
+                    <Link
+                      href="/risk-and-disclaimer"
+                      className="inline-flex items-center gap-1 text-[11px] font-medium text-cyan-300 hover:text-cyan-200"
+                    >
+                      <span>{t('pricing.readDisclaimer')}</span>
+                      <span>→</span>
+                    </Link>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </HomeSection>
+
+        {/* Course outline */}
+        <HomeSection className="pb-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-7 space-y-4">
+              <div className="flex items-center justify-between gap-2">
+                <div>
+                  <h2 className="text-sm sm:text-base font-semibold text-slate-50 mb-1">
+                    {t('outline.title')}
+                  </h2>
+                  <p className="text-xs text-slate-300/90">{t('outline.description')}</p>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                {displayModules.map((m) => (
+                  <motion.div
+                    key={m.no}
+                    className="flex gap-3 rounded-2xl bg-slate-950/80 border border-slate-900 p-3"
+                    whileHover={{ y: -2 }}
+                    transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+                  >
+                    <div className="h-8 w-8 rounded-xl bg-slate-900 flex items-center justify-center border border-slate-700 text-[11px] text-slate-300">
+                      {m.no}
+                    </div>
+                    <div className="space-y-0.5">
+                      <div className="text-xs font-semibold text-slate-50">{m.title}</div>
+                      <div className="text-[11px] text-slate-300/90">{m.desc}</div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Who this is for / not for */}
+            <div className="lg:col-span-5 space-y-4">
+              <motion.div
+                className="bg-slate-950/80 border border-slate-900 rounded-2xl p-4 flex flex-col gap-2"
+                whileHover={{ y: -3 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+              >
+                <h2 className="text-xs font-semibold text-slate-50 mb-1">
+                  {t('sidebar.whoIsFor.title')}
+                </h2>
+                <ul className="text-[11px] text-slate-300/90 space-y-1.5">
+                  <li>
+                    Complete beginners who want a structured, non-hyped introduction to{' '}
+                    {course.market}.
+                  </li>
+                  <li>
+                    Traders who opened a few random positions and realised they need a proper
+                    base.
+                  </li>
+                  <li>
+                    People who care about risk and process more than short-term excitement.
+                  </li>
+                </ul>
+              </motion.div>
+
+              <motion.div
+                className="bg-slate-950/80 border border-slate-900 rounded-2xl p-4 flex flex-col gap-2"
+                whileHover={{ y: -3 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+              >
+                <h2 className="text-xs font-semibold text-slate-50 mb-1">
+                  {t('sidebar.notFor.title')}
+                </h2>
+                <ul className="text-[11px] text-slate-300/90 space-y-1.5">
+                  <li>It will not give you trade calls or entry alerts.</li>
+                  <li>It will not promise you any monthly percentage return.</li>
+                  <li>
+                    It will not remove the need for your own discipline, time and practice.
+                  </li>
+                </ul>
+              </motion.div>
+
+              <motion.div
+                className="bg-slate-950/80 border border-slate-900 rounded-2xl p-4 flex flex-col gap-2"
+                whileHover={{ y: -3 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+              >
+                <h2 className="text-xs font-semibold text-slate-50 mb-1">
+                  {t('sidebar.materials.title')}
+                </h2>
+                <ul className="text-[11px] text-slate-300/90 space-y-1.5">
+                  <li>Full PDF course (around 80–100 pages).</li>
+                  <li>
+                    Simple printable risk checklist you can keep near your screen.
+                  </li>
+                  <li>
+                    Basic journaling template to log your first 50–100 trades.
+                  </li>
+                </ul>
+              </motion.div>
+            </div>
+          </div>
+        </HomeSection>
+
+        {/* FAQ about this course */}
+        <HomeSection className="pb-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <div className="lg:col-span-7 space-y-3">
+              <div className="max-w-xl">
+                <h2 className="text-sm sm:text-base font-semibold text-slate-50 mb-1">
+                  {t('faq.title')}
+                </h2>
+                <p className="text-xs text-slate-300/90">{t('faq.description')}</p>
+              </div>
+              <div className="space-y-2">
+                <details className="group bg-slate-950/80 border border-slate-900 rounded-2xl px-3 py-2 text-sm">
+                  <summary className="flex items-center justify-between cursor-pointer list-none">
+                    <span className="text-xs font-medium text-slate-100 pr-4">
+                      {t('faq.items.receivePdf.question')}
+                    </span>
+                    <span className="text-slate-500 text-xs group-open:rotate-90 transition-transform">
+                      ›
+                    </span>
+                  </summary>
+                  <div className="mt-2 text-[11px] text-slate-300/90 leading-relaxed">
+                    {t('faq.items.receivePdf.answer')}
+                  </div>
+                </details>
+                <details className="group bg-slate-950/80 border border-slate-900 rounded-2xl px-3 py-2 text-sm">
+                  <summary className="flex items-center justify-between cursor-pointer list-none">
+                    <span className="text-xs font-medium text-slate-100 pr-4">
+                      {t('faq.items.refund.question')}
+                    </span>
+                    <span className="text-slate-500 text-xs group-open:rotate-90 transition-transform">
+                      ›
+                    </span>
+                  </summary>
+                  <div className="mt-2 text-[11px] text-slate-300/90 leading-relaxed">
+                    {t('faq.items.refund.answer')}
+                  </div>
+                </details>
+                <details className="group bg-slate-950/80 border border-slate-900 rounded-2xl px-3 py-2 text-sm">
+                  <summary className="flex items-center justify-between cursor-pointer list-none">
+                    <span className="text-xs font-medium text-slate-100 pr-4">
+                      {t('faq.items.signals.question')}
+                    </span>
+                    <span className="text-slate-500 text-xs group-open:rotate-90 transition-transform">
+                      ›
+                    </span>
+                  </summary>
+                  <div className="mt-2 text-[11px] text-slate-300/90 leading-relaxed">
+                    {t('faq.items.signals.answer')}
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5 space-y-3">
+              <motion.div
+                className="bg-slate-950/90 border border-slate-900 rounded-2xl p-4 flex flex-col gap-2"
+                whileHover={{ y: -3 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+              >
+                <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-[10px] text-slate-300 w-max">
+                  <CheckCircle2 className="w-3 h-3 text-cyan-300" />
+                  <span>{t('sidebar.customCourse.badge')}</span>
+                </div>
+                <p className="text-[11px] text-slate-300/90">
+                  {t('sidebar.customCourse.description')}
+                </p>
+                <Link
+                  href="/learn"
+                  className="inline-flex items-center gap-1 text-[11px] font-medium text-cyan-300 hover:text-cyan-200"
+                >
+                  <span>{t('sidebar.customCourse.cta')}</span>
+                  <ChevronRight className="w-3 h-3" />
+                </Link>
+              </motion.div>
+
+              <motion.div
+                className="bg-slate-950/90 border border-slate-900 rounded-2xl p-4 flex flex-col gap-2"
+                whileHover={{ y: -3 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+              >
+                <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-[10px] text-slate-300 w-max">
+                  <Cpu className="w-3 h-3 text-cyan-300" />
+                  <span>{t('sidebar.aiStrategy.badge')}</span>
+                </div>
+                <p className="text-[11px] text-slate-300/90">{t('sidebar.aiStrategy.description')}</p>
+                <Link
+                  href="/learn"
+                  className="inline-flex items-center gap-1 text-[11px] font-medium text-cyan-300 hover:text-cyan-200"
+                >
+                  <span>{t('sidebar.aiStrategy.cta')}</span>
+                  <ChevronRight className="w-3 h-3" />
+                </Link>
+              </motion.div>
+
+              <motion.div
+                className="bg-slate-950/90 border border-amber-500/40 rounded-2xl p-4 flex flex-col gap-2"
+                whileHover={{ y: -3 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+              >
+                <div className="flex items-center gap-2 text-xs text-amber-200">
+                  <AlertTriangle className="w-4 h-4" />
+                  <span className="font-semibold">{t('sidebar.riskReminder.title')}</span>
+                </div>
+                <p className="text-[11px] text-slate-200/90">
+                  {t('sidebar.riskReminder.description')}
+                </p>
+                <Link
+                  href="/risk-and-disclaimer"
+                  className="inline-flex items-center gap-1 text-[11px] font-medium text-cyan-300 hover:text-cyan-200 mt-1"
+                >
+                  <span>{t('sidebar.riskReminder.cta')}</span>
+                  <ChevronRight className="w-3 h-3" />
+                </Link>
+              </motion.div>
+            </div>
+          </div>
+        </HomeSection>
+
+        {/* Bottom CTA */}
+        <HomeSection className="pb-10">
+          <motion.div
+            className="bg-slate-950/90 border border-slate-900 rounded-2xl px-5 py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+            whileHover={{ y: -3 }}
+            transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+          >
+            <div>
+              <h2 className="text-sm sm:text-base font-semibold text-slate-50 mb-1">
+                {t('cta.title', { courseTitle: displayTitle })}
+              </h2>
+              <p className="text-xs text-slate-300/90 max-w-xl">{t('cta.description')}</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={handleAddToCart}
+                className="inline-flex items-center px-4 py-2 text-xs sm:text-sm font-semibold rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_14px_32px_rgba(8,145,178,0.65)] transition"
+              >
+                {t('cta.buyCourse')}
+              </button>
+              <Link
+                href="/courses"
+                className="inline-flex items-center px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border border-slate-700 text-slate-100 hover:border-slate-500 transition"
+              >
+                {t('cta.viewMore')}
+              </Link>
+            </div>
+          </motion.div>
+        </HomeSection>
+      </main>
+    </div>
+  )
+}
+

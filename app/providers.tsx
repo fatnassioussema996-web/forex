@@ -3,11 +3,19 @@
 import { SessionProvider } from 'next-auth/react'
 import { ToastProvider } from '@/components/ToastProvider'
 import { NextIntlClientProvider } from 'next-intl'
+import { CartProvider } from '@/contexts/CartContext'
 import { useState, useEffect } from 'react'
 
 // Static import for default locale to avoid loading issues
 import enCommon from '@/i18n/en/common.json'
 import enHome from '@/i18n/en/home.json'
+import enCourses from '@/i18n/en/courses.json'
+import enCart from '@/i18n/en/cart.json'
+import enLearn from '@/i18n/en/learn.json'
+import enPricing from '@/i18n/en/pricing.json'
+import enDashboard from '@/i18n/en/dashboard.json'
+import enAuth from '@/i18n/en/auth.json'
+import enFaq from '@/i18n/en/faq.json'
 
 const LOCALE_COOKIE_NAME = 'user_locale'
 const defaultLocale = 'en'
@@ -16,6 +24,13 @@ const defaultLocale = 'en'
 const defaultMessages = {
   common: enCommon,
   home: enHome,
+  courses: enCourses,
+  cart: enCart,
+  learn: enLearn,
+  pricing: enPricing,
+  dashboard: enDashboard,
+  auth: enAuth,
+  faq: enFaq,
 }
 
 function getLocaleFromCookie(): string {
@@ -53,11 +68,25 @@ export function Providers({ children }: { children: React.ReactNode }) {
     Promise.all([
       import(`@/i18n/${currentLocale}/common.json`),
       import(`@/i18n/${currentLocale}/home.json`),
+      import(`@/i18n/${currentLocale}/courses.json`),
+      import(`@/i18n/${currentLocale}/cart.json`),
+      import(`@/i18n/${currentLocale}/learn.json`),
+      import(`@/i18n/${currentLocale}/pricing.json`),
+      import(`@/i18n/${currentLocale}/dashboard.json`),
+      import(`@/i18n/${currentLocale}/auth.json`),
+      import(`@/i18n/${currentLocale}/faq.json`),
     ])
-      .then(([common, home]) => {
+      .then(([common, home, courses, cart, learn, pricing, dashboard, auth, faq]) => {
         setMessages({
           common: common.default,
           home: home.default,
+          courses: courses.default,
+          cart: cart.default,
+          learn: learn.default,
+          pricing: pricing.default,
+          dashboard: dashboard.default,
+          auth: auth.default,
+          faq: faq.default,
         })
       })
       .catch((error) => {
@@ -70,9 +99,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <NextIntlClientProvider locale={locale} messages={messages} timeZone="UTC">
       <SessionProvider>
-        <ToastProvider>
-          {children}
-        </ToastProvider>
+        <CartProvider>
+          <ToastProvider>
+            {children}
+          </ToastProvider>
+        </CartProvider>
       </SessionProvider>
     </NextIntlClientProvider>
   )

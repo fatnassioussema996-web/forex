@@ -14,10 +14,31 @@ import { getUserCurrency } from '@/lib/currency-client'
 export function TokenPacks() {
   const t = useTranslations('home.tokenPacks')
   const [currency, setCurrency] = useState('GBP')
+  const [customAmount, setCustomAmount] = useState('0.01')
 
   useEffect(() => {
     setCurrency(getUserCurrency())
   }, [])
+
+  const sanitizeAmount = (value: string): string => {
+    // Заменяем запятую на точку
+    let sanitized = String(value).replace(',', '.')
+    // Удаляем все символы кроме цифр и точки
+    sanitized = sanitized.replace(/[^\d.]/g, '')
+    
+    // Ограничиваем до 2 знаков после запятой
+    const parts = sanitized.split('.')
+    if (parts.length > 1) {
+      sanitized = parts[0] + '.' + parts[1].slice(0, 2)
+    }
+    
+    return sanitized
+  }
+
+  const handleCustomAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const sanitized = sanitizeAmount(e.target.value)
+    setCustomAmount(sanitized)
+  }
 
   const packs = (t.raw('packs') as any[]).map((pack: any) => ({
     ...pack,
@@ -64,13 +85,14 @@ export function TokenPacks() {
                 <li key={i}>{benefit}</li>
               ))}
             </ul>
-            <Link
-              href="/pricing"
-              className="mt-2 inline-flex items-center gap-1 text-[11px] font-medium text-cyan-300 hover:text-cyan-200"
-            >
-              <span>{packs[0].cta}</span>
-              <span>→</span>
-            </Link>
+            <div className="mt-auto pt-2">
+              <Link
+                href="/pricing"
+                className="mb-1 inline-flex items-center justify-center w-full px-4 py-2 text-xs sm:text-sm font-semibold rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_14px_32px_rgba(8,145,178,0.65)] transition"
+              >
+                {packs[0].cta}
+              </Link>
+            </div>
           </motion.div>
 
           {/* Pack 2 – most popular */}
@@ -89,7 +111,7 @@ export function TokenPacks() {
                   <div className="text-[11px] text-slate-400">{packs[1].subtitle}</div>
                 </div>
               </div>
-              <div className="px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/60 text-[10px] text-cyan-200 font-medium">
+              <div className="px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/60 text-[10px] text-cyan-200 font-medium text-center">
                 {t('mostPopular')}
               </div>
             </div>
@@ -104,13 +126,14 @@ export function TokenPacks() {
                 <li key={i}>{benefit}</li>
               ))}
             </ul>
-            <Link
-              href="/pricing"
-              className="mt-2 inline-flex items-center gap-1 text-[11px] font-medium text-cyan-300 hover:text-cyan-200"
-            >
-              <span>{packs[1].cta}</span>
-              <span>→</span>
-            </Link>
+            <div className="mt-auto pt-2">
+              <Link
+                href="/pricing"
+                className="mb-1 inline-flex items-center justify-center w-full px-4 py-2 text-xs sm:text-sm font-semibold rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_14px_32px_rgba(8,145,178,0.65)] transition"
+              >
+                {packs[1].cta}
+              </Link>
+            </div>
           </motion.div>
 
           {/* Pack 3 */}
@@ -141,13 +164,14 @@ export function TokenPacks() {
                 <li key={i}>{benefit}</li>
               ))}
             </ul>
-            <Link
-              href="/pricing"
-              className="mt-2 inline-flex items-center gap-1 text-[11px] font-medium text-cyan-300 hover:text-cyan-200"
-            >
-              <span>{packs[2].cta}</span>
-              <span>→</span>
-            </Link>
+            <div className="mt-auto pt-2">
+              <Link
+                href="/pricing"
+                className="mb-1 inline-flex items-center justify-center w-full px-4 py-2 text-xs sm:text-sm font-semibold rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_14px_32px_rgba(8,145,178,0.65)] transition"
+              >
+                {packs[2].cta}
+              </Link>
+            </div>
           </motion.div>
 
           {/* Custom top-up */}
@@ -167,20 +191,30 @@ export function TokenPacks() {
             </div>
             <div className="mt-1 space-y-2">
               <div className="flex items-center gap-2">
-                <div className="flex-1 flex items-center gap-2 rounded-xl bg-slate-900 border border-slate-700 px-3 py-2">
-                  <span className="text-[11px] text-slate-400">{customTopUp.amountLabel}</span>
-                  <span className="text-xs text-slate-100">0.01</span>
+                <div className="flex-1 relative rounded-xl">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span className="text-slate-400 text-xs">{getCurrencySymbol(currency)}</span>
+                  </div>
+                  <input
+                    type="text"
+                    value={customAmount}
+                    onChange={handleCustomAmountChange}
+                    inputMode="decimal"
+                    placeholder="0.01"
+                    className="w-full pl-7 pr-3 py-2 text-xs text-slate-100 rounded-xl bg-slate-900 border border-slate-700 focus:outline-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400"
+                  />
                 </div>
               </div>
               <div className="text-[11px] text-slate-400">{customTopUp.minAmount}</div>
             </div>
-            <Link
-              href="/top-up"
-              className="mt-2 inline-flex items-center gap-1 text-[11px] font-medium text-cyan-300 hover:text-cyan-200"
-            >
-              <span>{customTopUp.cta}</span>
-              <span>→</span>
-            </Link>
+            <div className="mt-auto pt-2">
+              <Link
+                href="/top-up"
+                className="mb-1 inline-flex items-center justify-center w-full px-4 py-2 text-xs sm:text-sm font-semibold rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_14px_32px_rgba(8,145,178,0.65)] transition"
+              >
+                {customTopUp.cta}
+              </Link>
+            </div>
           </motion.div>
         </div>
       </div>

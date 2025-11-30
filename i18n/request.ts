@@ -22,6 +22,13 @@ export default getRequestConfig(async ({ locale }) => {
     messages: {
       common: (await import(`./${validLocale}/common.json`)).default,
       home: (await import(`./${validLocale}/home.json`)).default,
+      courses: (await import(`./${validLocale}/courses.json`)).default,
+      cart: (await import(`./${validLocale}/cart.json`)).default,
+      learn: (await import(`./${validLocale}/learn.json`)).default,
+      pricing: (await import(`./${validLocale}/pricing.json`)).default,
+      dashboard: (await import(`./${validLocale}/dashboard.json`)).default,
+      auth: (await import(`./${validLocale}/auth.json`)).default,
+      faq: (await import(`./${validLocale}/faq.json`)).default,
     },
   }
 })

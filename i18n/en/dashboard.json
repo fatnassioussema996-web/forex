@@ -1,0 +1,118 @@
+{
+  "title": "Dashboard",
+  "breadcrumb": {
+    "home": "Home",
+    "dashboard": "Dashboard"
+  },
+  "header": {
+    "badges": {
+      "educationOnly": "Education only",
+      "pdfAndAI": "PDF courses & AI outputs"
+    },
+    "accountButton": "Account"
+  },
+  "overview": {
+    "title": "Welcome back. Here is your learning overview.",
+    "subtitle": "Track your token balance, custom course status and recent AI strategies in one view. Avenqor remains education only – no signals or managed accounts.",
+    "badges": {
+      "learningOverview": "Learning overview",
+      "recentActivity": "Recent activity"
+    }
+  },
+  "kpi": {
+    "balance": {
+      "title": "Token balance",
+      "subtitle": "Approx. {price} equivalent – exact value depends on current pricing.",
+      "topUp": "Top up balance",
+      "viewPricing": "View pricing"
+    },
+    "customCourse": {
+      "title": "Custom course status",
+      "noActive": "No active custom course. You can request one when you are ready.",
+      "status": {
+        "pending": "Pending",
+        "inProgress": "In progress · 48–96h window",
+        "ready": "Ready"
+      },
+      "explanation": "Once ready, your PDF will be emailed to you and appear in your library."
+    },
+    "recentActivity": {
+      "title": "Recent activity",
+      "subtitle": "{count} learning items this week",
+      "completedCourse": "Completed \"{title}\".",
+      "generatedAI": "Generated AI strategy for {title}.",
+      "requestedCustom": "Requested a custom {market} course."
+    }
+  },
+  "library": {
+    "title": "Your courses & strategies",
+    "subtitle": "Latest items are shown first. All are educational PDFs or AI outputs.",
+    "browseCourses": "Browse courses",
+    "newAIStrategy": "New AI strategy",
+    "empty": {
+      "title": "Your library is empty",
+      "description": "Start learning by browsing courses or generating your first AI strategy.",
+      "browseCourses": "Browse courses",
+      "generateAI": "Generate AI strategy"
+    },
+    "item": {
+      "labels": {
+        "pdfCourse": "PDF course",
+        "aiStrategy": "AI strategy",
+        "customCourse": "Custom course"
+      },
+      "status": {
+        "completed": "Completed",
+        "inprogress": "In progress",
+        "ready": "Ready"
+      },
+      "educationOnly": "Education only – not a signal.",
+      "openPDF": "Open PDF",
+      "openOutput": "Open output",
+      "details": "Details"
+    }
+  },
+  "sidebar": {
+    "riskReminder": {
+      "title": "Education only – no guarantees.",
+      "description": "All PDFs and AI strategies in your library are educational material. They are not trade signals, and there is no guarantee of profit or performance.",
+      "cta": "Read full risk & disclaimer"
+    },
+    "billing": {
+      "title": "Billing & tokens",
+      "subtitle": "A snapshot of recent payments and token usage.",
+      "tokensSpent": "Tokens spent last 30 days",
+      "aiGenerated": "AI strategies generated",
+      "coursesUnlocked": "Courses unlocked",
+      "viewHistory": "Open full billing history"
+    },
+    "quickActions": {
+      "title": "Quick actions",
+      "browseAll": "Browse all courses",
+      "requestCustom": "Request a new custom course",
+      "generateAI": "Generate AI strategy"
+    }
+  },
+  "transactions": {
+    "title": "Recent token & payment activity",
+    "subtitle": "A simple log of how tokens and payments move through your account.",
+    "viewAll": "View all activity",
+    "table": {
+      "type": "Type",
+      "detail": "Detail",
+      "date": "Date",
+      "amount": "Amount"
+    },
+    "types": {
+      "topUp": "Top-up",
+      "course": "Course",
+      "aiStrategy": "AI strategy",
+      "customCourse": "Custom course"
+    },
+    "empty": {
+      "title": "No transactions yet",
+      "description": "Your transaction history will appear here once you make your first purchase or top-up."
+    }
+  }
+}
+

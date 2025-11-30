@@ -49,7 +49,6 @@ export function CurrencySelector() {
         onClick={() => setIsOpen(!isOpen)}
         className="currency-button inline-flex items-center px-2 py-1.5 border border-slate-700 rounded-full text-[11px] font-medium text-slate-200 hover:text-cyan-300 hover:border-slate-600 transition whitespace-nowrap bg-slate-900/80"
       >
-        <span className="mr-1">{currencyConfig.flag}</span>
         <span>{currentCurrency}</span>
         <svg className="ml-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -71,7 +70,6 @@ export function CurrencySelector() {
                 code === currentCurrency ? 'bg-slate-800 font-semibold text-cyan-300' : ''
               }`}
             >
-              <span className="mr-2">{currency.flag}</span>
               <span>
                 {code} ({currency.symbol})
               </span>

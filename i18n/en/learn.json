@@ -1,0 +1,200 @@
+{
+  "title": "Build your path: custom course or AI strategy.",
+  "subtitle": "Use one page to request a tailored PDF or generate an instant AI-based educational plan. Both keep risk and process at the center – never signals or guarantees.",
+  "breadcrumb": {
+    "home": "Home",
+    "learn": "Learn"
+  },
+  "tabs": {
+    "custom": "Custom course",
+    "ai": "AI strategy"
+  },
+  "info": {
+    "educationOnly": "Education only · no signals"
+  },
+  "custom": {
+    "title": "Custom course request",
+    "description": "Tell us where you are now and what you want to understand. A structured PDF is prepared by a senior trader (via AI) and delivered within 48–96 hours.",
+    "form": {
+      "experience": {
+        "label": "Your trading experience",
+        "required": "Required · choose one",
+        "options": {
+          "beginner": "0 years / complete beginner",
+          "intermediate": "1–2 years",
+          "advanced": "3+ years"
+        }
+      },
+      "markets": {
+        "label": "Markets you want covered",
+        "hint": "You can pick more than one",
+        "forex": "Forex",
+        "crypto": "Crypto",
+        "binary": "Binary options"
+      },
+      "deposit": {
+        "label": "Typical deposit size",
+        "hint": "Approximate is enough",
+        "options": {
+          "low": "< 1 000",
+          "medium": "1 000 – 5 000",
+          "high": "5 000 – 20 000",
+          "veryHigh": "20 000+"
+        }
+      },
+      "risk": {
+        "label": "Risk tolerance",
+        "hint": "For position sizing examples",
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      },
+      "style": {
+        "label": "Trading style",
+        "hint": "Main way you want to trade",
+        "scalping": "Scalping",
+        "day": "Day trading",
+        "swing": "Swing",
+        "position": "Position"
+      },
+      "time": {
+        "label": "Time available per week",
+        "placeholder": "For example: 3 evenings + 1 weekend session"
+      },
+      "platforms": {
+        "label": "Platforms / brokers you use (optional)",
+        "placeholder": "For example: MT4, MT5, TradingView, Binance..."
+      },
+      "goals": {
+        "label": "What do you want from this course?",
+        "hint": "Please be as specific as possible",
+        "placeholder": "For example: I want to understand risk per trade, basic price structure and have a simple written plan I can follow for the next 3–6 months."
+      },
+      "notes": {
+        "label": "Anything else we should know? (optional)",
+        "placeholder": "For example: past issues, psychological challenges, or constraints we should consider."
+      },
+      "consents": {
+        "education": "I understand this is educational material only. Avenqor does not provide financial advice or trading signals.",
+        "terms": "I confirm that I have read and accept the Terms & Conditions and Risk & Disclaimer.",
+        "termsBefore": "I confirm that I have read and accept the",
+        "termsLink": "Terms & Conditions",
+        "termsAnd": "and",
+        "riskLink": "Risk & Disclaimer"
+      },
+      "submit": "Submit request",
+      "delivery": "You will receive a confirmation email and the PDF within 48–96 hours."
+    },
+    "sidebar": {
+      "delivery": {
+        "badge": "Delivered in 48–96 hours",
+        "description": "A senior trader uses your profile to structure a PDF built around your experience, deposit size and risk tolerance. The delay is intentional – this is not an instant template.",
+        "points": {
+          "modules": "Modules sequenced for your context.",
+          "examples": "Examples and scenarios aligned with your markets.",
+          "checklist": "Checklist and simple actions for the next 4–8 weeks."
+        }
+      },
+      "risk": {
+        "title": "Important risk reminder",
+        "description": "Custom courses are still education only. They do not remove the risk of trading or guarantee any performance. You remain fully responsible for all decisions and outcomes.",
+        "link": "Read full risk & disclaimer"
+      },
+      "pricing": {
+        "title": "How pricing works",
+        "description": "A custom course uses more tokens than a single ready-made PDF. In production, pricing will be defined per market and depth. For now, treat it as a separate product with its own price in tokens and direct payment.",
+        "points": {
+          "tokens": "Pay with tokens from your balance.",
+          "currencies": "Or use EUR, GBP, USD or AED at checkout."
+        },
+        "badge": "Example only – final pricing TBD"
+      }
+    }
+  },
+  "ai": {
+    "title": "AI Strategy Builder",
+    "description": "Get a structured, educational plan with setup description, entry/exit logic, risk framework and a checklist – generated in seconds from your profile.",
+    "form": {
+      "presets": {
+        "label": "Quick presets",
+        "hint": "You can still adjust everything below",
+        "conservative": "Conservative intraday (1–2 trades/day)",
+        "balanced": "Balanced swing (multi-day holds)",
+        "scalping": "Exploratory scalping (high frequency, small size)"
+      },
+      "market": {
+        "label": "Main market"
+      },
+      "timeframe": {
+        "label": "Primary time frame"
+      },
+      "risk": {
+        "label": "Risk per trade (%)",
+        "placeholder": "For example: 0.5 – 1.0"
+      },
+      "maxTrades": {
+        "label": "Max trades per day",
+        "placeholder": "For example: 3"
+      },
+      "instruments": {
+        "label": "Instruments you want in the plan",
+        "placeholder": "For example: EURUSD, GBPUSD, BTCUSDT..."
+      },
+      "focus": {
+        "label": "Key things to focus on (optional)",
+        "placeholder": "For example: fewer trades, clear rules, news avoidance..."
+      },
+      "detail": {
+        "label": "Output detail level",
+        "hint": "Higher detail uses more tokens",
+        "quick": "Quick summary",
+        "standard": "Standard plan",
+        "deep": "Deep-dive guide"
+      },
+      "consent": "I understand that the generated plan is for educational purposes only and does not contain trading signals or guaranteed results.",
+      "consentTerms": "I confirm that I have read and accept the Terms & Conditions and Risk & Disclaimer.",
+      "consentTermsBefore": "I confirm that I have read and accept the",
+      "consentTermsLink": "Terms & Conditions",
+      "consentTermsAnd": "and",
+      "consentRiskLink": "Risk & Disclaimer",
+      "submit": "Generate AI strategy",
+      "output": "The plan will appear below in a structured format and be saved to your library."
+    },
+    "output": {
+      "title": "AI strategy output",
+      "description": "Example layout of the generated plan",
+      "placeholder": "Placeholder · no real AI here",
+      "sections": {
+        "setup": "1. Setup description:",
+        "entry": "2. Entry & exit logic:",
+        "risk": "3. Risk framework:",
+        "checklist": "4. Checklist:"
+      },
+      "setupDesc": "Clear explanation of the pattern or condition you asked for, including time frames and instruments.",
+      "entryDesc": "Rules for when to consider entering and exiting, linked to your risk per trade and max trades per day.",
+      "riskDesc": "Guidance on stop placement, partials and when not to trade (for example around news or low liquidity).",
+      "checklistDesc": "A simple list you can read before each potential trade to avoid emotional decisions."
+    },
+    "sidebar": {
+      "depth": {
+        "badge": "Adjustable depth",
+        "description": "You can request a quick overview or a deeper, more detailed plan. In production, token cost will scale with the depth and complexity you choose."
+      },
+      "courses": {
+        "title": "How AI strategies fit with courses",
+        "description": "Strategies are best used on top of solid understanding. We recommend taking at least one structured course before relying heavily on generated plans."
+      },
+      "risk": {
+        "title": "No signals. No guarantees.",
+        "description": "Even though AI builds a structured plan, markets remain uncertain and high risk. You stay fully responsible for whether, when and how you trade.",
+        "link": "Read full risk & disclaimer"
+      }
+    }
+  },
+  "auth": {
+    "required": "Please sign in to submit your request",
+    "signIn": "Sign in",
+    "signUp": "Sign up"
+  }
+}
+

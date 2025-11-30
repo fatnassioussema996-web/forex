@@ -23,6 +23,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+error.log
 
 # local env files
 .env*.local
@@ -36,7 +37,7 @@ yarn-error.log*
 next-env.d.ts
 
 # prisma
-/prisma/migrations
+# /prisma/migrations - НЕ игнорируем, нужны для production деплоя
 
 # generated files
 /public/recipes/generated/*

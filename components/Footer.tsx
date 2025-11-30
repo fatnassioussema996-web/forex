@@ -15,7 +15,7 @@ export default function Footer() {
   return (
     <footer className="relative z-10 bg-slate-950/95 border-t border-slate-900">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
           {/* Column 1: Company Info */}
           <div className="col-span-2 md:col-span-1">
             <h3 className="text-2xl font-bold text-slate-50">{t('brand.name')}</h3>
@@ -35,46 +35,17 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 2: Products */}
+          {/* Column 2: Company */}
           <div>
             <h4 className="text-sm font-semibold text-slate-200 tracking-wider uppercase">
-              {tFooter('productsTitle')}
+              {tFooter('companyTitle')}
             </h4>
             <ul className="mt-4 space-y-2">
               <li>
-                <Link href="/courses" className="text-sm text-slate-400 hover:text-cyan-300 transition">
-                  {tNav('courses')}
+                <Link href="/contact" className="text-sm text-slate-400 hover:text-cyan-300 transition">
+                  {tNav('contactUs')}
                 </Link>
               </li>
-              <li>
-                <Link href="/learn?tab=custom" className="text-sm text-slate-400 hover:text-cyan-300 transition">
-                  {tNav('customCourse')}
-                </Link>
-              </li>
-              <li>
-                <Link href="/learn?tab=ai" className="text-sm text-slate-400 hover:text-cyan-300 transition">
-                  {tNav('aiStrategy')}
-                </Link>
-              </li>
-              <li>
-                <Link href="/glossary" className="text-sm text-slate-400 hover:text-cyan-300 transition">
-                  {tNav('glossary')}
-                </Link>
-              </li>
-              <li>
-                <Link href="/resources" className="text-sm text-slate-400 hover:text-cyan-300 transition">
-                  {tNav('resources')}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3: Useful Links */}
-          <div>
-            <h4 className="text-sm font-semibold text-slate-200 tracking-wider uppercase">
-              {tFooter('usefulLinksTitle')}
-            </h4>
-            <ul className="mt-4 space-y-2">
               <li>
                 <Link href="/about" className="text-sm text-slate-400 hover:text-cyan-300 transition">
                   {tNav('about')}
@@ -93,7 +64,50 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Legal */}
+          {/* Column 3: Learn */}
+          <div>
+            <h4 className="text-sm font-semibold text-slate-200 tracking-wider uppercase">
+              {tFooter('learnTitle')}
+            </h4>
+            <ul className="mt-4 space-y-2">
+              <li>
+                <Link href="/courses" className="text-sm text-slate-400 hover:text-cyan-300 transition">
+                  {tNav('courses')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/learn?tab=custom" className="text-sm text-slate-400 hover:text-cyan-300 transition">
+                  {tNav('customCourses')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/learn?tab=ai" className="text-sm text-slate-400 hover:text-cyan-300 transition">
+                  {tNav('aiStrategyBuilder')}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 4: Useful Links */}
+          <div>
+            <h4 className="text-sm font-semibold text-slate-200 tracking-wider uppercase">
+              {tFooter('usefulLinksTitle')}
+            </h4>
+            <ul className="mt-4 space-y-2">
+              <li>
+                <Link href="/glossary" className="text-sm text-slate-400 hover:text-cyan-300 transition">
+                  {tNav('glossary')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/resources" className="text-sm text-slate-400 hover:text-cyan-300 transition">
+                  {tNav('resources')}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 5: Legal */}
           <div>
             <h4 className="text-sm font-semibold text-slate-200 tracking-wider uppercase">{tFooter('legalTitle')}</h4>
             <ul className="mt-4 space-y-2">
@@ -129,18 +143,10 @@ export default function Footer() {
                   {tFooter('links.cookies')}
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="text-sm text-slate-400 hover:text-cyan-300 transition"
-                >
-                  {tFooter('links.contact')}
-                </Link>
-              </li>
             </ul>
           </div>
 
-          {/* Column 5: Get in Touch */}
+          {/* Column 6: Get in Touch */}
           <div>
             <h4 className="text-sm font-semibold text-slate-200 tracking-wider uppercase">
               {tFooter('getInTouchTitle')}

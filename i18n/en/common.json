@@ -4,7 +4,10 @@
     "tagline": "Education only"
   },
   "nav": {
+    "learn": "Learn",
     "courses": "Courses",
+    "customCourses": "Custom Courses",
+    "aiStrategyBuilder": "AI Strategy Builder",
     "customCourse": "Custom course",
     "aiStrategy": "AI Strategy",
     "pricing": "Pricing",
@@ -13,14 +16,15 @@
     "faq": "FAQ",
     "about": "About",
     "contact": "Contact",
+    "contactUs": "Contact Us",
     "home": "Home",
     "cabinet": "Cabinet"
   },
   "auth": {
-    "signIn": "Sign in",
-    "getStarted": "Get started",
+    "signIn": "Log in",
+    "getStarted": "Register",
     "signUp": "Sign Up",
-    "logIn": "Log In",
+    "logIn": "Log in",
     "logOut": "Log Out",
     "alreadyHaveAccount": "Already have an account?",
     "signOut": "Sign Out"
@@ -44,7 +48,8 @@
   },
   "footer": {
     "educationOnlyLine": "Avenqor provides education only. We do not offer financial advice.",
-    "productsTitle": "Products",
+    "companyTitle": "Company",
+    "learnTitle": "Learn",
     "usefulLinksTitle": "Useful Links",
     "legalTitle": "Legal",
     "getInTouchTitle": "Get In Touch",

@@ -4,7 +4,10 @@
     "tagline": "لأغراض تعليمية فقط"
   },
   "nav": {
+    "learn": "تعلم",
     "courses": "الدورات",
+    "customCourses": "دورات مخصصة",
+    "aiStrategyBuilder": "منشئ استراتيجية الذكاء الاصطناعي",
     "customCourse": "دورة مخصصة",
     "aiStrategy": "استراتيجية الذكاء الاصطناعي",
     "pricing": "الأسعار",
@@ -18,7 +21,7 @@
   },
   "auth": {
     "signIn": "تسجيل الدخول",
-    "getStarted": "ابدأ الآن",
+    "getStarted": "إنشاء حساب",
     "signUp": "إنشاء حساب",
     "logIn": "تسجيل الدخول",
     "logOut": "تسجيل الخروج",
@@ -44,7 +47,8 @@
   },
   "footer": {
     "educationOnlyLine": "أفِنكور يقدّم محتوىً تعليمياً فقط ولا يقدّم نصائح مالية.",
-    "productsTitle": "المنتجات",
+    "companyTitle": "الشركة",
+    "learnTitle": "تعلم",
     "usefulLinksTitle": "روابط مفيدة",
     "legalTitle": "الشؤون القانونية",
     "getInTouchTitle": "تواصل معنا",

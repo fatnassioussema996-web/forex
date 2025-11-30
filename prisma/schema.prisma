@@ -118,21 +118,24 @@ model TransferMitTopup {
 
 // Курсы
 model Course {
-  id            Int      @id @default(autoincrement())
-  slug          String   @unique
-  title         String
-  title_ar      String?
-  description   String   @db.Text
-  description_ar String? @db.Text
-  level         String   // Beginner, Intermediate, Advanced
-  market        String   // Forex, Crypto, Binary
-  price_gbp     Decimal  @db.Decimal(10, 2) // Base price in GBP
-  tokens        Int      // Token cost
-  pdf_path      String
-  cover_image   String?
-  featured      Boolean  @default(false)
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
+  id                Int      @id @default(autoincrement())
+  slug              String   @unique
+  title              String
+  title_ar           String?
+  description       String   @db.Text
+  description_ar    String?  @db.Text
+  level             String   // Beginner, Intermediate, Advanced
+  market            String   // Forex, Crypto, Binary
+  price_gbp         Decimal  @db.Decimal(10, 2) // Base price in GBP
+  tokens            Int      // Token cost
+  pdf_path          String
+  cover_image       String?
+  featured          Boolean  @default(false)
+  modules           Json?    // Array of modules: [{ order: number, title: string, summary: string }]
+  duration_hours_min Int?    // Minimum duration in hours
+  duration_hours_max Int?    // Maximum duration in hours
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
 
   @@index([level])
   @@index([market])

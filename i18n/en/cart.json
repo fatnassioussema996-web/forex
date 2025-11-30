@@ -1,0 +1,111 @@
+{
+  "empty": {
+    "title": "Your cart is empty",
+    "description": "Add courses to your cart to get started."
+  },
+  "miniCart": {
+    "title": "Shopping Cart",
+    "goToCart": "Go to cart",
+    "goToCheckout": "Go to checkout",
+    "remove": "Remove"
+  },
+  "page": {
+    "title": "Shopping Cart",
+    "subtitle": "Review your selected courses",
+    "empty": {
+      "title": "Your cart is empty",
+      "description": "Start adding courses to your cart to continue.",
+      "browseCourses": "Browse courses"
+    },
+    "summary": {
+      "title": "Order Summary",
+      "subtotal": "Subtotal",
+      "total": "Total",
+      "tokens": "tokens",
+      "goToCheckout": "Go to checkout",
+      "continueShopping": "Continue shopping"
+    },
+    "item": {
+      "remove": "Remove",
+      "viewCourse": "View course"
+    }
+  },
+  "checkout": {
+    "title": "Checkout",
+    "subtitle": "Complete your purchase",
+    "orderSummary": {
+      "title": "Order Summary",
+      "subtotal": "Subtotal",
+      "total": "Total",
+      "tokens": "tokens"
+    },
+    "payment": {
+      "title": "Payment Method",
+      "withTokens": "Pay with tokens",
+      "withCard": "Pay with card",
+      "insufficientTokens": "Insufficient tokens",
+      "buyTokens": "Buy tokens",
+      "success": "Payment successful",
+      "successDescription": "Your order has been placed successfully.",
+      "failed": "Payment failed",
+      "failedDescription": "Unable to process payment. Please try again.",
+      "processing": "Processing..."
+    },
+    "placeOrder": "Place order",
+    "backToCart": "Back to cart",
+    "cardForm": {
+      "title": "Payment Details",
+      "subtitle": "Enter your card information",
+      "fields": {
+        "email": "Email",
+        "cardNumber": "Card number",
+        "expiry": "Expiry date",
+        "cvv": "CVV",
+        "name": "Cardholder name",
+        "address": "Billing address",
+        "city": "City",
+        "postalCode": "Postal code"
+      },
+      "placeholders": {
+        "email": "you@example.com",
+        "cardNumber": "1234 5678 9012 3456",
+        "expiry": "MM/YY",
+        "cvv": "123",
+        "name": "John Doe",
+        "address": "123 Main Street",
+        "city": "London",
+        "postalCode": "SW1A 1AA"
+      },
+      "consent": {
+        "before": "I have read and accepted the",
+        "termsLink": "terms and conditions"
+      },
+      "payButton": "Pay",
+      "processing": "Processing...",
+      "errors": {
+        "validationFailed": "Please correct the errors in the form",
+        "submitFailed": "Payment failed",
+        "generic": "An error occurred. Please try again.",
+        "cardNumberRequired": "Card number is required",
+        "cardNumberInvalid": "Card number must be 16 digits",
+        "expiryRequired": "Expiry date is required",
+        "expiryInvalid": "Format must be MM/YY",
+        "cvvRequired": "CVV is required",
+        "cvvInvalid": "CVV must be 3 digits",
+        "nameRequired": "Cardholder name is required",
+        "addressRequired": "Billing address is required",
+        "cityRequired": "City is required",
+        "postalCodeRequired": "Postal code is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Please enter a valid email address",
+        "consentRequired": "You must accept the terms and conditions to proceed"
+      }
+    }
+  },
+  "messages": {
+    "addedToCart": "Course added to cart",
+    "removedFromCart": "Course removed from cart",
+    "cartCleared": "Cart cleared"
+  }
+}
+

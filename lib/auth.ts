@@ -11,18 +11,24 @@ export async function getCurrentUser() {
     return null
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: {
-      id: true,
-      email: true,
-      first_name: true,
-      last_name: true,
-      balance: true,
-    },
-  })
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        id: true,
+        email: true,
+        first_name: true,
+        last_name: true,
+        balance: true,
+      },
+    })
 
-  return user
+    return user
+  } catch (error: any) {
+    console.error('Database error in getCurrentUser:', error)
+    // Return null on database errors to prevent crashes
+    return null
+  }
 }
 
 export async function requireAuth() {

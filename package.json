@@ -2,6 +2,9 @@
   "name": "recipegen-nextjs",
   "version": "2.0.0",
   "private": true,
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,8 +13,10 @@
     "postinstall": "prisma generate",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
     "db:push": "prisma db push",
+    "db:seed": "npx tsx prisma/seed.ts",
     "check-env": "node scripts/check-env.js"
   },
   "dependencies": {
