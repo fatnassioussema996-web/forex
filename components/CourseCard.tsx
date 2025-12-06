@@ -4,9 +4,11 @@
 
 import { BookOpen } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { calculatePriceForTokens, formatPrice } from '@/lib/currency-utils'
 import { getUserCurrency } from '@/lib/currency-client'
+import { getCourseImagePath } from '@/lib/course-image-utils'
 import { useState, useEffect } from 'react'
 
 interface CourseCardProps {
@@ -33,11 +35,27 @@ export function CourseCard({ course }: CourseCardProps) {
   const priceAmount = calculatePriceForTokens(course.tokens, currency)
   const price = formatPrice(priceAmount, currency)
 
+  // Get course image path
+  const imagePath = course.slug ? getCourseImagePath(course.slug) : null
+  const hasImage = imagePath !== null
+
   return (
     <div className="flex flex-col bg-slate-900/60 border border-slate-800 rounded-2xl p-5 gap-4 hover:border-cyan-400/70 hover:-translate-y-1 transition-all duration-150 shadow-[0_18px_40px_rgba(0,0,0,0.55)]">
-      <div className="aspect-[16/9] rounded-xl bg-gradient-to-br from-slate-700/40 via-slate-900 to-slate-950 flex items-center justify-center text-xs text-slate-300/70">
-        {t('courseCover')}
-      </div>
+      {hasImage && imagePath ? (
+        <div className="aspect-[16/9] rounded-xl overflow-hidden bg-slate-900 relative">
+          <Image
+            src={imagePath}
+            alt={course.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        </div>
+      ) : (
+        <div className="aspect-[16/9] rounded-xl bg-gradient-to-br from-slate-700/40 via-slate-900 to-slate-950 flex items-center justify-center text-xs text-slate-300/70">
+          {t('courseCover')}
+        </div>
+      )}
       <div className="flex items-center gap-2 text-xs font-medium text-slate-300">
         <span className="px-2 py-0.5 rounded-full bg-slate-800/80 border border-slate-700/70">
           {course.level}

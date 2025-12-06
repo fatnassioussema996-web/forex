@@ -6,7 +6,7 @@ import { useCart } from '@/contexts/CartContext'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import Image from 'next/image'
-import { X, ShoppingCart } from 'lucide-react'
+import { X, ShoppingCart, Coins, PlusCircle, BookOpen } from 'lucide-react'
 import { calculatePriceForTokens, formatPrice } from '@/lib/currency-utils'
 import { getUserCurrency } from '@/lib/currency-client'
 import { getCourseImagePath } from '@/lib/course-image-utils'
@@ -23,14 +23,31 @@ export function MiniCart({ onMouseEnter, onMouseLeave }: MiniCartProps = {}) {
   const tEmpty = useTranslations('cart.empty')
   const tCommon = useTranslations('common.buttons')
   const [currency, setCurrency] = useState('GBP')
+  const [locale, setLocale] = useState('en')
 
   useEffect(() => {
     setCurrency(getUserCurrency())
+    // Get locale from cookie
+    const cookies = document.cookie.split(';')
+    const localeCookie = cookies.find((c) => c.trim().startsWith('user_locale='))
+    if (localeCookie) {
+      const loc = localeCookie.split('=')[1]?.trim()
+      if (loc === 'ar' || loc === 'en') {
+        setLocale(loc)
+      }
+    }
   }, [])
 
   const total = getCartTotal(currency)
   const totalPrice = calculatePriceForTokens(total.tokens, currency)
   const formattedPrice = formatPrice(totalPrice, currency)
+
+  // Helper function to determine cart item type
+  function getCartItemType(slug: string): 'token-pack' | 'custom-top-up' | 'course' {
+    if (slug.startsWith('token-pack-')) return 'token-pack'
+    if (slug.startsWith('custom-top-up')) return 'custom-top-up'
+    return 'course'
+  }
 
   if (items.length === 0) {
     return (
@@ -60,8 +77,10 @@ export function MiniCart({ onMouseEnter, onMouseLeave }: MiniCartProps = {}) {
       
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {items.map((item) => {
-          const imagePath = getCourseImagePath(item.slug)
-          const displayTitle = item.title_ar || item.title
+          const itemType = getCartItemType(item.slug)
+          const imagePath = itemType === 'course' ? getCourseImagePath(item.slug) : null
+          // Use localized title if available and locale is Arabic
+          const displayTitle = locale === 'ar' && item.title_ar ? item.title_ar : item.title
           
           return (
             <div key={item.slug} className="flex items-start gap-3 p-2 rounded-lg bg-slate-900/50 border border-slate-800">
@@ -76,7 +95,17 @@ export function MiniCart({ onMouseEnter, onMouseLeave }: MiniCartProps = {}) {
                   />
                 </div>
               ) : (
-                <div className="h-12 w-12 rounded-lg bg-slate-800 border border-slate-700 flex-shrink-0" />
+                <div className="h-12 w-12 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center flex-shrink-0">
+                  {itemType === 'token-pack' && (
+                    <Coins className="w-5 h-5 text-cyan-300" />
+                  )}
+                  {itemType === 'custom-top-up' && (
+                    <PlusCircle className="w-5 h-5 text-cyan-300" />
+                  )}
+                  {itemType === 'course' && (
+                    <BookOpen className="w-5 h-5 text-cyan-300" />
+                  )}
+                </div>
               )}
               
               <div className="flex-1 min-w-0">

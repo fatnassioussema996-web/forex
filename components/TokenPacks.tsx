@@ -87,7 +87,7 @@ export function TokenPacks() {
             </ul>
             <div className="mt-auto pt-2">
               <Link
-                href="/pricing"
+                href={`/checkout?pack=${packs[0].id}`}
                 className="mb-1 inline-flex items-center justify-center w-full px-4 py-2 text-xs sm:text-sm font-semibold rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_14px_32px_rgba(8,145,178,0.65)] transition"
               >
                 {packs[0].cta}
@@ -128,7 +128,7 @@ export function TokenPacks() {
             </ul>
             <div className="mt-auto pt-2">
               <Link
-                href="/pricing"
+                href={`/checkout?pack=${packs[1].id}`}
                 className="mb-1 inline-flex items-center justify-center w-full px-4 py-2 text-xs sm:text-sm font-semibold rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_14px_32px_rgba(8,145,178,0.65)] transition"
               >
                 {packs[1].cta}
@@ -166,7 +166,7 @@ export function TokenPacks() {
             </ul>
             <div className="mt-auto pt-2">
               <Link
-                href="/pricing"
+                href={`/checkout?pack=${packs[2].id}`}
                 className="mb-1 inline-flex items-center justify-center w-full px-4 py-2 text-xs sm:text-sm font-semibold rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_14px_32px_rgba(8,145,178,0.65)] transition"
               >
                 {packs[2].cta}
@@ -209,7 +209,7 @@ export function TokenPacks() {
             </div>
             <div className="mt-auto pt-2">
               <Link
-                href="/top-up"
+                href={`/checkout?custom=${customAmount}&currency=${currency}`}
                 className="mb-1 inline-flex items-center justify-center w-full px-4 py-2 text-xs sm:text-sm font-semibold rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_14px_32px_rgba(8,145,178,0.65)] transition"
               >
                 {customTopUp.cta}

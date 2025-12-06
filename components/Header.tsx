@@ -2,8 +2,9 @@
 
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useSession, signOut } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 import { ShoppingCart, ChevronDown } from 'lucide-react'
@@ -21,6 +22,8 @@ export default function Header() {
   const [cartCloseTimeout, setCartCloseTimeout] = useState<NodeJS.Timeout | null>(null)
   const [isLearnMenuOpen, setIsLearnMenuOpen] = useState(false)
   const [learnMenuCloseTimeout, setLearnMenuCloseTimeout] = useState<NodeJS.Timeout | null>(null)
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
+  const profileMenuTimeout = useRef<NodeJS.Timeout | null>(null)
   const [isMobileLearnMenuOpen, setIsMobileLearnMenuOpen] = useState(false)
   const { itemCount } = useCart()
   const t = useTranslations('common')
@@ -42,8 +45,28 @@ export default function Header() {
       if (learnMenuCloseTimeout) {
         clearTimeout(learnMenuCloseTimeout)
       }
+      if (profileMenuTimeout.current) {
+        clearTimeout(profileMenuTimeout.current)
+      }
     }
   }, [cartCloseTimeout, learnMenuCloseTimeout])
+
+  const openProfileMenu = () => {
+    if (profileMenuTimeout.current) {
+      clearTimeout(profileMenuTimeout.current)
+      profileMenuTimeout.current = null
+    }
+    setIsProfileMenuOpen(true)
+  }
+
+  const closeProfileMenuWithDelay = () => {
+    if (profileMenuTimeout.current) {
+      clearTimeout(profileMenuTimeout.current)
+    }
+    profileMenuTimeout.current = setTimeout(() => {
+      setIsProfileMenuOpen(false)
+    }, 150)
+  }
 
   const user = session?.user as { id?: number; name?: string; email?: string; balance?: number } | undefined
   const isLoggedIn = !!session
@@ -54,13 +77,18 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Site Logo */}
-          <div className="flex-shrink-0 flex items-center gap-2">
-            <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-xs font-bold tracking-tight text-slate-950">
-              AV
-            </div>
-            <Link href="/" className="flex flex-col">
-              <span className="font-semibold tracking-tight text-sm text-slate-50">{tBrand('name')}</span>
-              <span className="text-[11px] uppercase tracking-[0.16em] text-slate-400">{tBrand('tagline')}</span>
+          <div className="flex-shrink-0 flex items-center">
+            <Link href="/" className="flex items-center">
+              <div className="relative h-[42px] w-[140px]">
+                <Image
+                  src="/logo.png"
+                  alt={tBrand('name')}
+                  fill
+                  sizes="140px"
+                  priority
+                  className="object-contain"
+                />
+              </div>
             </Link>
           </div>
 
@@ -130,8 +158,8 @@ export default function Header() {
                     </div>
                   )}
                 </div>
-                <Link href="/cabinet" className="hover:text-cyan-300 transition-colors">
-                  {tNav('cabinet')}
+                <Link href="/dashboard" className="hover:text-cyan-300 transition-colors">
+                  {tNav('dashboard')}
                 </Link>
                 <Link href="/faq" className="hover:text-cyan-300 transition-colors">
                   {tNav('faq')}
@@ -232,12 +260,77 @@ export default function Header() {
                 >
                   {tHeader('topUp')}
                 </Link>
-                <Link
-                  href="/cabinet"
-                  className="flex items-center justify-center h-9 w-9 bg-slate-800 rounded-full font-bold text-slate-50 hover:bg-slate-700 transition"
+                <div
+                  className="relative"
+                  onMouseEnter={() => {
+                    if (cartCloseTimeout) {
+                      clearTimeout(cartCloseTimeout)
+                      setCartCloseTimeout(null)
+                    }
+                    setIsCartHovered(true)
+                  }}
+                  onMouseLeave={() => {
+                    // Add delay before closing to allow moving cursor to MiniCart
+                    const timeout = setTimeout(() => {
+                      setIsCartHovered(false)
+                    }, 200)
+                    setCartCloseTimeout(timeout)
+                  }}
                 >
-                  {userInitial}
-                </Link>
+                  <Link
+                    href="/cart"
+                    className="relative inline-flex items-center justify-center h-9 w-9 rounded-full border border-slate-700 text-slate-200 hover:border-slate-500 hover:text-cyan-300 transition"
+                    aria-label="Shopping cart"
+                  >
+                    <ShoppingCart className="w-4 h-4" />
+                    {itemCount > 0 && (
+                      <span className="absolute -top-1 -right-1 flex items-center justify-center h-4 w-4 rounded-full bg-cyan-400 text-slate-950 text-[10px] font-bold">
+                        {itemCount > 9 ? '9+' : itemCount}
+                      </span>
+                    )}
+                  </Link>
+                  {isCartHovered && (
+                    <div className="absolute right-0 top-full pt-2">
+                      <MiniCart
+                        onMouseEnter={() => {
+                          if (cartCloseTimeout) {
+                            clearTimeout(cartCloseTimeout)
+                            setCartCloseTimeout(null)
+                          }
+                        }}
+                        onMouseLeave={() => {
+                          const timeout = setTimeout(() => {
+                            setIsCartHovered(false)
+                          }, 200)
+                          setCartCloseTimeout(timeout)
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+                <div
+                  className="relative"
+                  onMouseEnter={openProfileMenu}
+                  onMouseLeave={closeProfileMenuWithDelay}
+                  onFocusCapture={openProfileMenu}
+                  onBlurCapture={closeProfileMenuWithDelay}
+                >
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center justify-center h-9 w-9 bg-slate-800 rounded-full font-bold text-slate-50 transition hover:bg-slate-700"
+                  >
+                    {userInitial}
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => signOut()}
+                    className={`absolute right-0 top-full mt-3 flex rounded-full border border-slate-700 bg-slate-900/95 px-4 py-1.5 text-xs font-semibold text-slate-100 shadow-lg transition ${
+                      isProfileMenuOpen ? 'pointer-events-auto opacity-100 translate-y-0' : 'pointer-events-none opacity-0 -translate-y-1'
+                    } whitespace-nowrap`}
+                  >
+                    {tAuth('logOut')}
+                  </button>
+                </div>
               </>
             ) : (
               <>
@@ -404,11 +497,11 @@ export default function Header() {
                   )}
                 </div>
                 <Link
-                  href="/cabinet"
+                  href="/dashboard"
                   className="block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-300 transition"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {tNav('cabinet')}
+                  {tNav('dashboard')}
                 </Link>
                 <Link
                   href="/faq"

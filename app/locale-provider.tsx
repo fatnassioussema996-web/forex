@@ -2,7 +2,7 @@
 
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const LOCALE_COOKIE_NAME = 'user_locale'
 const defaultLocale = 'en'
@@ -14,7 +14,7 @@ function getLocaleFromCookie(): string {
   const localeCookie = cookies.find((c) => c.trim().startsWith(`${LOCALE_COOKIE_NAME}=`))
   
   if (localeCookie) {
-    const locale = localeCookie.split('=')[1]
+    const locale = localeCookie.split('=')[1]?.trim()
     if (locale === 'en' || locale === 'ar') {
       return locale
     }
@@ -24,13 +24,29 @@ function getLocaleFromCookie(): string {
 }
 
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
+  const [isMounted, setIsMounted] = useState(false)
+
   useEffect(() => {
+    // Mark as mounted after hydration
+    setIsMounted(true)
+  }, [])
+
+  useEffect(() => {
+    // Only update DOM after component is mounted (after hydration)
+    if (!isMounted) return
+
     const currentLocale = getLocaleFromCookie()
     
     // Update html attributes
-    document.documentElement.lang = currentLocale
-    document.documentElement.dir = currentLocale === 'ar' ? 'rtl' : 'ltr'
-  }, [])
+    const html = document.documentElement
+    if (html.lang !== currentLocale) {
+      html.lang = currentLocale
+    }
+    const dir = currentLocale === 'ar' ? 'rtl' : 'ltr'
+    if (html.dir !== dir) {
+      html.dir = dir
+    }
+  }, [isMounted])
 
   return <>{children}</>
 }

@@ -18,7 +18,13 @@
     "contact": "Contact",
     "contactUs": "Contact Us",
     "home": "Home",
-    "cabinet": "Cabinet"
+    "dashboard": "Dashboard",
+    "riskManagement": "Risk Management",
+    "tradeJournal": "Trade Journal",
+    "weeklyReview": "Weekly Review",
+    "preSession": "Pre-Session",
+    "positionSizing": "Position Sizing",
+    "strategySnapshot": "Strategy Snapshot"
   },
   "auth": {
     "signIn": "Log in",
@@ -40,7 +46,7 @@
     "gbp": "GBP",
     "eur": "EUR",
     "usd": "USD",
-    "aed": "AED"
+    "sr": "SR"
   },
   "language": {
     "en": "EN",
@@ -61,6 +67,7 @@
       "terms": "Terms & Conditions",
       "privacy": "Privacy Policy",
       "cookies": "Cookies",
+      "refundPolicy": "Refund Policy",
       "contact": "Contact"
     }
   },

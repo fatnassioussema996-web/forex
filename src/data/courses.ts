@@ -1,7 +1,7 @@
 // src/data/courses.ts
 
-export type CourseLevel = "beginner" | "intermediate" | "advanced";
-export type CourseMarket = "forex" | "crypto" | "binary";
+export type CourseLevel = "general" | "beginner" | "intermediate" | "advanced";
+export type CourseMarket = "general" | "forex" | "crypto" | "binary";
 
 export interface CourseModule {
   order: number;
@@ -26,7 +26,7 @@ export interface Course {
     EUR: number;
     GBP: number;
     USD: number;
-    AED: number;
+    SR: number;
     tokens: number;
   };
   isFeatured: boolean;
@@ -35,133 +35,237 @@ export interface Course {
 
 export const demoCourses: Course[] = [
   {
-    id: "forex-foundations-beginner",
-    slug: "forex-foundations-from-zero-to-first-trade",
-    level: "beginner",
-    market: "forex",
-    title: "Forex Foundations: From Zero to First Trade",
+    id: "trading-foundations-general",
+    slug: "trading-foundations-how-markets-really-work",
+    level: "general",
+    market: "general",
+    title: "Trading Foundations: How Markets Really Work",
     shortDescription:
-      "A structured beginner PDF for understanding how the Forex market works, how to place orders and how to think about risk.",
+      "A comprehensive guide for aspiring traders to understand the mechanics behind market movements.",
     longDescription:
-      "This course is designed for complete beginners who want a clear, risk-aware introduction to the Forex market. It covers structure, core terms, order types, basic price behaviour and how to build a minimal trading plan and journal.",
+      "This course is designed for beginners seeking a solid foundation in trading. It covers market participants, how prices form, liquidity, trading costs, psychological challenges, and risk-first mindset. A structured approach to understanding the fundamentals of financial markets.",
     language: "en",
-    durationHoursMin: 6,
-    durationHoursMax: 8,
+    durationHoursMin: 8,
+    durationHoursMax: 12,
     modules: [
       {
         order: 1,
-        title: "How the Forex market is structured",
+        title: "Market Participants",
         summary:
-          "Sessions, major pairs, liquidity and where your orders actually travel in the system.",
+          "Understand who the key players in the market are and their motivations.",
       },
       {
         order: 2,
-        title: "Core terms & order types",
+        title: "How Prices Form",
         summary:
-          "Market vs limit, stop orders, spreads, slippage and the effect on execution.",
+          "Learn how market prices are determined through orders and supply/demand dynamics.",
       },
       {
         order: 3,
-        title: "Risk per trade & position sizing",
+        title: "Liquidity",
         summary:
-          "How to define % risk per trade and translate it into lot size.",
+          "Understand the concept of liquidity and its significance in trading.",
       },
       {
         order: 4,
-        title: "Basic price structure & candles",
+        title: "Spread and Costs",
         summary:
-          "Trends, ranges, support/resistance and reading candles without overcomplication.",
+          "Learn about the costs associated with trading, including spreads and commissions.",
       },
       {
         order: 5,
-        title: "Building your first simple plan",
+        title: "Why Trading is Hard",
         summary:
-          "A minimal framework you can follow and later refine as you learn.",
+          "Explore the challenges traders face in the markets.",
       },
       {
         order: 6,
-        title: "Journaling and review",
+        title: "Risk-First Mindset",
         summary:
-          "What to log, how to review weekly and how to learn from your own data.",
+          "Learn to prioritize risk management in your trading approach.",
       },
       {
         order: 7,
-        title: "Common beginner traps",
+        title: "Conclusion",
         summary:
-          "Overtrading, revenge trading, sizing up too fast and guardrails against them.",
+          "Summarize the key concepts learned throughout the course.",
+      },
+      {
+        order: 8,
+        title: "Additional Resources",
+        summary:
+          "Provide further reading and resources for continued learning.",
       },
     ],
     format: "pdf",
     price: {
-      EUR: 79,
-      GBP: 69,
-      USD: 86,
-      AED: 315,
-      tokens: 7900,
+      EUR: 167,
+      GBP: 146,
+      USD: 193,
+      SR: 724,
+      tokens: 16700,
     },
     isFeatured: true,
-    pdfUrl: "/courses/avenqor-forex-foundations-test.pdf",
+    pdfUrl: "/courses/trading-foundations-how-markets-really-work-en.pdf",
   },
   {
-    id: "crypto-volatility-intermediate",
-    slug: "crypto-volatility-structures",
-    level: "intermediate",
-    market: "crypto",
-    title: "Crypto Volatility Structures",
-    shortDescription:
-      "An intermediate look at how volatility, liquidity and narrative interact in major crypto markets.",
-    longDescription:
-      "This course is aimed at traders who understand basic trading concepts but want a structured view of how crypto volatility behaves. It walks through volatility cycles, liquidity zones, narrative waves and how to frame risk in such an environment.",
+    id: "position-sizing-r-multiples-general",
+    slug: "position-sizing-r-multiples-plain-language",
+    level: "general",
+    market: "general",
+    title: "Position Sizing & R-Multiples (Plain Language)",
+    shortDescription: "A Beginner's Guide to Risk Management in Trading",
+    longDescription: "Learn the foundations of position sizing and risk control. This course covers the critical role of position sizing in risk management, understanding R-multiples, common sizing errors, and practical exercises to develop your own sizing rules.",
     language: "en",
     durationHoursMin: 8,
-    durationHoursMax: 10,
+    durationHoursMax: 12,
     modules: [
-      {
-        order: 1,
-        title: "Volatility cycles in crypto",
-        summary:
-          "How high and low volatility phases tend to cluster across time.",
-      },
-      {
-        order: 2,
-        title: "Liquidity zones and levels",
-        summary:
-          "Where liquidity tends to sit and why that matters for entries and exits.",
-      },
-      {
-        order: 3,
-        title: "Narrative and flow",
-        summary:
-          "The role of news, narratives and funding in shifting flows across assets.",
-      },
-      {
-        order: 4,
-        title: "Structuring risk in volatile assets",
-        summary:
-          "Position sizing and portfolio thinking when swings are large.",
-      },
-      {
-        order: 5,
-        title: "Scenario building",
-        summary:
-          "Creating simple scenarios instead of guessing single outcomes.",
-      },
-      {
-        order: 6,
-        title: "Review & adaptation",
-        summary:
-          "Using journaling and metrics to adjust your approach over time.",
-      },
+      { order: 1, title: "Why Position Sizing Matters", summary: "Understand the critical role of position sizing in risk management and decision-making." },
+      { order: 2, title: "Understanding R-Multiples", summary: "Learn the concept of R-multiples and how they simplify risk assessment in trading." },
+      { order: 3, title: "Sizing and Invalidation", summary: "Understand how position sizing connects to invalidation points in trading." },
+      { order: 4, title: "Common Sizing Errors", summary: "Identify and avoid common mistakes in position sizing." },
+      { order: 5, title: "Volatility vs Liquidity", summary: "Learn the relationship between volatility, liquidity, and risk." },
+      { order: 6, title: "Leverage Concepts", summary: "Understand leverage and its impact on position sizing." },
+      { order: 7, title: "Basic Expectancy Intuition", summary: "Learn basic expectancy concepts to improve decision-making." },
+      { order: 8, title: "Exercises and Practical Application", summary: "Apply what you've learned through practical exercises." },
     ],
     format: "pdf",
     price: {
-      EUR: 99,
-      GBP: 87,
-      USD: 108,
-      AED: 395,
-      tokens: 9900,
+      EUR: 174,
+      GBP: 153,
+      USD: 201,
+      SR: 754,
+      tokens: 17400,
     },
     isFeatured: true,
-    pdfUrl: "/courses/avenqor-crypto-volatility-structures-test.pdf",
+    pdfUrl: "/courses/position-sizing-r-multiples-plain-language-en.pdf",
+  },
+  {
+    id: "building-trading-plan-general",
+    slug: "building-a-personal-trading-plan-education-only",
+    level: "general",
+    market: "general",
+    title: "Building a Personal Trading Plan",
+    shortDescription: "An Education-Only Course",
+    longDescription: "Craft your trading strategy with confidence and clarity. This course covers the purpose and structure of a trading plan, defining constraints, selecting a focus, writing rules, risk management, routines, accountability, and creating your final output.",
+    language: "en",
+    durationHoursMin: 8,
+    durationHoursMax: 12,
+    modules: [
+      { order: 1, title: "What is a Trading Plan?", summary: "Understand the purpose and structure of a trading plan." },
+      { order: 2, title: "Defining Your Constraints", summary: "Learn how to identify and define your trading constraints." },
+      { order: 3, title: "Selecting a Focus", summary: "Choose what markets and strategies to focus on." },
+      { order: 4, title: "Writing Rules", summary: "Learn how to write clear and actionable trading rules." },
+      { order: 5, title: "Risk Section", summary: "Understand how to incorporate risk management into your plan." },
+      { order: 6, title: "Routine Section", summary: "Establish daily and weekly routines for your trading." },
+      { order: 7, title: "Accountability", summary: "Learn how to hold yourself accountable to your plan." },
+      { order: 8, title: "Final Output", summary: "Complete your personal trading plan." },
+    ],
+    format: "pdf",
+    price: {
+      EUR: 172,
+      GBP: 151,
+      USD: 199,
+      SR: 745,
+      tokens: 17200,
+    },
+    isFeatured: true,
+    pdfUrl: "/courses/building-a-personal-trading-plan-education-only-en.pdf",
+  },
+  {
+    id: "journaling-review-general",
+    slug: "journaling-review-system-learn-from-your-decisions",
+    level: "general",
+    market: "general",
+    title: "Journaling & Review System: Learn From Your Decisions",
+    shortDescription: "Transform Your Trading into Structured Learning",
+    longDescription: "Build a foundation for consistent improvement in your trading journey. This course covers feedback loops, what to record in your journal, R-based outcomes, error taxonomy, weekly reviews, safe experiments, helpful vs harmful metrics, and templates for journaling.",
+    language: "en",
+    durationHoursMin: 8,
+    durationHoursMax: 12,
+    modules: [
+      { order: 1, title: "The Importance of Feedback Loops", summary: "Understand why feedback is crucial for improvement in trading." },
+      { order: 2, title: "What to Record in Your Journal", summary: "Learn what information to include in your trading journal." },
+      { order: 3, title: "R-based Outcomes vs Money Outcomes", summary: "Understand the difference between R-based and money-based outcomes." },
+      { order: 4, title: "Understanding Error Taxonomy", summary: "Learn how to categorize and understand trading errors." },
+      { order: 5, title: "Conducting Weekly Reviews", summary: "Establish a structured weekly review process." },
+      { order: 6, title: "Running Safe Experiments", summary: "Learn how to test improvements safely." },
+      { order: 7, title: "Metrics That Help vs Metrics That Harm", summary: "Identify which metrics are useful and which can be misleading." },
+      { order: 8, title: "Templates for Journaling and Review", summary: "Use templates to structure your journaling and review process." },
+    ],
+    format: "pdf",
+    price: {
+      EUR: 178,
+      GBP: 156,
+      USD: 206,
+      SR: 771,
+      tokens: 17800,
+    },
+    isFeatured: true,
+    pdfUrl: "/courses/journaling-review-system-learn-from-your-decisions-en.pdf",
+  },
+  {
+    id: "trading-psychology-general",
+    slug: "trading-psychology-101-discipline-over-dopamine",
+    level: "general",
+    market: "general",
+    title: "Trading Psychology 101: Discipline Over Dopamine",
+    shortDescription: "Mastering the Mindset for Successful Trading",
+    longDescription: "A structured approach to understanding trading psychology. This course covers the brain's reaction to trading, emotional patterns, cognitive biases, building discipline, creating trigger maps, managing losses, healthy routines, and building your personal discipline checklist.",
+    language: "en",
+    durationHoursMin: 8,
+    durationHoursMax: 12,
+    modules: [
+      { order: 1, title: "Understanding the Brain's Reaction to Trading", summary: "To understand how the brain's response to fast outcomes affects trading behavior." },
+      { order: 2, title: "Common Emotional Patterns in Trading", summary: "Learn about FOMO, revenge trading, tilt, boredom trades, and overconfidence." },
+      { order: 3, title: "Cognitive Biases in Trading", summary: "Understand recency bias, confirmation bias, and the gambler's fallacy." },
+      { order: 4, title: "Discipline as a System", summary: "Learn how to design your environment and use pre-commitments." },
+      { order: 5, title: "Creating a Trigger Map", summary: "Identify early warning signs and emergency actions." },
+      { order: 6, title: "Managing Losses", summary: "Learn recovery protocols and identity-based rules." },
+      { order: 7, title: "Healthy Routines for Traders", summary: "Understand the importance of sleep, stress management, and routines." },
+      { order: 8, title: "Building Your Personal Discipline Checklist", summary: "Create your code of conduct for trading." },
+    ],
+    format: "pdf",
+    price: {
+      EUR: 179,
+      GBP: 157,
+      USD: 207,
+      SR: 776,
+      tokens: 17900,
+    },
+    isFeatured: true,
+    pdfUrl: "/courses/trading-psychology-101-discipline-over-dopamine-en.pdf",
+  },
+  {
+    id: "risk-first-general",
+    slug: "risk-first-capital-protection-for-beginners",
+    level: "general",
+    market: "general",
+    title: "Risk First: Capital Protection for Beginners",
+    shortDescription: "A Foundation Course on Capital Preservation",
+    longDescription: "Survival is the First Edge in Trading. This course covers understanding risk in trading, capital preservation mindset, risk per attempt, stopping rules, leverage and fast products, common risk traps, responsible decision sizing, and building a personal risk policy.",
+    language: "en",
+    durationHoursMin: 8,
+    durationHoursMax: 12,
+    modules: [
+      { order: 1, title: "Understanding Risk in Trading", summary: "To define what risk means in the context of trading and why it is crucial to understand it." },
+      { order: 2, title: "Capital Preservation Mindset", summary: "Learn to prioritize capital protection over profit seeking." },
+      { order: 3, title: "Risk Per Attempt", summary: "Understand how to calculate and manage risk per trading attempt." },
+      { order: 4, title: "Stopping Rules", summary: "Learn when and how to stop trading to protect your capital." },
+      { order: 5, title: "Leverage and Fast Products", summary: "Understand the risks associated with leverage and fast-moving products." },
+      { order: 6, title: "Common Risk Traps", summary: "Identify and avoid common risk management mistakes." },
+      { order: 7, title: "Responsible Decision Sizing", summary: "Learn how to size your decisions appropriately." },
+      { order: 8, title: "Building a Personal Risk Policy", summary: "Create your own risk management policy." },
+    ],
+    format: "pdf",
+    price: {
+      EUR: 169,
+      GBP: 148,
+      USD: 196,
+      SR: 732,
+      tokens: 16900,
+    },
+    isFeatured: true,
+    pdfUrl: "/courses/risk-first-capital-protection-for-beginners-en.pdf",
   },
 ];

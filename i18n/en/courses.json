@@ -7,18 +7,20 @@
   },
   "meta": {
     "coursesAvailable": "courses available · more in preparation.",
-    "paymentInfo": "Pay with tokens or directly in EUR, GBP, USD or AED."
+    "paymentInfo": "Pay with tokens or directly in EUR, GBP, USD or SR."
   },
   "filters": {
     "label": "Filters",
     "level": {
       "all": "All levels",
+      "general": "General",
       "beginner": "Beginner",
       "intermediate": "Intermediate",
       "advanced": "Advanced"
     },
     "market": {
       "all": "All markets",
+      "general": "General",
       "forex": "Forex",
       "crypto": "Crypto",
       "binary": "Binary"
@@ -78,7 +80,7 @@
       "immediateDownload": "Immediate PDF download after payment.",
       "buyWithTokens": "Buy with tokens",
       "buyWithCard": "Buy with card",
-      "paymentNote": "You can use existing balance or add tokens at checkout. Card payments support EUR, GBP, USD and AED.",
+      "paymentNote": "You can use existing balance or add tokens at checkout. Card payments support EUR, GBP, USD and SR.",
       "educationDisclaimer": "Education only. This course does not contain trading signals or promises of performance.",
       "beforeBuying": "Before buying, please note:",
       "riskNote1": "Trading Forex is high risk and may lead to total loss of capital.",
@@ -101,7 +103,7 @@
       },
       "customCourse": {
         "badge": "Prefer tailored?",
-        "description": "If you want a course built specifically around your experience, deposit and risk tolerance, you can request a custom PDF prepared within 48–96 hours.",
+        "description": "If you want a course built specifically around your experience, deposit and risk tolerance, you can request a custom PDF.",
         "cta": "Request custom course instead"
       },
       "aiStrategy": {

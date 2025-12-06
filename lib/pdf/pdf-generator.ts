@@ -1,0 +1,233 @@
+// lib/pdf/pdf-generator.ts - PDF generation using Puppeteer
+
+import puppeteer from 'puppeteer-core'
+import chromium from '@sparticuz/chromium'
+import { saveCoursePdf } from '@/lib/storage'
+import { GeneratedCourse } from './types'
+import { generateCourseHtml } from './templates'
+import { logger } from './logger'
+import { config } from '@/lib/config'
+import path from 'path'
+import fs from 'fs/promises'
+
+/**
+ * Generate PDF from course HTML using Puppeteer
+ * Supports two-pass rendering for Table of Contents
+ */
+export async function generateCoursePdf(
+  course: GeneratedCourse,
+  coverImagePath: string,
+  diagramPaths: Record<string, { publicPath: string; localPath: string }>,
+  courseId: string,
+  language: 'EN' | 'AR'
+): Promise<{ publicPath: string; buffer: Buffer }> {
+  const isArabic = language === 'AR'
+  // Convert diagramPaths to simple string map for HTML generation
+  const diagramPathsMap = Object.fromEntries(
+    Object.entries(diagramPaths).map(([id, paths]) => [id, paths.localPath || paths.publicPath])
+  )
+  const html = generateCourseHtml(course, coverImagePath, diagramPathsMap, isArabic)
+
+  // Determine if we're in serverless environment
+  const isServerless = !!(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME)
+
+  let browser
+  try {
+    if (isServerless) {
+      // Serverless environment - use Chromium
+      browser = await puppeteer.launch({
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath(),
+        headless: chromium.headless === 'new' ? true : chromium.headless,
+      })
+    } else {
+      // Local development - use system Chrome/Chromium
+      // Try to find Chrome/Chromium
+      try {
+        browser = await puppeteer.launch({
+          headless: true,
+          args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        })
+      } catch (launchError) {
+        // If launch fails, try with explicit executable path hints
+        const possiblePaths = [
+          'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+          'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+          process.env.CHROME_PATH,
+        ].filter(Boolean)
+
+        let launched = false
+        for (const chromePath of possiblePaths) {
+          try {
+            browser = await puppeteer.launch({
+              headless: true,
+              executablePath: chromePath,
+              args: ['--no-sandbox', '--disable-setuid-sandbox'],
+            })
+            launched = true
+            break
+          } catch (e) {
+            // Try next path
+          }
+        }
+
+        if (!launched) {
+          throw new Error(
+            'Chrome/Chromium not found. Please install Chrome or set CHROME_PATH environment variable.\n' +
+            'On Windows, Chrome is usually at: C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+          )
+        }
+      }
+    }
+
+    if (!browser) {
+      throw new Error('Failed to launch browser')
+    }
+
+    const page = await browser.newPage()
+
+    // Set content with base64 images or file paths
+    // For local development, use file:// protocol
+    // For serverless, we need to inline images as base64
+    const htmlWithImages = await prepareHtmlWithImages(html, coverImagePath, diagramPaths, isServerless)
+
+    // Set timeout for page content loading (default is 30 seconds, increase for large courses)
+    const pdfTimeout = config.openai.timeouts.pdf || 120000
+    page.setDefaultTimeout(pdfTimeout)
+    
+    await page.setContent(htmlWithImages, {
+      waitUntil: 'networkidle0',
+      timeout: pdfTimeout,
+    })
+
+    // Generate PDF
+    const pdfBuffer = await page.pdf({
+      format: 'A4',
+      printBackground: true,
+      margin: {
+        top: '18mm',
+        right: '16mm',
+        bottom: '18mm',
+        left: '16mm',
+      },
+      preferCSSPageSize: true,
+    })
+
+    await browser.close()
+
+    // Save PDF
+    const filename = `${courseId}-${language.toLowerCase()}.pdf`
+    const { publicPath } = await saveCoursePdf(pdfBuffer, filename)
+
+    return {
+      publicPath,
+      buffer: pdfBuffer,
+    }
+  } catch (error) {
+    if (browser) {
+      try {
+        await browser.close()
+      } catch (closeError) {
+        console.error('Error closing browser:', closeError)
+      }
+    }
+    console.error(`Failed to generate PDF for ${language}:`, error)
+    throw error
+  }
+}
+
+/**
+ * Prepare HTML with images - convert to base64 for serverless or use file paths for local
+ */
+async function prepareHtmlWithImages(
+  html: string,
+  coverImagePath: string,
+  diagramPaths: Record<string, { publicPath: string; localPath: string }>,
+  isServerless: boolean
+): Promise<string> {
+  const publicPath = path.join(process.cwd(), 'public')
+  let processedHtml = html
+  
+  // Always use base64 for images to ensure compatibility (works in both local and serverless)
+  // This is more reliable than file:// paths which can have issues with Puppeteer
+  
+  // Convert logo to base64 (used in cover and header)
+  const logoPath = '/avenqor.webp'
+  try {
+    const logoFullPath = path.join(publicPath, logoPath.replace(/^\//, ''))
+    await logger.info(`Loading logo from: ${logoFullPath}`)
+    
+    await fs.access(logoFullPath)
+    const logoBuffer = await fs.readFile(logoFullPath)
+    const logoBase64 = logoBuffer.toString('base64')
+    const logoDataUrl = `data:image/webp;base64,${logoBase64}`
+    
+    // Replace logo in HTML (both in cover and CSS @page)
+    // Replace in CSS background-image
+    processedHtml = processedHtml.replace(/background-image:\s*url\(\/avenqor\.webp\)/g, `background-image: url(${logoDataUrl})`)
+    // Replace in img src
+    processedHtml = processedHtml.replace(/src="\/avenqor\.webp"/g, `src="${logoDataUrl}"`)
+    
+    await logger.info(`Logo converted to base64 (${logoBuffer.length} bytes)`)
+  } catch (error) {
+    await logger.error(`Failed to load logo: ${logoPath}`, error)
+    // Don't throw - continue without logo
+  }
+  
+  // Convert cover image to base64
+  if (coverImagePath.startsWith('/')) {
+    try {
+      const imagePath = path.join(publicPath, coverImagePath.replace(/^\//, ''))
+      await logger.info(`Loading cover image from: ${imagePath}`)
+      
+      // Check if file exists
+      await fs.access(imagePath)
+      
+      const imageBuffer = await fs.readFile(imagePath)
+      const base64Image = imageBuffer.toString('base64')
+      const mimeType = coverImagePath.endsWith('.webp') ? 'image/webp' : coverImagePath.endsWith('.png') ? 'image/png' : 'image/jpeg'
+      const dataUrl = `data:${mimeType};base64,${base64Image}`
+      
+      // Replace all occurrences of the cover image path
+      const escapedPath = coverImagePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      processedHtml = processedHtml.replace(new RegExp(escapedPath, 'g'), dataUrl)
+      
+      await logger.info(`Cover image converted to base64 (${imageBuffer.length} bytes)`)
+    } catch (error) {
+      await logger.error(`Failed to load cover image: ${coverImagePath}`, error)
+      // Don't throw - continue without image
+    }
+  }
+  
+  // Convert diagram images to base64
+  for (const [diagramId, paths] of Object.entries(diagramPaths)) {
+    const diagramPath = paths.localPath || paths.publicPath
+    if (diagramPath && diagramPath.startsWith('/')) {
+      try {
+        const imagePath = path.join(publicPath, diagramPath.replace(/^\//, ''))
+        await logger.info(`Loading diagram ${diagramId} from: ${imagePath}`)
+        
+        // Check if file exists
+        await fs.access(imagePath)
+        
+        const imageBuffer = await fs.readFile(imagePath)
+        const base64Image = imageBuffer.toString('base64')
+        const mimeType = diagramPath.endsWith('.webp') ? 'image/webp' : diagramPath.endsWith('.png') ? 'image/png' : 'image/jpeg'
+        const dataUrl = `data:${mimeType};base64,${base64Image}`
+        
+        // Replace all occurrences of the diagram path
+        const escapedPath = diagramPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        processedHtml = processedHtml.replace(new RegExp(escapedPath, 'g'), dataUrl)
+        
+        await logger.info(`Diagram ${diagramId} converted to base64 (${imageBuffer.length} bytes)`)
+      } catch (error) {
+        await logger.error(`Failed to load diagram image ${diagramId}: ${diagramPath}`, error)
+        // Don't throw - continue without this diagram
+      }
+    }
+  }
+  
+  return processedHtml
+}
+

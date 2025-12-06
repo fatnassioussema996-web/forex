@@ -1,0 +1,501 @@
+{
+  "render_map": {
+    "id": "avenqor.pdf_render_map.v1",
+    "brand": {
+      "name": "Avenqor",
+      "domain": "avenqor.net"
+    },
+    "created_at_iso": "2025-11-30T15:48:34.686325+00:00",
+    "document": {
+      "page": {
+        "size": "A4",
+        "orientation": "portrait",
+        "margins_mm": {
+          "top": 18,
+          "right": 16,
+          "bottom": 18,
+          "left": 16
+        },
+        "bleed_mm": 0,
+        "base_grid_mm": 4
+      },
+      "typography": {
+        "font_family": {
+          "heading": "Inter",
+          "body": "Inter",
+          "mono": "JetBrains Mono"
+        },
+        "sizes_pt": {
+          "h1": 22,
+          "h2": 16,
+          "h3": 13,
+          "body": 10.5,
+          "small": 9,
+          "caption": 9
+        },
+        "line_height": {
+          "body": 1.45,
+          "heading": 1.2
+        }
+      },
+      "global_style_rules": [
+        "Keep line length reasonable for mobile reading; prefer short paragraphs.",
+        "Avoid emojis and slang; keep tone calm and professional.",
+        "Use consistent spacing between blocks (multiples of base_grid_mm).",
+        "Render lists as real list items; do not keep them as a single paragraph."
+      ]
+    },
+    "data_sources": {
+      "expected_json_schema_examples": [
+        "avenqor_ready_course_v1 (ready-made course)",
+        "avenqor.custom_course.v1 (custom course blueprint output)",
+        "avenqor.instant_strategy.v1 (instant strategy output)"
+      ],
+      "field_conventions": {
+        "course_title": "course.title",
+        "course_subtitle": "course.subtitle",
+        "version": "meta.version",
+        "created_at": "meta.created_at_iso",
+        "disclaimer": "meta.disclaimer",
+        "modules": "modules[]",
+        "diagrams": "diagrams[]",
+        "glossary": "glossary[]",
+        "one_page_summary": "one_page_summary",
+        "quiz": "quiz"
+      }
+    }
+  },
+  "components": {
+    "content_blocks": {
+      "paragraph": {
+        "template": "Paragraph",
+        "render": {
+          "tag": "p"
+        },
+        "spacing_after_mm": 2
+      },
+      "bullets": {
+        "template": "Bullets",
+        "render": {
+          "tag": "ul"
+        },
+        "parse_rule": "Split source text into bullet items by newline. Accept lines starting with '-' or '•'. Trim whitespace. Drop empty lines.",
+        "spacing_after_mm": 2
+      },
+      "definition": {
+        "template": "DefinitionCard",
+        "render": {
+          "tag": "div",
+          "class": "definition-card"
+        },
+        "parse_rule": "If source text contains markers like 'Term:' and 'Definition:', map them; else render as a single card with 'Definition' label."
+      },
+      "example": {
+        "template": "ExampleCard",
+        "label": "Hypothetical example",
+        "render": {
+          "tag": "div",
+          "class": "example-card"
+        }
+      },
+      "myth_vs_reality": {
+        "template": "TwoColumnCard",
+        "left_label": "Myth",
+        "right_label": "Reality",
+        "parse_rule": "Split by 'Reality:' marker. If missing, render as a single card with combined text.",
+        "render": {
+          "tag": "div",
+          "class": "two-col-card"
+        }
+      }
+    },
+    "module_blocks": {
+      "checklist": {
+        "template": "ChecklistBlock",
+        "render": {
+          "tag": "section",
+          "class": "checklist"
+        },
+        "rules": [
+          "Render as a titled block with checkbox bullets.",
+          "Keep items short; wrap naturally."
+        ]
+      },
+      "exercise": {
+        "template": "ExerciseBlock",
+        "render": {
+          "tag": "section",
+          "class": "exercise"
+        },
+        "subsections": [
+          "purpose",
+          "steps",
+          "expected_output"
+        ],
+        "rules": [
+          "Steps must be numbered.",
+          "Expected output should be a single confident sentence."
+        ]
+      },
+      "risk_box": {
+        "template": "RiskBox",
+        "render": {
+          "tag": "aside",
+          "class": "risk-box"
+        },
+        "priority": "always_show",
+        "rules": [
+          "Must render once per module.",
+          "Keep it concise (3-7 points).",
+          "Tone: factual, calm, protective."
+        ]
+      },
+      "module_summary": {
+        "template": "KeyTakeaways",
+        "render": {
+          "tag": "section",
+          "class": "key-takeaways"
+        },
+        "rules": [
+          "Render 4-8 bullets of key takeaways."
+        ]
+      }
+    },
+    "document_blocks": {
+      "cover": {
+        "template": "CoverPage"
+      },
+      "legal_notice": {
+        "template": "LegalNoticePage"
+      },
+      "how_to_use": {
+        "template": "StaticHowToUse"
+      },
+      "toc": {
+        "template": "AutoTOC"
+      },
+      "preface": {
+        "template": "PrefaceFromCourseMeta"
+      },
+      "one_page_summary": {
+        "template": "OnePageSummary"
+      },
+      "glossary": {
+        "template": "Glossary"
+      },
+      "quiz": {
+        "template": "QuizWithAnswerKey"
+      }
+    }
+  },
+  "sections": [
+    {
+      "id": "cover",
+      "title": "Cover",
+      "page_break_before": true,
+      "source": {
+        "title": "course.title",
+        "subtitle": "course.subtitle",
+        "level": "course.level",
+        "markets": "course.market_scope",
+        "version": "meta.version",
+        "created": "meta.created_at_iso"
+      },
+      "layout": {
+        "show_footer": false,
+        "show_page_numbers": false
+      }
+    },
+    {
+      "id": "legal_notice",
+      "title": "Legal & Risk Notice",
+      "page_break_before": true,
+      "source": "meta.disclaimer",
+      "template": "LegalNoticePage",
+      "layout": {
+        "show_footer": true,
+        "page_numbering": {
+          "start_here": true
+        }
+      }
+    },
+    {
+      "id": "how_to_use",
+      "title": "How to Use This Course",
+      "page_break_before": true,
+      "template": "StaticHowToUse",
+      "content": {
+        "bullets": [
+          "Read one module per sitting and take brief notes.",
+          "Do the exercise right after the lessons while it's fresh.",
+          "Use the checklists as a guardrail, not as a shortcut to outcomes.",
+          "If you feel rushed or emotional, stop and re-read the risk boxes."
+        ]
+      }
+    },
+    {
+      "id": "toc",
+      "title": "Table of Contents",
+      "page_break_before": true,
+      "template": "AutoTOC",
+      "build_from": [
+        {
+          "type": "modules",
+          "source": "modules",
+          "include_lessons": true
+        },
+        {
+          "type": "single",
+          "title": "Printable One-Page Summary",
+          "anchor_id": "one_page_summary"
+        },
+        {
+          "type": "single",
+          "title": "Glossary",
+          "anchor_id": "glossary"
+        },
+        {
+          "type": "single",
+          "title": "Self-Test Quiz",
+          "anchor_id": "quiz"
+        }
+      ],
+      "rules": [
+        "TOC is computed (do not rely on the model to provide page numbers).",
+        "Use a two-pass render: first layout to detect page numbers, second to print TOC with numbers."
+      ]
+    },
+    {
+      "id": "preface",
+      "title": "Preface / Orientation",
+      "page_break_before": true,
+      "template": "PrefaceFromCourseMeta",
+      "source": {
+        "who_for": "course.who_this_is_for",
+        "who_not_for": "course.who_this_is_not_for",
+        "outcomes": "course.learning_outcomes",
+        "prerequisites": "course.prerequisites"
+      }
+    },
+    {
+      "id": "modules",
+      "title": "Modules",
+      "template": "ModulesLoop",
+      "loop": "modules",
+      "module_layout": {
+        "page_break_before_each_module": true,
+        "render_order": [
+          {
+            "type": "module_header",
+            "source_fields": [
+              "title",
+              "goal"
+            ]
+          },
+          {
+            "type": "lessons_loop",
+            "source": "lessons",
+            "render": "content_blocks_by_type"
+          },
+          {
+            "type": "checklist",
+            "source": "checklist"
+          },
+          {
+            "type": "exercise",
+            "source": "exercise"
+          },
+          {
+            "type": "risk_box",
+            "source": "risk_box",
+            "must_render": true
+          },
+          {
+            "type": "module_summary",
+            "source": "module_summary.key_takeaways"
+          }
+        ],
+        "lesson_layout": {
+          "render": [
+            {
+              "type": "lesson_title",
+              "source_field": "title"
+            },
+            {
+              "type": "content_blocks",
+              "source": "content_blocks"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "one_page_summary",
+      "title": "Printable One-Page Summary",
+      "page_break_before": true,
+      "template": "OnePageSummary",
+      "source": "one_page_summary",
+      "constraints": {
+        "max_pages": 1
+      },
+      "rules": [
+        "If content overflows one page, shrink by tightening spacing before reducing font size.",
+        "If still overflowing, truncate least-critical bullets (prefer keeping headings)."
+      ]
+    },
+    {
+      "id": "glossary",
+      "title": "Glossary",
+      "page_break_before": true,
+      "template": "Glossary",
+      "loop": "glossary",
+      "sort_by": "term",
+      "entry_layout": [
+        {
+          "type": "term",
+          "source_field": "term"
+        },
+        {
+          "type": "plain_definition",
+          "source_field": "plain_definition"
+        },
+        {
+          "type": "why_it_matters",
+          "source_field": "why_it_matters"
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "title": "Self-Test Quiz",
+      "page_break_before": true,
+      "template": "QuizWithAnswerKey",
+      "source": "quiz",
+      "layout": {
+        "questions_first": true,
+        "answers_after": true,
+        "answer_key_heading": "Answer Key & Explanations"
+      }
+    }
+  ],
+  "diagrams": {
+    "insertion": {
+      "preferred": "explicit_anchor",
+      "option_a_explicit_anchor": {
+        "description": "Add 'insert_after_module_id' to each diagram item, e.g. 'M2'.",
+        "diagram_field": "diagrams[].insert_after_module_id",
+        "render_rule": "Render diagram figure immediately after the specified module."
+      },
+      "option_b_heuristic": {
+        "description": "If 'insert_after_module_id' is absent, insert diagrams by index after relevant modules.",
+        "rules": [
+          "D1 after module about participants/price formation",
+          "D2 after module about liquidity",
+          "D3 after module about spread/costs",
+          "D4 after module about why trading is hard"
+        ]
+      },
+      "figure_template": {
+        "title_field": "diagrams[].title",
+        "caption_fields": [
+          "diagrams[].what_it_shows"
+        ],
+        "layout_notes_field": "diagrams[].layout_notes",
+        "asset_generation_prompt_field": "diagrams[].image_prompt",
+        "pdf_rendering": [
+          "Render diagram image if available; otherwise render a placeholder box with the image_prompt for later generation.",
+          "Always include the caption under the figure."
+        ]
+      }
+    }
+  },
+  "header_footer": {
+    "page_numbering": {
+      "start_after_section_id": "cover",
+      "style": "Page {{page}}"
+    },
+    "footer": {
+      "apply_from_section_id": "legal_notice",
+      "left": "Avenqor - Education-only",
+      "center": "Page {{page}}",
+      "right": "v{{meta.version}} - {{meta.course_id}}"
+    },
+    "header": {
+      "apply_from_section_id": "preface",
+      "left": "{{course.title}}",
+      "right": "{{course.level}}"
+    }
+  },
+  "pipeline": {
+    "steps": [
+      {
+        "id": "validate",
+        "title": "Validate course JSON",
+        "details": [
+          "Validate against the chosen JSON Schema before any rendering.",
+          "Fail fast and return a readable error for missing required fields."
+        ]
+      },
+      {
+        "id": "preprocess",
+        "title": "Preprocess content",
+        "details": [
+          "Normalize bullet lists (split lines, trim).",
+          "Sort glossary by term (A-Z).",
+          "Optionally generate module/lesson numbering labels for display."
+        ]
+      },
+      {
+        "id": "render_pass_1",
+        "title": "Render to HTML (pass 1)",
+        "details": [
+          "Generate full HTML for all sections except TOC's page numbers.",
+          "Attach anchor ids to headings for TOC."
+        ]
+      },
+      {
+        "id": "layout_measure",
+        "title": "Layout & measure pages",
+        "details": [
+          "Convert pass-1 HTML to PDF in a measurement mode to obtain page numbers by anchor.",
+          "Capture the page number for each TOC entry."
+        ]
+      },
+      {
+        "id": "render_pass_2",
+        "title": "Render to HTML (pass 2) with TOC numbers",
+        "details": [
+          "Re-render TOC with resolved page numbers.",
+          "Re-render the full document to final PDF."
+        ]
+      },
+      {
+        "id": "export",
+        "title": "Export & store",
+        "details": [
+          "Store PDF asset and metadata (version, created_at, course_id).",
+          "Optional: store a separate JSON snapshot for reproducibility."
+        ]
+      }
+    ],
+    "notes": [
+      "If using an HTML->PDF engine that supports automatic TOC, you may skip two-pass rendering, but anchor control is still recommended.",
+      "Keep the one-page summary within one page by enforcing constraints at generation time."
+    ]
+  },
+  "recommended_schema_extensions": {
+    "front_matter": {
+      "add": true,
+      "fields": [
+        "front_matter.how_to_use (optional)",
+        "front_matter.preface_note (optional)"
+      ],
+      "reason": "Makes 'How to use' and 'Preface' either static or model-generated without ambiguity."
+    },
+    "diagram_anchor": {
+      "add": true,
+      "field": "diagrams[].insert_after_module_id",
+      "reason": "Removes heuristic insertion and keeps rendering deterministic."
+    }
+  }
+}

@@ -16,8 +16,15 @@
     "faq": "الأسئلة الشائعة",
     "about": "من نحن",
     "contact": "اتصل بنا",
+    "contactUs": "اتصل بنا",
     "home": "الرئيسية",
-    "cabinet": "الخزانة"
+    "dashboard": "لوحة التحكم",
+    "riskManagement": "إدارة المخاطر",
+    "tradeJournal": "دفتر يومية التداول",
+    "weeklyReview": "المراجعة الأسبوعية",
+    "preSession": "التحضير قبل الجلسة",
+    "positionSizing": "تحديد حجم المراكز",
+    "strategySnapshot": "نظرة عامة على الاستراتيجية"
   },
   "auth": {
     "signIn": "تسجيل الدخول",
@@ -39,7 +46,7 @@
     "gbp": "GBP",
     "eur": "EUR",
     "usd": "USD",
-    "aed": "AED"
+    "sr": "SR"
   },
   "language": {
     "en": "EN",
@@ -60,6 +67,7 @@
       "terms": "الشروط والأحكام",
       "privacy": "سياسة الخصوصية",
       "cookies": "ملفات تعريف الارتباط",
+      "refundPolicy": "سياسة الاسترداد",
       "contact": "اتصل بنا"
     }
   },

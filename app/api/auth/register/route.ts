@@ -6,6 +6,43 @@ import bcrypt from 'bcryptjs'
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if DATABASE_URL is configured
+    if (!process.env.DATABASE_URL) {
+      console.error('DATABASE_URL is not set in environment variables')
+      return NextResponse.json(
+        { error: 'DATABASE_CONFIGURATION_ERROR' },
+        { status: 503 }
+      )
+    }
+
+    // Log database connection info for debugging (without password)
+    const dbUrl = process.env.DATABASE_URL
+    const dbUrlInfo = {
+      hasUrl: true,
+      format: dbUrl.includes('@') 
+        ? dbUrl.split('@')[1]?.split('/')[0] || 'unknown'
+        : 'invalid',
+      hasPooling: dbUrl.includes('pooler') || dbUrl.includes('pgbouncer'),
+      isPostgres: dbUrl.startsWith('postgresql://') || dbUrl.startsWith('postgres://'),
+    }
+    console.log('Database connection info:', dbUrlInfo)
+
+    // Test database connection before proceeding (only in development for debugging)
+    if (process.env.NODE_ENV === 'development') {
+      try {
+        await prisma.$connect()
+        console.log('Database connection test: SUCCESS')
+      } catch (connectError: any) {
+        console.error('Database connection test: FAILED', {
+          code: connectError?.code,
+          name: connectError?.name,
+          message: connectError?.message,
+        })
+        // Don't throw here, let the actual query fail for better error handling
+        // This is just for diagnostic purposes
+      }
+    }
+
     const body = await request.json()
     const { firstName, lastName, email, password } = body
 
@@ -34,9 +71,20 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-    })
+    let existingUser
+    try {
+      existingUser = await prisma.user.findUnique({
+        where: { email },
+      })
+    } catch (dbError: any) {
+      console.error('Database query error (findUnique):', {
+        code: dbError?.code,
+        name: dbError?.name,
+        message: dbError?.message,
+        meta: dbError?.meta,
+      })
+      throw dbError // Re-throw for general error handling
+    }
 
     if (existingUser) {
       return NextResponse.json(
@@ -49,21 +97,32 @@ export async function POST(request: NextRequest) {
     const hashedPassword = await bcrypt.hash(password, 10)
 
     // Create user
-    const user = await prisma.user.create({
-      data: {
-        email,
-        password: hashedPassword,
-        first_name: firstName,
-        last_name: lastName || null,
-        balance: 0,
-      },
-      select: {
-        id: true,
-        email: true,
-        first_name: true,
-        last_name: true,
-      },
-    })
+    let user
+    try {
+      user = await prisma.user.create({
+        data: {
+          email,
+          password: hashedPassword,
+          first_name: firstName,
+          last_name: lastName || null,
+          balance: 0,
+        },
+        select: {
+          id: true,
+          email: true,
+          first_name: true,
+          last_name: true,
+        },
+      })
+    } catch (dbError: any) {
+      console.error('Database query error (create):', {
+        code: dbError?.code,
+        name: dbError?.name,
+        message: dbError?.message,
+        meta: dbError?.meta,
+      })
+      throw dbError // Re-throw for general error handling
+    }
 
     return NextResponse.json(
       {
@@ -78,30 +137,17 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     )
   } catch (error: any) {
-    console.error('Registration error:', error)
-    
-    // Check if it's a database connection error
-    const isDatabaseError =
-      error?.code?.startsWith('P') || // Prisma error codes (P1001, P2025, etc.)
-      error?.message?.includes('does not exist') ||
-      error?.message?.includes('relation') ||
-      error?.message?.includes('table') ||
-      error?.message?.includes('database') ||
-      error?.message?.includes('connection') ||
-      error?.message?.includes('timeout') ||
-      error?.message?.includes("Can't reach database") ||
-      error?.name === 'PrismaClientInitializationError' ||
-      error?.name === 'PrismaClientKnownRequestError' ||
-      error?.name === 'PrismaClientUnknownRequestError'
+    // Enhanced error logging for debugging
+    console.error('Registration error:', {
+      code: error?.code,
+      name: error?.name,
+      message: error?.message,
+      meta: error?.meta,
+      stack: process.env.NODE_ENV === 'development' ? error?.stack : undefined,
+    })
 
-    if (isDatabaseError) {
-      return NextResponse.json(
-        { error: 'DATABASE_UNAVAILABLE' },
-        { status: 503 } // Service Unavailable
-      )
-    }
-
-    // Check if it's a unique constraint violation (email already exists)
+    // IMPORTANT: Check specific errors FIRST, before general database errors
+    // 1. Check if it's a unique constraint violation (email already exists)
     if (error?.code === 'P2002' || error?.meta?.target?.includes('email')) {
       return NextResponse.json(
         { error: 'EMAIL_EXISTS' },
@@ -109,8 +155,67 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // 2. Check if it's a database connection error (specific Prisma connection error codes)
+    const isConnectionError =
+      error?.code === 'P1001' || // Can't reach database server
+      error?.code === 'P1002' || // Database server doesn't accept connection
+      error?.code === 'P1003' || // Database name not found
+      error?.code === 'P1008' || // Operations timed out
+      error?.code === 'P1009' || // Database already exists
+      error?.code === 'P1010' || // Database access denied
+      error?.code === 'P1011' || // TLS connection error
+      error?.code === 'P1017' || // Server has closed the connection
+      error?.code === 'P1018' || // Value for the connection limit reached
+      error?.name === 'PrismaClientInitializationError' ||
+      error?.name === 'PrismaClientConnectionError' ||
+      (error?.message?.toLowerCase().includes('connection') &&
+        (error?.message?.toLowerCase().includes('timeout') ||
+          error?.message?.toLowerCase().includes('refused') ||
+          error?.message?.toLowerCase().includes('failed'))) ||
+      (error?.message?.toLowerCase().includes("can't reach database") ||
+        error?.message?.toLowerCase().includes("can not reach database") ||
+        error?.message?.toLowerCase().includes('connection string') ||
+        error?.message?.toLowerCase().includes('connection pool'))
+
+    if (isConnectionError) {
+      return NextResponse.json(
+        { error: 'DATABASE_UNAVAILABLE' },
+        { status: 503 } // Service Unavailable
+      )
+    }
+
+    // 3. Check for other database-related errors (table/relation not found, etc.)
+    const isDatabaseError =
+      error?.code?.startsWith('P') || // Other Prisma error codes
+      error?.message?.includes('does not exist') ||
+      error?.message?.includes('relation') ||
+      error?.message?.includes('table') ||
+      (error?.message?.toLowerCase().includes('database') &&
+        !error?.message?.toLowerCase().includes('unique'))
+
+    if (isDatabaseError) {
+      // For development, include more details
+      return NextResponse.json(
+        {
+          error: 'DATABASE_ERROR',
+          message:
+            process.env.NODE_ENV === 'development'
+              ? error?.message || 'Database operation failed'
+              : 'Database operation failed',
+        },
+        { status: 503 }
+      )
+    }
+
+    // 4. Generic error handler
     return NextResponse.json(
-      { error: 'Internal server error' },
+      {
+        error: 'Internal server error',
+        message:
+          process.env.NODE_ENV === 'development'
+            ? error?.message || 'An unexpected error occurred'
+            : 'An unexpected error occurred',
+      },
       { status: 500 }
     )
   }

@@ -14,7 +14,7 @@
   },
   "custom": {
     "title": "Custom course request",
-    "description": "Tell us where you are now and what you want to understand. A structured PDF is prepared by a senior trader (via AI) and delivered within 48–96 hours.",
+    "description": "Tell us where you are now and what you want to understand. A structured PDF is prepared by a senior trader and delivered.",
     "form": {
       "experience": {
         "label": "Your trading experience",
@@ -59,7 +59,16 @@
       },
       "time": {
         "label": "Time available per week",
-        "placeholder": "For example: 3 evenings + 1 weekend session"
+        "placeholder": "For example: 3 evenings + 1 weekend session",
+        "days": {
+          "monday": "Mon",
+          "tuesday": "Tue",
+          "wednesday": "Wed",
+          "thursday": "Thu",
+          "friday": "Fri",
+          "saturday": "Sat",
+          "sunday": "Sun"
+        }
       },
       "platforms": {
         "label": "Platforms / brokers you use (optional)",
@@ -74,6 +83,13 @@
         "label": "Anything else we should know? (optional)",
         "placeholder": "For example: past issues, psychological challenges, or constraints we should consider."
       },
+      "language": {
+        "label": "Select language(s)",
+        "required": "Required · select at least one",
+        "hint": "+500 tokens for second language",
+        "en": "English",
+        "ar": "Arabic"
+      },
       "consents": {
         "education": "I understand this is educational material only. Avenqor does not provide financial advice or trading signals.",
         "terms": "I confirm that I have read and accept the Terms & Conditions and Risk & Disclaimer.",
@@ -82,12 +98,24 @@
         "termsAnd": "and",
         "riskLink": "Risk & Disclaimer"
       },
-      "submit": "Submit request",
-      "delivery": "You will receive a confirmation email and the PDF within 48–96 hours."
+      "submit": "Buy custom course",
+      "delivery": "You will receive a confirmation email and the PDF.",
+      "calculator": {
+        "title": "Price calculator",
+        "total": "Total cost",
+        "tokens": "tokens",
+        "balance": "Your balance",
+        "insufficientBalance": {
+          "title": "Insufficient balance",
+          "description": "You don't have enough tokens to purchase this custom course.",
+          "message": "You need more tokens to purchase this course.",
+          "topUp": "Top up balance"
+        }
+      }
     },
     "sidebar": {
       "delivery": {
-        "badge": "Delivered in 48–96 hours",
+        "badge": "Delivered",
         "description": "A senior trader uses your profile to structure a PDF built around your experience, deposit size and risk tolerance. The delay is intentional – this is not an instant template.",
         "points": {
           "modules": "Modules sequenced for your context.",
@@ -105,7 +133,7 @@
         "description": "A custom course uses more tokens than a single ready-made PDF. In production, pricing will be defined per market and depth. For now, treat it as a separate product with its own price in tokens and direct payment.",
         "points": {
           "tokens": "Pay with tokens from your balance.",
-          "currencies": "Or use EUR, GBP, USD or AED at checkout."
+          "currencies": "Or use EUR, GBP, USD or SR at checkout."
         },
         "badge": "Example only – final pricing TBD"
       }
@@ -151,6 +179,13 @@
         "standard": "Standard plan",
         "deep": "Deep-dive guide"
       },
+      "language": {
+        "label": "Select language(s)",
+        "required": "Required · select at least one",
+        "hint": "+500 tokens for second language",
+        "en": "English",
+        "ar": "Arabic"
+      },
       "consent": "I understand that the generated plan is for educational purposes only and does not contain trading signals or guaranteed results.",
       "consentTerms": "I confirm that I have read and accept the Terms & Conditions and Risk & Disclaimer.",
       "consentTermsBefore": "I confirm that I have read and accept the",
@@ -158,7 +193,19 @@
       "consentTermsAnd": "and",
       "consentRiskLink": "Risk & Disclaimer",
       "submit": "Generate AI strategy",
-      "output": "The plan will appear below in a structured format and be saved to your library."
+      "output": "The plan will appear below in a structured format and be saved to your library.",
+      "calculator": {
+        "title": "Price calculator",
+        "total": "Total cost",
+        "tokens": "tokens",
+        "balance": "Your balance",
+        "insufficientBalance": {
+          "title": "Insufficient balance",
+          "description": "You don't have enough tokens to generate this AI strategy.",
+          "message": "You need more tokens to generate this strategy.",
+          "topUp": "Top up balance"
+        }
+      }
     },
     "output": {
       "title": "AI strategy output",
@@ -195,6 +242,844 @@
     "required": "Please sign in to submit your request",
     "signIn": "Sign in",
     "signUp": "Sign up"
+  },
+  "riskManagement": {
+    "breadcrumb": {
+      "riskManagement": "Risk management"
+    },
+    "hero": {
+      "title": "Risk Management Foundations",
+      "subtitle": "Before entries, indicators or \"setups\", comes one thing: deciding how much you are prepared to lose. This page walks through the core concepts behind account-level risk, risk per trade and daily loss limits in high-risk markets.",
+      "badges": {
+        "educationOnly": "Education only · Not trading advice",
+        "appliesTo": "Applies to Forex / Crypto / Binary"
+      },
+      "conceptCard": {
+        "title": "Core Avenqor concept",
+        "subtitle": "Recommended before any strategy or setup."
+      },
+      "readingTime": "Approx. reading time: 8–12 minutes."
+    },
+    "sections": {
+      "whyRiskFirst": {
+        "title": "Why risk comes first",
+        "description": "In high-risk markets, most traders focus on entries and ignore how much capital is at stake. Risk management is about deciding in advance:",
+        "points": [
+          "How much of the total account can be lost without \"breaking\" it.",
+          "How much is at risk in one trade or structured idea, relative to the account.",
+          "When to stop for the day or week if things are not working."
+        ],
+        "note": "Examples on this page are generic and simplified. They are here to illustrate ideas, not to suggest what you personally \"should\" risk."
+      },
+      "threePillars": {
+        "title": "Three pillars of practical risk management",
+        "items": [
+          {
+            "title": "1. Account-level risk",
+            "description": "How much of the account can be lost overall before trading is paused or the approach is re-evaluated.",
+            "note": "This avoids \"all-in or nothing\" thinking."
+          },
+          {
+            "title": "2. Risk per trade / idea",
+            "description": "The planned loss if a position hits its stop or expires worthless, expressed as part of the account value."
+          },
+          {
+            "title": "3. Daily and weekly limits",
+            "description": "Pre-defined points where a trader stops for the day or week if things are not working, to prevent emotional escalation."
+          }
+        ]
+      },
+      "accountRisk": {
+        "title": "Account-level risk and drawdown",
+        "description": "Every account has a point where losses become difficult to recover from – either financially or psychologically. A simple starting point is to define a maximum drawdown where trading would pause and the plan would be reviewed.",
+        "example": {
+          "title": "Example idea",
+          "text": "Some traders prefer to keep total drawdown within a limited portion of the account, then step back instead of \"doubling down\". Others are comfortable with a wider range. The key is deciding this in advance, not during stress."
+        },
+        "whyMatters": {
+          "title": "Why it matters",
+          "points": [
+            "Helps avoid emotional revenge trading.",
+            "Keeps results in a range that can realistically be recovered from.",
+            "Makes it easier to stop and review when the approach is not working."
+          ]
+        }
+      },
+      "riskPerTrade": {
+        "title": "Risk per trade or structured idea",
+        "description": "Risk per trade is the amount that would be lost if the idea fails according to the plan. This is usually defined as a portion of the account value, then translated into lot size, contract size or position size.",
+        "conceptualSteps": {
+          "title": "Conceptual steps",
+          "steps": [
+            "Decide the portion of the account to risk on this idea.",
+            "Define where the trade is considered \"wrong\" (stop level or expiry).",
+            "Connect distance to the stop with position size using your platform's contract or pip value."
+          ],
+          "note": "Platforms usually provide tools or calculators to assist with this."
+        },
+        "multiplePositions": {
+          "title": "Multiple positions",
+          "text": "When several trades are open in the same direction or on similar instruments, they can behave like one larger idea. Many traders treat this as combined risk, not as separate unrelated bets."
+        }
+      },
+      "dailyWeeklyLimits": {
+        "title": "Daily and weekly loss limits",
+        "description": "Loss limits act as brakes. They define how much can be lost in a day or week before trading pauses. Without them, it is easy for one emotional session to undo weeks of careful work.",
+        "examples": {
+          "title": "Examples of how traders use limits",
+          "items": [
+            "Stopping for the day after a fixed number of losing trades.",
+            "Stopping after a pre-defined portion of the account is lost in a day or week.",
+            "Reducing size after losses instead of increasing it."
+          ],
+          "note": "These are behavioural tools, not \"rules of the market\"."
+        },
+        "traps": {
+          "title": "Common traps to watch for",
+          "items": [
+            "Removing stops because a loss feels uncomfortable.",
+            "Adding to losing positions without a clear plan.",
+            "Increasing size after losses to \"get it back in one trade\".",
+            "Ignoring sleep, food and screen fatigue when making decisions."
+          ]
+        }
+      },
+      "turningConcepts": {
+        "title": "Turning concepts into your own plan",
+        "description": "Avenqor cannot tell you what exact numbers to choose. What it can do is help you think through the components and document them in a simple, written plan.",
+        "steps": [
+          "Write down a maximum drawdown where you would pause and review your approach.",
+          "Decide a typical range for risk per trade or structured idea that feels sustainable for you.",
+          "Define daily and weekly loss limits that would trigger a break.",
+          "Use a journal or the Avenqor AI tools to check whether you are actually following your plan over time."
+        ],
+        "note": "If you are unsure what is appropriate for your situation, consider speaking with an independent, qualified financial professional."
+      }
+    },
+    "sidebar": {
+      "checklist": {
+        "title": "Quick pre-session checklist",
+        "subtitle": "For educational use, not a rigid rule set.",
+        "items": [
+          "☐ Account balance and open risk reviewed.",
+          "☐ Maximum loss for today noted.",
+          "☐ No single idea risks more than your planned portion.",
+          "☐ Screens, news and conditions checked – no major surprises.",
+          "☐ Clear stop and exit condition defined before entry.",
+          "☐ You are not trading to \"win back\" previous losses."
+        ]
+      },
+      "examplesNote": {
+        "title": "About the examples on this page",
+        "description": "Numbers and scenarios here are neutral, simplified and for illustration only. They do not take into account your personal situation, objectives, tax status or appetite for loss.",
+        "warning": "Nothing here should be treated as a recommendation to open, close or hold any position, or to trade in any specific way."
+      },
+      "riskWarning": {
+        "title": "High-risk market warning",
+        "description": "Trading Forex, Crypto and Binary options is highly speculative and can lead to substantial or total loss of capital. Only you can decide whether such risk is suitable for you.",
+        "note": "Avenqor does not manage funds, does not execute trades and does not provide personalised financial advice."
+      },
+      "continueLearning": {
+        "title": "Continue learning",
+        "description": "When you are comfortable with the ideas on this page, the next logical steps are:",
+        "topics": [
+          "Position Sizing Made Simple",
+          "Daily Trade Journal Principles",
+          "Weekly Review Playbook"
+        ],
+        "note": "These topics build on the same risk-first mindset and add more tools for structure and review."
+      }
+    }
+  },
+  "tradeJournal": {
+    "breadcrumb": {
+      "tradeJournal": "Daily trade journal"
+    },
+    "hero": {
+      "title": "Daily Trade Journal Principles",
+      "subtitle": "A journal is not about writing a novel after every trade. It is a compact way to track what you planned, what actually happened and how you behaved – so you can improve your decisions over time.",
+      "badges": {
+        "educationOnly": "Education only · Not trading advice",
+        "appliesTo": "Applies to Forex / Crypto / Binary"
+      },
+      "conceptCard": {
+        "title": "Process, not perfection",
+        "subtitle": "Use a simple structure that you can actually keep up with."
+      },
+      "readingTime": "Approx. reading time: 7–10 minutes."
+    },
+    "sections": {
+      "whyJournalMatters": {
+        "title": "Why a journal matters more than another indicator",
+        "description": "Indicators and tools show you the market. A journal shows you your own behaviour. Without it, it is hard to tell whether a result came from skill, luck or simply taking too much risk.",
+        "points": [
+          "It records what you planned versus what you actually did.",
+          "It highlights repeated patterns in wins and losses.",
+          "It gives you something concrete to review weekly or monthly."
+        ],
+        "note": "The goal is a lean, repeatable habit – not a second full-time job writing reports."
+      },
+      "entryStructure": {
+        "title": "A simple journal entry structure",
+        "description": "You do not need dozens of columns. Many traders find that a compact set of fields is enough to see patterns over time.",
+        "beforeTrade": {
+          "title": "Before the trade",
+          "items": [
+            "Date and session (London, New York, etc.).",
+            "Instrument and direction (for example, EUR/USD long).",
+            "Planned setup and reason for entry.",
+            "Planned risk amount and stop location."
+          ]
+        },
+        "afterTrade": {
+          "title": "After the trade",
+          "items": [
+            "Result in risk units (for example, +0.8R, -1R).",
+            "Whether you followed your own rules.",
+            "One sentence on what you would repeat or avoid.",
+            "Optional screenshot of the chart."
+          ]
+        }
+      },
+      "keepingEntriesShort": {
+        "title": "Keeping entries short and useful",
+        "description": "A good entry is one you can review quickly later. Long paragraphs make it hard to spot patterns. Short, focused lines are easier to scan.",
+        "usefulNotes": {
+          "title": "Examples of useful notes",
+          "items": [
+            "\"Entered late, chased candle, size was too large.\"",
+            "\"Followed plan, exit slightly early due to news.\"",
+            "\"Skipped setup – conditions did not match rules.\""
+          ]
+        },
+        "lessUsefulNotes": {
+          "title": "Less useful notes",
+          "items": [
+            "\"Market was crazy today\" without details.",
+            "Very emotional language with no clear observation.",
+            "No link to your written rules or plan."
+          ]
+        },
+        "note": "The objective is to create a record that your future self can understand in a few seconds."
+      },
+      "dailyRhythm": {
+        "title": "Building a daily journaling rhythm",
+        "description": "Journaling works best when it becomes part of your normal trading rhythm, not something you only do on good days.",
+        "beforeSession": {
+          "title": "Before the session",
+          "items": [
+            "Note key levels, news and planned risk for the session.",
+            "Write down what you will avoid (for example, revenge trades).",
+            "Set a simple intention for the day: \"Follow rules over P&L\"."
+          ]
+        },
+        "afterSession": {
+          "title": "After the session",
+          "items": [
+            "Summarise the day in 3–4 bullet points.",
+            "Highlight one thing you did well and one to improve.",
+            "Check if you respected your daily loss limits."
+          ]
+        }
+      },
+      "weeklyReview": {
+        "title": "How your daily notes feed weekly and monthly reviews",
+        "description": "A daily journal is raw material. Once you have several days or weeks of entries, you can step back and look for patterns that are hard to see in a single session.",
+        "steps": [
+          "Group trades by setup, market, or time of day.",
+          "Look at how results relate to rule-following or breaking.",
+          "Note which conditions tend to lead to your best and worst behaviour.",
+          "Update your written plan based on consistent findings."
+        ],
+        "note": "The Weekly Review Playbook page expands on how to run these reviews in a structured way."
+      }
+    },
+    "sidebar": {
+      "template": {
+        "title": "Minimal journal template",
+        "description": "You can adapt this to a notebook, spreadsheet or digital note app:",
+        "fields": [
+          "Date / session",
+          "Instrument / direction",
+          "Setup & reason",
+          "Risk (planned) & stop location",
+          "Result in R",
+          "Rules followed / broken",
+          "Key lesson (1–2 short lines)"
+        ],
+        "note": "Keep it small enough that you can fill it out even on busy or difficult days."
+      },
+      "tips": {
+        "title": "Practical journaling tips",
+        "items": [
+          "Write while the session is still fresh, not days later.",
+          "Be honest – the journal is for you, not for an audience.",
+          "Note emotions briefly, but focus on decisions and rules.",
+          "If you skip journaling one day, simply restart – avoid \"all or nothing\" thinking."
+        ]
+      },
+      "emotionalDecisions": {
+        "title": "Emotional decisions and high-risk markets",
+        "description": "Trading can trigger strong reactions – excitement, fear, frustration. A journal cannot remove this, but it can make patterns visible so you can work on them.",
+        "note": "If trading is causing persistent stress, anxiety or affecting other areas of your life, consider taking a step back and seeking professional support outside of markets."
+      },
+      "continueLearning": {
+        "title": "Continue learning",
+        "description": "These topics naturally connect to journaling:",
+        "topics": [
+          "Risk Management Foundations",
+          "Position Sizing Made Simple",
+          "Weekly Review Playbook"
+        ],
+        "note": "Together they help you build a process that goes beyond individual trades."
+      }
+    }
+  },
+  "weeklyReview": {
+    "breadcrumb": {
+      "weeklyReview": "Weekly review"
+    },
+    "hero": {
+      "title": "Weekly Review Playbook",
+      "subtitle": "A weekly review is where single trades become a learning curve. This page walks through a simple structure for looking at your decisions, risk and behaviour across several sessions in Forex, Crypto and Binary markets.",
+      "badges": {
+        "educationOnly": "Education only · Not trading advice",
+        "worksWith": "Works with your own broker statements and journal"
+      },
+      "conceptCard": {
+        "title": "Process review, not performance chasing",
+        "subtitle": "Focus on decisions and risk first, results second."
+      },
+      "readingTime": "Approx. reading time: 8–11 minutes."
+    },
+    "sections": {
+      "whyWeeklyReview": {
+        "title": "Why weekly review instead of only watching the P&L",
+        "description": "Single trades are noisy. A week of trades starts to show patterns in your process – where you follow your own rules, where you drift and how your risk behaviour changes after wins or losses.",
+        "points": [
+          "It zooms out from individual entries to recurring habits.",
+          "It connects your journal notes with actual outcomes.",
+          "It gives you a natural point to adjust your written plan – not mid-session, in the heat of the moment."
+        ],
+        "note": "The goal is a 20–30 minute check-in, not a complex report. Simple, consistent reviews beat rare, complicated ones."
+      },
+      "reviewStructure": {
+        "title": "A simple weekly review structure",
+        "description": "You can run a review in a notebook, spreadsheet or note app. The core idea is to ask the same set of questions every week.",
+        "snapshot": {
+          "title": "1. Quick snapshot",
+          "items": [
+            "Number of trading days and trades taken.",
+            "Overall result in risk units (for example, +2R, -1.5R).",
+            "Any rule-breaking days worth noting."
+          ]
+        },
+        "process": {
+          "title": "2. Process and behaviour",
+          "items": [
+            "Where you followed your plan well.",
+            "Where emotions or distractions took over.",
+            "Which situations led to your best and worst decisions."
+          ]
+        },
+        "setups": {
+          "title": "3. Setups and conditions",
+          "items": [
+            "Which setups you traded most, and why.",
+            "Which conditions (trend, range, news) suited you best.",
+            "Any markets or times that consistently felt difficult."
+          ]
+        },
+        "risk": {
+          "title": "4. Risk and sizing",
+          "items": [
+            "Whether you stayed within your planned risk per trade.",
+            "How you reacted after wins or losses.",
+            "Any \"spikes\" in size or risk that need a closer look."
+          ]
+        }
+      },
+      "metrics": {
+        "title": "Using simple metrics without turning trading into a spreadsheet project",
+        "description": "Metrics can help, but only if they are simple enough to maintain. A few basic numbers are usually enough to see whether your process is stable or drifting.",
+        "lightMetrics": {
+          "title": "Examples of light metrics",
+          "items": [
+            "Win / loss count in risk units.",
+            "Average risk per trade over the week.",
+            "Number of trades placed outside your written plan (if any)."
+          ]
+        },
+        "carefulWith": {
+          "title": "Things to be careful with",
+          "items": [
+            "Constantly changing rules based on very small samples of trades.",
+            "Ignoring risk and behaviour just because the week ended positive.",
+            "Chasing a \"perfect\" metric instead of learning."
+          ]
+        }
+      },
+      "adjustments": {
+        "title": "From notes to next week: making small, deliberate changes",
+        "description": "The point of a review is to adjust how you operate, not to judge yourself. Small, specific changes compound over time.",
+        "steps": [
+          "Choose one strength to keep: something you did well that week.",
+          "Choose one behaviour to adjust: for example, not trading after a certain time or reducing size after two losses.",
+          "Update your written plan or checklist with this change in plain language.",
+          "Revisit that change in the next weekly review. Did it help? If not, refine it instead of abandoning the whole idea."
+        ],
+        "note": "You do not need to change everything at once. One or two focused adjustments per week are usually enough."
+      },
+      "timing": {
+        "title": "When to run your review – and how to keep it realistic",
+        "description": "Reviews tend to work best when they happen at a regular time, separate from the emotional highs and lows of active trading.",
+        "points": [
+          "Many traders prefer the weekend or a quiet time after the final session of the week.",
+          "Block out 20–30 minutes – enough to think, not so long that you avoid it.",
+          "Keep your template short so that you can stick with it even after challenging weeks."
+        ],
+        "note": "If you miss a week, simply resume with the next one. Consistency over months is more important than never skipping a single review."
+      }
+    },
+    "sidebar": {
+      "checklist": {
+        "title": "Weekly review checklist",
+        "description": "A quick list you can keep next to your journal or platform:",
+        "items": [
+          "☐ Did I follow my written risk limits overall?",
+          "☐ Were there any clear rule breaks? Why?",
+          "☐ Which setups felt most \"in sync\" this week?",
+          "☐ Did my size change after wins or losses?",
+          "☐ What is one thing I want to carry into next week?"
+        ]
+      },
+      "prompts": {
+        "title": "Reflection prompts you can reuse",
+        "description": "Short questions you can copy into your own template:",
+        "items": [
+          "\"Where did I follow my rules under pressure?\"",
+          "\"What repeated mistake did I see this week?\"",
+          "\"Which market or time of day suits me least?\"",
+          "\"What would a more patient version of me have done?\""
+        ]
+      },
+      "expectations": {
+        "title": "About expectations and uncertainty",
+        "description": "Even with a thoughtful review process, trading Forex, Crypto and Binary options remains highly speculative. There is no guarantee that any approach will be profitable or that past patterns will repeat.",
+        "note": "Avenqor does not manage funds or provide personalised financial advice. Your decisions and outcomes in the market remain your own responsibility."
+      },
+      "continueLearning": {
+        "title": "Continue learning",
+        "description": "These pages connect directly to running a weekly review:",
+        "topics": [
+          "Daily Trade Journal Principles",
+          "Risk Management Foundations",
+          "Position Sizing Made Simple"
+        ],
+        "note": "Together they form a basic framework for observing your own process over time."
+      }
+    }
+  },
+  "preSession": {
+    "breadcrumb": {
+      "preSession": "Pre-session preparation"
+    },
+    "hero": {
+      "title": "Pre-Session Preparation Checklist",
+      "subtitle": "A short, repeatable pre-session routine can reduce rushed decisions. This page offers a practical checklist for getting your environment, platform and risk plan ready before you place a single trade.",
+      "badges": {
+        "educationOnly": "Education only · Not trading advice",
+        "appliesTo": "Applies to Forex / Crypto / Binary"
+      },
+      "conceptCard": {
+        "title": "5–10 minute routine",
+        "subtitle": "Simple enough to use before every planned session."
+      },
+      "readingTime": "Approx. reading time: 7–9 minutes."
+    },
+    "sections": {
+      "whyRoutineMatters": {
+        "title": "Why a pre-session routine matters",
+        "description": "High-risk markets can move quickly. Without a basic routine, it is easy to jump into trades based on emotion, headlines or fear of missing out instead of a written plan.",
+        "points": [
+          "It creates a clear start to each trading session.",
+          "It reminds you of your risk limits before any order.",
+          "It reduces \"impulse\" trades and last-minute changes."
+        ],
+        "note": "The aim is not perfection. The aim is a small set of steps that keep you aligned with your own rules."
+      },
+      "step1": {
+        "title": "Step 1 – Environment and focus",
+        "description": "Before thinking about charts, make sure your environment supports focused decisions.",
+        "physicalSetup": {
+          "title": "Physical setup",
+          "items": [
+            "Close unrelated apps, chats and notifications.",
+            "Keep only the platforms and tools you need open.",
+            "Check your connection and power are stable."
+          ]
+        },
+        "personalFocus": {
+          "title": "Personal focus",
+          "items": [
+            "Notice your energy level and mood honestly.",
+            "Decide whether you are in a state to follow your rules today.",
+            "If not, consider reducing risk or skipping the session."
+          ]
+        }
+      },
+      "step2": {
+        "title": "Step 2 – Platform checks and risk limits",
+        "description": "A few minutes checking your platform and risk limits can help you avoid avoidable errors.",
+        "platformCheck": {
+          "title": "Platform sanity check",
+          "items": [
+            "Confirm you are logged into the correct account.",
+            "Check position sizes and margin settings from last time.",
+            "Verify that any open orders match your plan."
+          ]
+        },
+        "riskLimits": {
+          "title": "Risk limits for this session",
+          "items": [
+            "Note your maximum risk per trade in simple numbers.",
+            "Note your daily or session loss limit.",
+            "Decide how many trades or ideas you are willing to take today."
+          ]
+        }
+      },
+      "step3": {
+        "title": "Step 3 – Markets, news and \"no-trade\" conditions",
+        "description": "You do not need to predict the future. You do need to know what you are trading into.",
+        "marketOverview": {
+          "title": "Market overview",
+          "items": [
+            "Scan the instruments you actually trade.",
+            "Note whether conditions look trending, ranging or mixed.",
+            "Be aware of overall volatility – calm, elevated or extreme."
+          ]
+        },
+        "newsRules": {
+          "title": "News and \"no-trade\" rules",
+          "items": [
+            "Check key economic events and scheduled announcements.",
+            "Decide whether your rules say to avoid trading around them.",
+            "If in doubt, consider reducing size or skipping the event entirely."
+          ]
+        }
+      },
+      "step4": {
+        "title": "Step 4 – Set a simple intention for the session",
+        "description": "A short written intention can help you remember what matters when things get busy.",
+        "examples": [
+          "\"Today I measure success by following my rules.\"",
+          "\"I will stop trading if I hit my daily loss limit.\"",
+          "\"I will avoid changing size in the middle of a session without a written reason.\""
+        ],
+        "note": "You can adapt these to your own situation. The key is that you see them before you place your first order."
+      }
+    },
+    "sidebar": {
+      "checklist": {
+        "title": "Quick pre-session checklist",
+        "description": "A version you can keep next to your platform:",
+        "items": [
+          "☐ Environment clear and focused.",
+          "☐ Logged into the correct account.",
+          "☐ Open positions and orders checked.",
+          "☐ Risk per trade and daily limit written down.",
+          "☐ Key news events reviewed.",
+          "☐ Simple session intention written."
+        ]
+      },
+      "adaptation": {
+        "title": "Adapting this to your own routine",
+        "description": "You can implement this checklist as a printed page, a note in your trading journal or a quick digital form.",
+        "items": [
+          "Start with the minimum steps you can follow consistently.",
+          "Add detail only if it clearly helps you.",
+          "Review your routine every few weeks using your journal and weekly reviews."
+        ]
+      },
+      "notToday": {
+        "title": "When your pre-session check says \"not today\"",
+        "description": "Some days, your routine may highlight that you are distracted, tired or overly focused on recent results. In high-risk markets, not trading can be a valid decision.",
+        "note": "This page does not recommend whether you personally should or should not trade. It offers a structure to help you notice your own conditions before you decide."
+      },
+      "continueLearning": {
+        "title": "Continue learning",
+        "description": "These pages connect directly to your pre-session routine:",
+        "topics": [
+          "Risk Management Foundations",
+          "Position Sizing Made Simple",
+          "Daily Trade Journal Principles",
+          "Weekly Review Playbook"
+        ],
+        "note": "Together they support a full loop: prepare, act, record and review."
+      }
+    }
+  },
+  "positionSizing": {
+    "breadcrumb": {
+      "positionSizing": "Position sizing"
+    },
+    "hero": {
+      "title": "Position Sizing Made Simple",
+      "subtitle": "Position sizing connects your risk plan to the actual size of each trade. This page walks through the core ideas behind translating account risk, stop distance and contract value into a position size for Forex, Crypto and Binary markets.",
+      "badges": {
+        "educationOnly": "Education only · Not trading advice",
+        "worksTogether": "Works together with Risk Management Foundations"
+      },
+      "conceptCard": {
+        "title": "Sizing concept overview",
+        "subtitle": "Use with your platform's own tools and calculators."
+      },
+      "readingTime": "Approx. reading time: 8–10 minutes."
+    },
+    "sections": {
+      "whySizeMatters": {
+        "title": "Why position size matters as much as direction",
+        "description1": "Choosing direction is one decision. Choosing size is another. Two traders can take the same entry but experience completely different outcomes because their position sizes are different.",
+        "question": "Position sizing answers the question:",
+        "questionHighlight": "\"How big should this trade be, given my planned risk?\"",
+        "points": [
+          "It connects the amount you are prepared to lose with the distance to your stop or expiry.",
+          "It stops \"random\" trade sizes, where one trade quietly dominates your risk.",
+          "It helps you compare ideas on a common basis: risk, not just potential profit."
+        ],
+        "note": "This page focuses on concepts. In practice you will usually use your broker's platform, ticket window or a dedicated calculator to apply them with real numbers."
+      },
+      "coreFormula": {
+        "title": "The sizing triangle: risk, distance and value per unit",
+        "description": "Most sizing approaches in leveraged markets use the same basic triangle:",
+        "riskAmount": {
+          "title": "1. Risk amount",
+          "description": "How much you are prepared to lose on this idea, usually a small portion of the account value."
+        },
+        "distanceToStop": {
+          "title": "2. Distance to stop / expiry",
+          "description": "The price distance between your entry and where the trade is considered wrong or complete."
+        },
+        "valuePerUnit": {
+          "title": "3. Value per unit",
+          "description": "How much you gain or lose per pip, point, unit or contract – defined by your broker and instrument."
+        },
+        "conclusion": "Once these three pieces are known, position size can be calculated by combining them. Platforms often do this behind the scenes, but understanding the logic helps you avoid surprises."
+      },
+      "forexExample": {
+        "title": "Conceptual example: Forex sizing logic",
+        "description": "In Forex, position size is often expressed as a number of lots. Behind the scenes, the logic connects your risk amount, the pip distance to the stop and the pip value per lot.",
+        "conceptFlow": {
+          "title": "Concept flow",
+          "steps": [
+            "Define your risk amount for this trade.",
+            "Measure the distance from entry to stop in pips.",
+            "Use your broker's pip value per lot to connect pip distance with money risked.",
+            "Choose lot size so that a full stop-out roughly equals your planned risk."
+          ],
+          "note": "The exact pip value depends on currency pair and account currency."
+        },
+        "whyExamples": {
+          "title": "Why the numbers are just examples",
+          "description": "Real calculations differ between brokers and platforms. Swap rates, tick sizes and contract specifications also matter. The point is not to memorise sample numbers, but to understand the structure of the decision."
+        }
+      },
+      "cryptoBinaryNotes": {
+        "title": "Notes for Crypto and Binary structures",
+        "cryptoMargin": {
+          "title": "Crypto margin products",
+          "description": "Many crypto products use contracts or units with their own tick values and minimum sizes. Volatility can be extreme, which makes distance-to-stop and risk amount especially important.",
+          "note": "Always check notional exposure (how much underlying you effectively control), not just margin required."
+        },
+        "binaryPayoffs": {
+          "title": "Binary-style payoffs",
+          "description": "Binary options often have a fixed payout and a fixed potential loss. In many cases the \"position size\" decision is simply how much you are willing to stake on the structure.",
+          "note": "Here, risk per trade and number of trades in a series become more important than pip or tick distance."
+        }
+      },
+      "behaviourConsistency": {
+        "title": "Consistent sizing as a behaviour, not a perfect formula",
+        "description": "Sizing is not about finding a magical percentage. It is about applying a consistent framework so that a series of trades behaves in line with your risk tolerance.",
+        "steps": [
+          "Decide a typical range of risk per trade that feels sustainable.",
+          "Use it as a ceiling – you can always choose less, but avoid \"spikes\" in risk without a clear reason.",
+          "Track whether you are actually following your own sizing rules.",
+          "Adjust slowly, based on experience and data, not on emotion after a single win or loss."
+        ],
+        "note": "Many traders find it helpful to write their sizing logic as a short checklist or decision tree that they can revisit quickly before placing orders."
+      }
+    },
+    "sidebar": {
+      "simplifiedFormula": {
+        "title": "Simplified sizing logic",
+        "description": "In many leveraged products the core idea is similar to:",
+        "formula": "Position size ≈ Risk amount ÷ (Distance × Value per unit)",
+        "note": "This is not a universal formula – contract specs, fees and other factors differ. Use it as a way to think, not as a calculator."
+      },
+      "pitfalls": {
+        "title": "Common sizing pitfalls",
+        "items": [
+          "Using the same lot size on every trade regardless of stop.",
+          "Ignoring correlations – treating similar trades as separate.",
+          "Increasing size after a loss to \"get it back\" faster.",
+          "Letting slippage and fees quietly change actual risk."
+        ],
+        "note": "Many of these are behavioural issues, not math problems."
+      },
+      "platformNote": {
+        "title": "Work with your actual platform",
+        "description": "Each broker defines contract sizes, tick values and minimum lot sizes differently. Always check how your own platform calculates profit and loss before relying on any sizing rule.",
+        "note": "If you are unsure whether a sizing approach suits your situation, consider speaking with an independent financial professional who understands high-risk markets."
+      },
+      "continueLearning": {
+        "title": "Continue learning",
+        "description": "For a fuller view of risk and process, these topics connect directly to sizing:",
+        "topics": [
+          "Risk Management Foundations",
+          "Daily Trade Journal Principles",
+          "Weekly Review Playbook"
+        ],
+        "note": "Together, they form a basic toolkit for structuring and reviewing your decisions over time."
+      }
+    }
+  },
+  "strategySnapshot": {
+    "breadcrumb": {
+      "strategySnapshot": "Strategy snapshot"
+    },
+    "hero": {
+      "title": "One-Page Strategy Snapshot",
+      "subtitle": "A strategy snapshot is a single page that captures the core of one approach – markets, timeframes, setup, risk and execution rules – so you can see it clearly while you trade.",
+      "badges": {
+        "educationOnly": "Education only · Not trading advice",
+        "worksWith": "Works with Forex / Crypto / Binary"
+      },
+      "conceptCard": {
+        "title": "Decisions first, indicators second",
+        "subtitle": "One page to remind you what this strategy is – and is not."
+      },
+      "readingTime": "Approx. reading time: 7–10 minutes."
+    },
+    "sections": {
+      "whySinglePage": {
+        "title": "Why keep your strategy on a single page",
+        "description": "Many traders collect screenshots and long notes but cannot state their strategy in a clear, short way. A one-page snapshot forces you to decide what really defines this approach.",
+        "points": [
+          "It creates a reference you can glance at during a session.",
+          "It separates the strategy from all other ideas and noise.",
+          "It makes it easier to see when you are drifting away from your own plan."
+        ],
+        "note": "You can keep snapshots for different strategies – for example, one for a Forex intraday trend setup and another for a Crypto swing approach – but each snapshot stays focused."
+      },
+      "coreBlocks": {
+        "title": "The core building blocks of a strategy snapshot",
+        "description": "However you format the page – PDF, note or whiteboard – most strategies can be described using a small set of sections.",
+        "block1": {
+          "title": "1. Market, timeframe and instruments",
+          "items": [
+            "Which markets this strategy is designed for.",
+            "Main timeframe(s) you actually take entries on.",
+            "Any instruments you specifically avoid or treat with extra caution."
+          ]
+        },
+        "block2": {
+          "title": "2. Setup definition",
+          "items": [
+            "What needs to be present for a valid setup.",
+            "How trend / range / structure should look.",
+            "What clearly makes a setup invalid."
+          ]
+        },
+        "block3": {
+          "title": "3. Risk and position sizing",
+          "items": [
+            "Planned risk per trade in simple numbers.",
+            "Maximum total risk for this strategy within a day or week.",
+            "Any rules for reducing size in high-volatility conditions."
+          ]
+        },
+        "block4": {
+          "title": "4. Execution rules and exits",
+          "items": [
+            "Where you typically place stops and targets.",
+            "What triggers an exit if the plan changes.",
+            "Situations where you deliberately choose not to enter, even if the pattern appears."
+          ]
+        }
+      },
+      "examplesAndAvoiding": {
+        "title": "Using examples without turning the snapshot into a full book",
+        "description": "Examples can make the strategy easier to understand, but the snapshot stays focused when you are selective.",
+        "helpfulToInclude": {
+          "title": "Helpful to include",
+          "items": [
+            "One or two annotated examples of clean setups.",
+            "A short note on context around each example.",
+            "A reminder that screenshots are for illustration, not for prediction."
+          ]
+        },
+        "betterToAvoid": {
+          "title": "Better to avoid",
+          "items": [
+            "Dozens of slightly different screenshots that blur the idea.",
+            "Rules that change every time the market behaves differently.",
+            "Promises or targets framed as expected results rather than scenarios."
+          ]
+        }
+      },
+      "keepingCurrent": {
+        "title": "Keeping your snapshot realistic and up to date",
+        "description": "Markets change, and so will your understanding. The snapshot is meant to evolve – but in a controlled way.",
+        "steps": [
+          "Review your snapshot during weekly or monthly reviews, not in the middle of a stressful session.",
+          "When you change a rule, write a short note on why you changed it and what you expect to see.",
+          "Use simple version labels (for example, v1.1, v1.2) so you know what you were using at different times.",
+          "If a strategy no longer fits you or the market, archive the snapshot rather than forcing it."
+        ],
+        "note": "A slightly imperfect but up-to-date snapshot is more useful than a \"perfect\" document you never actually follow."
+      }
+    },
+    "sidebar": {
+      "skeletonTemplate": {
+        "title": "Simple strategy snapshot skeleton",
+        "description": "A text-only skeleton you can copy into your own PDF or notes:",
+        "items": [
+          { "label": "Strategy name" },
+          { "label": "Markets & timeframes" },
+          { "label": "Valid setup looks like" },
+          { "label": "Invalid / avoid when" },
+          { "label": "Risk per trade" },
+          { "label": "Execution & exit rules" }
+        ]
+      },
+      "questionsToAnswer": {
+        "title": "Questions your snapshot should answer quickly",
+        "description": "When you look at the page, you should be able to answer:",
+        "questions": [
+          "\"What types of markets is this strategy for?\"",
+          "\"What clearly makes this setup invalid today?\"",
+          "\"How much can I lose if this idea fails?\"",
+          "\"When and why would I deliberately skip trading it?\""
+        ]
+      },
+      "riskNote": {
+        "title": "About strategies, risk and uncertainty",
+        "description": "Even a well-documented strategy cannot remove the uncertainty of Forex, Crypto or Binary options. Prices can move sharply and unpredictably, and losses can be larger than expected.",
+        "note": "Avenqor provides education only and does not operate as a broker or signal provider. Your trading decisions and results remain your own responsibility."
+      },
+      "continueLearning": {
+        "title": "Continue learning with Avenqor",
+        "description": "These pages connect naturally to building and using your snapshot:",
+        "topics": [
+          "Risk Management Foundations",
+          "Position Sizing Made Simple",
+          "Pre-Session Preparation Checklist",
+          "Daily Trade Journal Principles",
+          "Weekly Review Playbook"
+        ],
+        "note": "Together they help you define, apply and refine your own approaches over time."
+      }
+    }
   }
 }
 

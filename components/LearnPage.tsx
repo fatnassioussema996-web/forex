@@ -15,15 +15,56 @@ import {
   AlertTriangle,
   SlidersHorizontal,
   Clock,
-  FileText,
   Layers,
   ArrowRight,
   Info,
+  Coins,
 } from 'lucide-react'
 import Link from 'next/link'
 import { HomeSection } from './HomeSection'
+import { calculateCustomCoursePrice } from '@/lib/custom-course-pricing'
+import { calculateAIStrategyPrice } from '@/lib/ai-strategy-pricing'
+import { calculatePriceForTokens, formatPrice } from '@/lib/currency-utils'
+import { getUserCurrency } from '@/lib/currency-client'
 
 type TabKey = 'custom' | 'ai'
+
+type StrategyPreset = 'conservative' | 'balanced' | 'scalping'
+
+const STRATEGY_PRESET_PROFILES: Record<
+  StrategyPreset,
+  {
+    experienceYears: '0' | '1-2' | '3+'
+    depositBudget: '€500 - €1,000' | '€1,000 - €5,000' | '€5,000 - €20,000' | '€20,000+'
+    riskTolerance: 'low' | 'medium' | 'high'
+    tradingStyle: 'scalp' | 'day' | 'swing'
+  }
+> = {
+  conservative: {
+    experienceYears: '0',
+    depositBudget: '€500 - €1,000',
+    riskTolerance: 'low',
+    tradingStyle: 'swing',
+  },
+  balanced: {
+    experienceYears: '1-2',
+    depositBudget: '€1,000 - €5,000',
+    riskTolerance: 'medium',
+    tradingStyle: 'day',
+  },
+  scalping: {
+    experienceYears: '3+',
+    depositBudget: '€5,000 - €20,000',
+    riskTolerance: 'high',
+    tradingStyle: 'scalp',
+  },
+}
+
+const MARKET_LABELS: Record<'forex' | 'crypto' | 'binary', 'Forex' | 'Crypto' | 'Binary'> = {
+  forex: 'Forex',
+  crypto: 'Crypto',
+  binary: 'Binary',
+}
 
 function LearnTabSwitcher({
   active,
@@ -74,6 +115,64 @@ function LearnTabSwitcher({
   )
 }
 
+export function LearnPage() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const [activeTab, setActiveTab] = useState<TabKey>('custom')
+  const t = useTranslations('learn')
+  const tBreadcrumb = useTranslations('learn.breadcrumb')
+  const tInfo = useTranslations('learn.info')
+
+  useEffect(() => {
+    const tab = searchParams.get('tab')
+    if (tab === 'custom' || tab === 'ai') {
+      setActiveTab(tab)
+    }
+  }, [searchParams])
+
+  const handleTabChange = (tab: TabKey) => {
+    setActiveTab(tab)
+    router.push(`/learn?tab=${tab}`)
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-50 pb-16">
+      <main className="pt-6">
+        <HomeSection className="pb-6 space-y-6">
+          <div className="flex flex-col gap-3">
+            <div className="text-[11px] text-slate-500 flex items-center gap-1">
+              <Link href="/" className="hover:text-slate-300 transition">
+                {tBreadcrumb('home')}
+              </Link>
+              <span className="text-slate-600">/</span>
+              <span className="text-slate-300">{tBreadcrumb('learn')}</span>
+            </div>
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+              <div className="space-y-2">
+                <h1 className="text-xl sm:text-2xl font-semibold text-slate-50">{t('title')}</h1>
+                <p className="text-sm text-slate-300/90 max-w-xl">{t('subtitle')}</p>
+              </div>
+              <div className="flex flex-col items-start lg:items-end gap-2">
+                <LearnTabSwitcher active={activeTab} onChange={handleTabChange} />
+                <div className="flex items-center gap-2 text-[11px] text-slate-400">
+                  <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-950/90 border border-slate-800">
+                    <Info className="w-3 h-3 text-cyan-300" />
+                    <span>{tInfo('educationOnly')}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </HomeSection>
+
+        <HomeSection className="pb-10">
+          {activeTab === 'custom' ? <CustomCourseForm /> : <AIStrategyForm />}
+        </HomeSection>
+      </main>
+    </div>
+  )
+}
+
 function CustomCourseForm() {
   const { data: session } = useSession()
   const router = useRouter()
@@ -89,12 +188,67 @@ function CustomCourseForm() {
   const [deposit, setDeposit] = useState<string>('')
   const [riskTolerance, setRiskTolerance] = useState<string>('')
   const [tradingStyle, setTradingStyle] = useState<string>('')
-  const [timeAvailable, setTimeAvailable] = useState('')
-  const [platforms, setPlatforms] = useState('')
+  const [selectedDays, setSelectedDays] = useState<string[]>([])
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([])
   const [goals, setGoals] = useState('')
   const [notes, setNotes] = useState('')
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>(['en'])
   const [consentEducation, setConsentEducation] = useState(false)
   const [consentTerms, setConsentTerms] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [currency, setCurrency] = useState('GBP')
+
+  // Available days of the week
+  const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+  // Available platforms
+  const availablePlatforms = [
+    'MT4',
+    'MT5',
+    'TradingView',
+    'Binance',
+    'MetaTrader',
+    'cTrader',
+    'Interactive Brokers',
+    'eToro',
+    'Plus500',
+    'OANDA',
+    'IG',
+    'FXCM',
+    'Other',
+  ]
+
+  useEffect(() => {
+    setCurrency(getUserCurrency())
+  }, [])
+
+  // Calculate price based on selections
+  const totalTokens = calculateCustomCoursePrice({
+    experience: experience as 'beginner' | 'intermediate' | 'advanced' | '',
+    deposit: deposit as 'low' | 'medium' | 'high' | 'veryHigh' | '',
+    riskTolerance: riskTolerance as 'low' | 'medium' | 'high' | '',
+    markets,
+    selectedDays,
+    selectedPlatforms,
+    languages: selectedLanguages,
+  })
+
+  const userBalance = session?.user?.balance || 0
+  const hasEnoughTokens = userBalance >= totalTokens
+  const priceInCurrency = calculatePriceForTokens(totalTokens, currency)
+  const formattedPrice = formatPrice(priceInCurrency, currency)
+
+  const handleDayToggle = (day: string) => {
+    setSelectedDays((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+    )
+  }
+
+  const handlePlatformToggle = (platform: string) => {
+    setSelectedPlatforms((prev) =>
+      prev.includes(platform) ? prev.filter((p) => p !== platform) : [...prev, platform]
+    )
+  }
 
   const handleMarketToggle = (market: string) => {
     setMarkets((prev) =>
@@ -102,7 +256,21 @@ function CustomCourseForm() {
     )
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLanguageToggle = (lang: 'en' | 'ar') => {
+    setSelectedLanguages((prev) => {
+      if (prev.includes(lang)) {
+        // Don't allow removing the last language
+        if (prev.length === 1) return prev
+        return prev.filter((l) => l !== lang)
+      } else {
+        // Don't allow more than 2 languages
+        if (prev.length >= 2) return prev
+        return [...prev, lang]
+      }
+    })
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
     if (!session) {
@@ -116,7 +284,7 @@ function CustomCourseForm() {
     }
 
     // Validate required fields
-    if (!experience || markets.length === 0 || !deposit || !riskTolerance || !tradingStyle || !goals || !consentEducation || !consentTerms) {
+    if (!experience || markets.length === 0 || !deposit || !riskTolerance || !tradingStyle || !goals || selectedLanguages.length === 0 || !consentEducation || !consentTerms) {
       showToast({
         title: 'Please fill all required fields',
         variant: 'error',
@@ -124,26 +292,115 @@ function CustomCourseForm() {
       return
     }
 
-    // TODO: Implement form submission
-    console.log('Custom course form submitted', {
-      experience,
-      markets,
-      deposit,
-      riskTolerance,
-      tradingStyle,
-      timeAvailable,
-      platforms,
-      goals,
-      notes,
-      consentEducation,
-      consentTerms,
-    })
-    
-    showToast({
-      title: 'Request submitted',
-      description: 'Your custom course request has been submitted successfully.',
-      variant: 'success',
-    })
+    // Check token balance
+    if (!hasEnoughTokens) {
+      showToast({
+        title: tForm('calculator.insufficientBalance.title'),
+        description: tForm('calculator.insufficientBalance.description'),
+        variant: 'error',
+      })
+      router.push('/top-up')
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      // Map form data to API format
+      const experienceYearsMap: Record<string, string> = {
+        beginner: '0',
+        intermediate: '1-2',
+        advanced: '3+',
+      }
+
+      const marketsMap: Record<string, string> = {
+        forex: 'Forex',
+        crypto: 'Crypto',
+        binary: 'Binary',
+      }
+
+      const depositBudgetMap: Record<string, string> = {
+        low: '€500 - €1,000',
+        medium: '€1,000 - €5,000',
+        high: '€5,000 - €20,000',
+        veryHigh: '€20,000+',
+      }
+
+      // Format time commitment from selected days
+      const timeCommitment = selectedDays.length > 0
+        ? `${selectedDays.length} day(s) per week: ${selectedDays.join(', ')}`
+        : undefined
+
+      // Format platforms
+      const platformsText = selectedPlatforms.length > 0
+        ? selectedPlatforms.join(', ')
+        : undefined
+
+      const tradingStyleMap: Record<string, string> = {
+        scalping: 'scalp',
+        day: 'day',
+        swing: 'swing',
+        position: 'position',
+      }
+
+      const response = await fetch('/api/custom-course', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          experienceYears: experienceYearsMap[experience] || '0',
+          depositBudget: depositBudgetMap[deposit] || deposit,
+          riskTolerance,
+          markets: markets.map((m) => marketsMap[m] || m),
+          tradingStyle: tradingStyleMap[tradingStyle] || tradingStyle,
+          timeCommitment,
+          goalsFreeText: goals,
+          additionalNotes: notes || (platformsText ? `Platforms: ${platformsText}` : undefined),
+          languages: selectedLanguages,
+          tokensCost: totalTokens,
+        }),
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.message || error.error || 'Failed to submit request')
+      }
+
+      const data = await response.json()
+
+      // Get user email from session
+      const userEmail = session.user?.email || 'your email'
+
+      showToast({
+        title: 'Request submitted',
+        description: `Your course has been passed to our trader. In the coming days, you will receive the completed course at ${userEmail}`,
+        variant: 'success',
+      })
+
+      // Reset form after successful submission
+      setExperience('')
+      setMarkets([])
+      setDeposit('')
+      setRiskTolerance('')
+      setTradingStyle('')
+      setSelectedDays([])
+      setSelectedPlatforms([])
+      setGoals('')
+      setNotes('')
+      setSelectedLanguages(['en'])
+      setConsentEducation(false)
+      setConsentTerms(false)
+    } catch (error) {
+      console.error('Custom course submission error:', error)
+      showToast({
+        title: 'Error',
+        description: error instanceof Error ? error.message : 'Failed to submit request. Please try again.',
+        variant: 'error',
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -276,27 +533,45 @@ function CustomCourseForm() {
             </div>
           </div>
 
-          {/* Time & tools */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="space-y-1.5">
-              <label className="text-slate-200">{tForm('time.label')}</label>
-              <input
-                type="text"
-                value={timeAvailable}
-                onChange={(e) => setTimeAvailable(e.target.value)}
-                className="w-full rounded-xl bg-slate-950/80 border border-slate-800 px-3 py-2 text-[11px] text-slate-100 placeholder:text-slate-500 outline-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400"
-                placeholder={tForm('time.placeholder')}
-              />
+          {/* Time available per week - Day selector */}
+          <div className="space-y-1.5">
+            <label className="text-slate-200">{tForm('time.label')}</label>
+            <div className="flex flex-wrap gap-1.5">
+              {weekDays.map((day) => (
+                <button
+                  key={day}
+                  type="button"
+                  onClick={() => handleDayToggle(day)}
+                  className={`px-2.5 py-1 rounded-full border transition text-[11px] ${
+                    selectedDays.includes(day)
+                      ? 'border-cyan-400 bg-cyan-400/10 text-cyan-300'
+                      : 'border-slate-800 bg-slate-950/80 text-slate-200 hover:border-slate-600'
+                  }`}
+                >
+                  {tForm(`time.days.${day.toLowerCase()}`)}
+                </button>
+              ))}
             </div>
-            <div className="space-y-1.5">
-              <label className="text-slate-200">{tForm('platforms.label')}</label>
-              <input
-                type="text"
-                value={platforms}
-                onChange={(e) => setPlatforms(e.target.value)}
-                className="w-full rounded-xl bg-slate-950/80 border border-slate-800 px-3 py-2 text-[11px] text-slate-100 placeholder:text-slate-500 outline-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400"
-                placeholder={tForm('platforms.placeholder')}
-              />
+          </div>
+
+          {/* Platforms / brokers - Multi-select */}
+          <div className="space-y-1.5">
+            <label className="text-slate-200">{tForm('platforms.label')}</label>
+            <div className="flex flex-wrap gap-1.5">
+              {availablePlatforms.map((platform) => (
+                <button
+                  key={platform}
+                  type="button"
+                  onClick={() => handlePlatformToggle(platform)}
+                  className={`px-2.5 py-1 rounded-full border transition text-[11px] ${
+                    selectedPlatforms.includes(platform)
+                      ? 'border-cyan-400 bg-cyan-400/10 text-cyan-300'
+                      : 'border-slate-800 bg-slate-950/80 text-slate-200 hover:border-slate-600'
+                  }`}
+                >
+                  {platform}
+                </button>
+              ))}
             </div>
           </div>
 
@@ -325,6 +600,33 @@ function CustomCourseForm() {
               className="w-full rounded-2xl bg-slate-950/80 border border-slate-800 px-3 py-2 text-[11px] text-slate-100 placeholder:text-slate-500 outline-none resize-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400"
               placeholder={tForm('notes.placeholder')}
             />
+          </div>
+
+          {/* Language selection */}
+          <div className="space-y-1.5">
+            <label className="flex items-center justify-between gap-2">
+              <span className="text-slate-200">{tForm('language.label')}</span>
+              <span className="text-[11px] text-slate-500">{tForm('language.required')}</span>
+            </label>
+            <div className="flex flex-wrap gap-1.5">
+              {(['en', 'ar'] as const).map((lang) => (
+                <button
+                  key={lang}
+                  type="button"
+                  onClick={() => handleLanguageToggle(lang)}
+                  className={`px-2.5 py-1 rounded-full border transition ${
+                    selectedLanguages.includes(lang)
+                      ? 'border-cyan-400 bg-cyan-400/10 text-cyan-300'
+                      : 'border-slate-800 bg-slate-950/80 text-slate-200 hover:border-slate-600'
+                  }`}
+                >
+                  {tForm(`language.${lang}`)}
+                </button>
+              ))}
+            </div>
+            {selectedLanguages.length === 2 && (
+              <p className="text-[11px] text-slate-400">{tForm('language.hint')}</p>
+            )}
           </div>
 
           {/* Consents */}
@@ -359,13 +661,66 @@ function CustomCourseForm() {
             </label>
           </div>
 
+          {/* Price Calculator */}
+          <div className="bg-slate-950/90 border border-slate-800 rounded-xl p-4 space-y-2">
+            <div className="flex items-center gap-2 text-xs text-slate-200">
+              <Coins className="w-4 h-4 text-cyan-300" />
+              <span className="font-semibold">{tForm('calculator.title')}</span>
+            </div>
+            <div className="flex items-baseline justify-between">
+              <span className="text-[11px] text-slate-400">{tForm('calculator.total')}</span>
+              <div className="text-right">
+                <div className="text-lg font-bold text-cyan-300">
+                  {totalTokens.toLocaleString('en-US')} {tForm('calculator.tokens')}
+                </div>
+                <div className="text-[11px] text-slate-400">
+                  ≈ {formattedPrice}
+                </div>
+              </div>
+            </div>
+            {session && (
+              <div className="pt-2 border-t border-slate-800">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-slate-400">{tForm('calculator.balance')}</span>
+                  <span className={`font-medium ${hasEnoughTokens ? 'text-green-400' : 'text-amber-400'}`}>
+                    {userBalance.toLocaleString('en-US')} {tForm('calculator.tokens')}
+                  </span>
+                </div>
+                {!hasEnoughTokens && (
+                  <div className="mt-2 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30">
+                    <p className="text-[11px] text-amber-200">
+                      {tForm('calculator.insufficientBalance.message')}
+                    </p>
+                    <Link
+                      href="/top-up"
+                      className="inline-flex items-center gap-1 mt-1.5 text-[11px] font-medium text-cyan-300 hover:text-cyan-200"
+                    >
+                      {tForm('calculator.insufficientBalance.topUp')}
+                      <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
           <div className="flex flex-wrap items-center gap-3 pt-1">
             <button
               type="submit"
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_14px_32px_rgba(8,145,178,0.65)] transition"
+              disabled={isLoading || (session ? !hasEnoughTokens : false)}
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_14px_32px_rgba(8,145,178,0.65)] transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <span>{tForm('submit')}</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              {isLoading ? (
+                <>
+                  <span className="animate-spin">⏳</span>
+                  <span>Processing...</span>
+                </>
+              ) : (
+                <>
+                  <span>{tForm('submit')}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </>
+              )}
             </button>
             <p className="text-[11px] text-slate-400">{tForm('delivery')}</p>
           </div>
@@ -437,23 +792,105 @@ function AIStrategyForm() {
   const { showToast } = useToast()
   const t = useTranslations('learn.ai')
   const tForm = useTranslations('learn.ai.form')
-  const tOutput = useTranslations('learn.ai.output')
   const tSidebar = useTranslations('learn.ai.sidebar')
   const tAuth = useTranslations('learn.auth')
   const tCommon = useTranslations('common.auth')
 
-  const [preset, setPreset] = useState<string>('')
-  const [market, setMarket] = useState('forex')
-  const [timeframe, setTimeframe] = useState('H1')
+  const [preset, setPreset] = useState<StrategyPreset | ''>('')
+  const [market, setMarket] = useState<'forex' | 'crypto' | 'binary'>('forex')
+  const [timeframe, setTimeframe] = useState<'M15' | 'M30' | 'H1' | 'H4' | 'D1'>('H1')
   const [riskPerTrade, setRiskPerTrade] = useState('')
   const [maxTrades, setMaxTrades] = useState('')
   const [instruments, setInstruments] = useState('')
   const [focus, setFocus] = useState('')
-  const [detailLevel, setDetailLevel] = useState<string>('')
+  const [detailLevel, setDetailLevel] = useState<'quick' | 'standard' | 'deep' | ''>('')
+  const [selectedLanguages, setSelectedLanguages] = useState<Array<'en' | 'ar'>>(['en'])
   const [consent, setConsent] = useState(false)
   const [consentTerms, setConsentTerms] = useState(false)
+  const [experienceYears, setExperienceYears] = useState<'0' | '1-2' | '3+' | ''>('')
+  const [depositBudget, setDepositBudget] = useState<
+    '€500 - €1,000' | '€1,000 - €5,000' | '€5,000 - €20,000' | '€20,000+' | ''
+  >('')
+  const [riskTolerance, setRiskTolerance] = useState<'low' | 'medium' | 'high' | ''>('')
+  const [markets, setMarkets] = useState<Array<'Forex' | 'Crypto' | 'Binary'>>(['Forex'])
+  const [tradingStyle, setTradingStyle] = useState<'scalp' | 'day' | 'swing' | ''>('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [currency, setCurrency] = useState('GBP')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    setCurrency(getUserCurrency())
+  }, [])
+
+  useEffect(() => {
+    const mappedMarket = MARKET_LABELS[market]
+    setMarkets([mappedMarket])
+  }, [market])
+
+  useEffect(() => {
+    if (!preset) {
+      setExperienceYears('')
+      setDepositBudget('')
+      setRiskTolerance('')
+      setTradingStyle('')
+      return
+    }
+
+    const profile = STRATEGY_PRESET_PROFILES[preset]
+    setExperienceYears(profile.experienceYears)
+    setDepositBudget(profile.depositBudget)
+    setRiskTolerance(profile.riskTolerance)
+    setTradingStyle(profile.tradingStyle)
+  }, [preset])
+
+  const handleLanguageToggle = (lang: 'en' | 'ar') => {
+    setSelectedLanguages((prev) => {
+      if (prev.includes(lang)) {
+        if (prev.length === 1) return prev
+        return prev.filter((l) => l !== lang)
+      }
+      if (prev.length >= 2) return prev
+      return [...prev, lang]
+    })
+  }
+
+  // Map experienceYears, depositBudget, riskTolerance, markets, tradingStyle for pricing
+  // These fields are required by API but may not be visible in UI
+  const experienceMap: Record<string, 'beginner' | 'intermediate' | 'advanced' | ''> = {
+    '0': 'beginner',
+    '1-2': 'intermediate',
+    '3+': 'advanced',
+  }
+
+  const depositMap: Record<string, 'low' | 'medium' | 'high' | 'veryHigh' | ''> = {
+    '€500 - €1,000': 'low',
+    '€1,000 - €5,000': 'medium',
+    '€5,000 - €20,000': 'high',
+    '€20,000+': 'veryHigh',
+  }
+
+  // Calculate price based on selections
+  const totalTokens = calculateAIStrategyPrice({
+    preset: preset as 'conservative' | 'balanced' | 'scalping' | '',
+    market: market as 'forex' | 'crypto' | 'binary' | '',
+    timeframe: timeframe as 'M15' | 'M30' | 'H1' | 'H4' | 'D1' | '',
+    riskPerTrade,
+    maxTrades,
+    instruments,
+    detailLevel: detailLevel as 'quick' | 'standard' | 'deep' | '',
+    experience: experienceMap[experienceYears] || '',
+    deposit: depositMap[depositBudget] || '',
+    riskTolerance: riskTolerance as 'low' | 'medium' | 'high' | '',
+    markets: markets.map((m) => m.toLowerCase()),
+    tradingStyle: tradingStyle as 'scalp' | 'day' | 'swing' | '',
+    languages: selectedLanguages,
+  })
+
+  const userBalance = session?.user?.balance || 0
+  const hasEnoughTokens = userBalance >= totalTokens
+  const priceInCurrency = calculatePriceForTokens(totalTokens, currency)
+  const formattedPrice = formatPrice(priceInCurrency, currency)
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
     if (!session) {
@@ -467,7 +904,24 @@ function AIStrategyForm() {
     }
 
     // Validate required fields
-    if (!market || !timeframe || !riskPerTrade || !maxTrades || !instruments || !detailLevel || !consent || !consentTerms) {
+    if (
+      !preset ||
+      !market ||
+      !timeframe ||
+      !riskPerTrade ||
+      !maxTrades ||
+      !instruments ||
+      !detailLevel ||
+      selectedLanguages.length === 0 ||
+      !consent ||
+      !consentTerms ||
+      !experienceYears ||
+      !depositBudget ||
+      !riskTolerance ||
+      markets.length === 0 ||
+      !tradingStyle ||
+      !focus
+    ) {
       showToast({
         title: 'Please fill all required fields',
         variant: 'error',
@@ -475,25 +929,84 @@ function AIStrategyForm() {
       return
     }
 
-    // TODO: Implement form submission
-    console.log('AI strategy form submitted', {
-      preset,
-      market,
-      timeframe,
-      riskPerTrade,
-      maxTrades,
-      instruments,
-      focus,
-      detailLevel,
-      consent,
-      consentTerms,
-    })
-    
-    showToast({
-      title: 'Strategy generated',
-      description: 'Your AI strategy has been generated successfully.',
-      variant: 'success',
-    })
+    // Check token balance
+    if (!hasEnoughTokens) {
+      showToast({
+        title: tForm('calculator.insufficientBalance.title'),
+        description: tForm('calculator.insufficientBalance.description'),
+        variant: 'error',
+      })
+      router.push('/top-up')
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      const response = await fetch('/api/ai-strategy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          experienceYears,
+          depositBudget,
+          riskTolerance,
+          markets,
+          tradingStyle,
+          mainObjective: focus,
+          market,
+          timeframe,
+          riskPerTrade,
+          maxTrades,
+          instruments,
+          focus,
+          detailLevel,
+          languages: selectedLanguages,
+          tokensCost: totalTokens,
+        }),
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.message || error.error || 'Failed to generate strategy')
+      }
+
+      await response.json()
+
+      const userEmail = session.user?.email || 'your email'
+      showToast({
+        title: 'Request submitted',
+        description: `Your strategy has been passed to our trader. Expect delivery at ${userEmail} soon.`,
+        variant: 'success',
+      })
+
+      setPreset('')
+      setMarket('forex')
+      setTimeframe('H1')
+      setRiskPerTrade('')
+      setMaxTrades('')
+      setInstruments('')
+      setFocus('')
+      setDetailLevel('')
+      setSelectedLanguages(['en'])
+      setConsent(false)
+      setConsentTerms(false)
+      setExperienceYears('')
+      setDepositBudget('')
+      setRiskTolerance('')
+      setTradingStyle('')
+      setMarkets(['Forex'])
+    } catch (error) {
+      console.error('[AI Strategy] submission error:', error)
+      showToast({
+        title: 'Error',
+        description: error instanceof Error ? error.message : 'Failed to generate strategy. Please try again.',
+        variant: 'error',
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -536,7 +1049,9 @@ function AIStrategyForm() {
               <label className="text-slate-200">{tForm('market.label')}</label>
               <select
                 value={market}
-                onChange={(e) => setMarket(e.target.value)}
+                onChange={(e) =>
+                  setMarket(e.target.value as 'forex' | 'crypto' | 'binary')
+                }
                 className="w-full rounded-xl bg-slate-950/80 border border-slate-800 px-3 py-2 text-[11px] text-slate-100 outline-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400"
               >
                 <option value="forex">Forex</option>
@@ -548,7 +1063,9 @@ function AIStrategyForm() {
               <label className="text-slate-200">{tForm('timeframe.label')}</label>
               <select
                 value={timeframe}
-                onChange={(e) => setTimeframe(e.target.value)}
+                onChange={(e) =>
+                  setTimeframe(e.target.value as 'M15' | 'M30' | 'H1' | 'H4' | 'D1')
+                }
                 className="w-full rounded-xl bg-slate-950/80 border border-slate-800 px-3 py-2 text-[11px] text-slate-100 outline-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400"
               >
                 <option value="M15">M15</option>
@@ -629,6 +1146,33 @@ function AIStrategyForm() {
             </div>
           </div>
 
+          {/* Language selection */}
+          <div className="mt-4 space-y-1.5">
+            <label className="flex items-center justify-between gap-2">
+              <span className="text-slate-200">{tForm('language.label')}</span>
+              <span className="text-[11px] text-slate-500">{tForm('language.required')}</span>
+            </label>
+            <div className="flex flex-wrap gap-1.5">
+              {(['en', 'ar'] as const).map((lang) => (
+                <button
+                  key={lang}
+                  type="button"
+                  onClick={() => handleLanguageToggle(lang)}
+                  className={`px-2.5 py-1 rounded-full border transition ${
+                    selectedLanguages.includes(lang)
+                      ? 'border-cyan-400 bg-cyan-400/10 text-cyan-300'
+                      : 'border-slate-800 bg-slate-950/80 text-slate-200 hover:border-slate-600'
+                  }`}
+                >
+                  {tForm(`language.${lang}`)}
+                </button>
+              ))}
+            </div>
+            {selectedLanguages.length === 2 && (
+              <p className="text-[11px] text-slate-400">{tForm('language.hint')}</p>
+            )}
+          </div>
+
           {/* Consents */}
           <div className="mt-4 space-y-2 text-[11px] text-slate-300">
             <label className="flex items-start gap-2">
@@ -661,52 +1205,71 @@ function AIStrategyForm() {
             </label>
           </div>
 
+          {/* Price Calculator */}
+          <div className="bg-slate-950/90 border border-slate-800 rounded-xl p-4 space-y-2">
+            <div className="flex items-center gap-2 text-xs text-slate-200">
+              <Coins className="w-4 h-4 text-cyan-300" />
+              <span className="font-semibold">{tForm('calculator.title')}</span>
+            </div>
+            <div className="flex items-baseline justify-between">
+              <span className="text-[11px] text-slate-400">{tForm('calculator.total')}</span>
+              <div className="text-right">
+                <div className="text-lg font-bold text-cyan-300">
+                  {totalTokens.toLocaleString('en-US')} {tForm('calculator.tokens')}
+                </div>
+                <div className="text-[11px] text-slate-400">
+                  ≈ {formattedPrice}
+                </div>
+              </div>
+            </div>
+            {session && (
+              <div className="pt-2 border-t border-slate-800">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-slate-400">{tForm('calculator.balance')}</span>
+                  <span className={`font-medium ${hasEnoughTokens ? 'text-green-400' : 'text-amber-400'}`}>
+                    {userBalance.toLocaleString('en-US')} {tForm('calculator.tokens')}
+                  </span>
+                </div>
+                {!hasEnoughTokens && (
+                  <div className="mt-2 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30">
+                    <p className="text-[11px] text-amber-200">
+                      {tForm('calculator.insufficientBalance.message')}
+                    </p>
+                    <Link
+                      href="/top-up"
+                      className="inline-flex items-center gap-1 mt-1.5 text-[11px] font-medium text-cyan-300 hover:text-cyan-200"
+                    >
+                      {tForm('calculator.insufficientBalance.topUp')}
+                      <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
           {/* CTA + preview note */}
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button
               type="submit"
               className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_14px_32px_rgba(8,145,178,0.65)] transition disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={!consent || !consentTerms}
+              disabled={!consent || !consentTerms || isLoading || (session ? !hasEnoughTokens : false)}
             >
-              <span>{tForm('submit')}</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              {isLoading ? (
+                <>
+                  <span className="animate-spin">⏳</span>
+                  <span>Generating...</span>
+                </>
+              ) : (
+                <>
+                  <span>{tForm('submit')}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </>
+              )}
             </button>
             <p className="text-[11px] text-slate-400">{tForm('output')}</p>
           </div>
 
-          {/* Output preview placeholder */}
-          <div className="mt-4 rounded-2xl bg-slate-950/80 border border-slate-900 p-4 space-y-2">
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <div className="h-7 w-7 rounded-full bg-slate-900 flex items-center justify-center border border-slate-700">
-                  <Cpu className="w-3.5 h-3.5 text-cyan-300" />
-                </div>
-                <div>
-                  <div className="text-[11px] font-semibold text-slate-50">{tOutput('title')}</div>
-                  <div className="text-[11px] text-slate-400">{tOutput('description')}</div>
-                </div>
-              </div>
-              <div className="text-[10px] text-slate-500">{tOutput('placeholder')}</div>
-            </div>
-            <div className="mt-2 space-y-1.5 text-[11px] text-slate-300/90">
-              <p>
-                <span className="font-semibold text-slate-100">{tOutput('sections.setup')}</span>{' '}
-                {tOutput('setupDesc')}
-              </p>
-              <p>
-                <span className="font-semibold text-slate-100">{tOutput('sections.entry')}</span>{' '}
-                {tOutput('entryDesc')}
-              </p>
-              <p>
-                <span className="font-semibold text-slate-100">{tOutput('sections.risk')}</span>{' '}
-                {tOutput('riskDesc')}
-              </p>
-              <p>
-                <span className="font-semibold text-slate-100">{tOutput('sections.checklist')}</span>{' '}
-                {tOutput('checklistDesc')}
-              </p>
-            </div>
-          </div>
         </form>
       </div>
 
@@ -752,67 +1315,6 @@ function AIStrategyForm() {
           </Link>
         </motion.div>
       </div>
-    </div>
-  )
-}
-
-export function LearnPage() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const [activeTab, setActiveTab] = useState<TabKey>('custom')
-  const t = useTranslations('learn')
-  const tBreadcrumb = useTranslations('learn.breadcrumb')
-  const tInfo = useTranslations('learn.info')
-  const tNav = useTranslations('common.nav')
-
-  useEffect(() => {
-    const tab = searchParams.get('tab')
-    if (tab === 'custom' || tab === 'ai') {
-      setActiveTab(tab)
-    }
-  }, [searchParams])
-
-  const handleTabChange = (tab: TabKey) => {
-    setActiveTab(tab)
-    router.push(`/learn?tab=${tab}`)
-  }
-
-  return (
-    <div className="min-h-screen bg-slate-950 text-slate-50 pb-16">
-      <main className="pt-6">
-        {/* Intro + tabs */}
-        <HomeSection className="pb-6 space-y-6">
-          <div className="flex flex-col gap-3">
-            <div className="text-[11px] text-slate-500 flex items-center gap-1">
-              <Link href="/" className="hover:text-slate-300 transition">
-                {tBreadcrumb('home')}
-              </Link>
-              <span className="text-slate-600">/</span>
-              <span className="text-slate-300">{tBreadcrumb('learn')}</span>
-            </div>
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
-              <div className="space-y-2">
-                <h1 className="text-xl sm:text-2xl font-semibold text-slate-50">{t('title')}</h1>
-                <p className="text-sm text-slate-300/90 max-w-xl">{t('subtitle')}</p>
-              </div>
-              <div className="flex flex-col items-start lg:items-end gap-2">
-                <LearnTabSwitcher active={activeTab} onChange={handleTabChange} />
-                <div className="flex items-center gap-2 text-[11px] text-slate-400">
-                  <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-950/90 border border-slate-800">
-                    <Info className="w-3 h-3 text-cyan-300" />
-                    <span>{tInfo('educationOnly')}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </HomeSection>
-
-        {/* Content by tab */}
-        <HomeSection className="pb-10">
-          {activeTab === 'custom' ? <CustomCourseForm /> : <AIStrategyForm />}
-        </HomeSection>
-      </main>
     </div>
   )
 }

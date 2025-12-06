@@ -6,7 +6,7 @@ import { useCart } from '@/contexts/CartContext'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import Image from 'next/image'
-import { X, ShoppingCart, ArrowLeft } from 'lucide-react'
+import { X, ShoppingCart, ArrowLeft, Coins, PlusCircle, BookOpen } from 'lucide-react'
 import { calculatePriceForTokens, formatPrice } from '@/lib/currency-utils'
 import { getUserCurrency } from '@/lib/currency-client'
 import { getCourseImagePath } from '@/lib/course-image-utils'
@@ -20,14 +20,31 @@ export default function CartPage() {
   const tCommon = useTranslations('common.buttons')
   const tNav = useTranslations('common.nav')
   const [currency, setCurrency] = useState('GBP')
+  const [locale, setLocale] = useState('en')
 
   useEffect(() => {
     setCurrency(getUserCurrency())
+    // Get locale from cookie
+    const cookies = document.cookie.split(';')
+    const localeCookie = cookies.find((c) => c.trim().startsWith('user_locale='))
+    if (localeCookie) {
+      const loc = localeCookie.split('=')[1]?.trim()
+      if (loc === 'ar' || loc === 'en') {
+        setLocale(loc)
+      }
+    }
   }, [])
 
   const total = getCartTotal(currency)
   const totalPrice = calculatePriceForTokens(total.tokens, currency)
   const formattedPrice = formatPrice(totalPrice, currency)
+
+  // Helper function to determine cart item type
+  function getCartItemType(slug: string): 'token-pack' | 'custom-top-up' | 'course' {
+    if (slug.startsWith('token-pack-')) return 'token-pack'
+    if (slug.startsWith('custom-top-up')) return 'custom-top-up'
+    return 'course'
+  }
 
   if (items.length === 0) {
     return (
@@ -71,8 +88,10 @@ export default function CartPage() {
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
               {items.map((item) => {
-                const imagePath = getCourseImagePath(item.slug)
-                const displayTitle = item.title_ar || item.title
+                const itemType = getCartItemType(item.slug)
+                const imagePath = itemType === 'course' ? getCourseImagePath(item.slug) : null
+                // Use localized title if available and locale is Arabic
+                const displayTitle = locale === 'ar' && item.title_ar ? item.title_ar : item.title
                 const itemPrice = calculatePriceForTokens(item.tokens, currency)
                 const formattedItemPrice = formatPrice(itemPrice, currency)
 
@@ -93,7 +112,17 @@ export default function CartPage() {
                           />
                         </div>
                       ) : (
-                        <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-xl bg-slate-900 border border-slate-700 flex-shrink-0" />
+                        <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-center flex-shrink-0">
+                          {itemType === 'token-pack' && (
+                            <Coins className="w-6 h-6 sm:w-8 sm:h-8 text-cyan-300" />
+                          )}
+                          {itemType === 'custom-top-up' && (
+                            <PlusCircle className="w-6 h-6 sm:w-8 sm:h-8 text-cyan-300" />
+                          )}
+                          {itemType === 'course' && (
+                            <BookOpen className="w-6 h-6 sm:w-8 sm:h-8 text-cyan-300" />
+                          )}
+                        </div>
                       )}
 
                       <div className="flex-1 min-w-0">
@@ -108,12 +137,14 @@ export default function CartPage() {
                             </div>
                           </div>
                           <div className="flex items-center gap-3">
-                            <Link
-                              href={`/courses/${item.slug}`}
-                              className="text-xs text-cyan-300 hover:text-cyan-200 transition"
-                            >
-                              {t('item.viewCourse')}
-                            </Link>
+                            {itemType === 'course' && (
+                              <Link
+                                href={`/courses/${item.slug}`}
+                                className="text-xs text-cyan-300 hover:text-cyan-200 transition"
+                              >
+                                {t('item.viewCourse')}
+                              </Link>
+                            )}
                             <button
                               onClick={() => removeFromCart(item.slug)}
                               className="p-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800 rounded-lg transition"

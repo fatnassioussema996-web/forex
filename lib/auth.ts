@@ -13,7 +13,7 @@ export async function getCurrentUser() {
 
   try {
     const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
+      where: { id: parseInt(session.user.id) },
       select: {
         id: true,
         email: true,

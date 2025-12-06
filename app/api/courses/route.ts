@@ -1,7 +1,7 @@
 // app/api/courses/route.ts - API route for fetching courses
 
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { prisma, withPrismaRetry } from '@/lib/prisma'
 import { demoCourses } from '@/src/data/courses'
 
 // Helper function to capitalize first letter
@@ -17,7 +17,9 @@ function transformStaticCourse(course: typeof demoCourses[0], index: number) {
     level: capitalizeFirst(course.level),
     market: capitalizeFirst(course.market),
     title: course.title,
+    title_ar: undefined, // Static courses don't have Arabic translations
     description: course.shortDescription,
+    description_ar: undefined, // Static courses don't have Arabic translations
     tokens: course.price.tokens,
     price_gbp: course.price.GBP,
   }
@@ -25,21 +27,24 @@ function transformStaticCourse(course: typeof demoCourses[0], index: number) {
 
 export async function GET() {
   try {
-    const courses = await prisma.course.findMany({
+    const courses = await withPrismaRetry(() =>
+      prisma.course.findMany({
       select: {
         id: true,
         slug: true,
         level: true,
         market: true,
         title: true,
+        title_ar: true,
         description: true,
+        description_ar: true,
         tokens: true,
         price_gbp: true,
       },
       orderBy: {
         created_at: 'desc',
       },
-    })
+    }))
 
     return NextResponse.json(courses)
   } catch (error: any) {

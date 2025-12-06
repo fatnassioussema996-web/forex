@@ -80,7 +80,7 @@ export default function TopUpForm({ currency, currencyConfig, presets }: TopUpFo
     }
   }
 
-  const handleSubmit = async (isLucky: boolean, button: HTMLButtonElement) => {
+  const handleSubmit = async (button: HTMLButtonElement) => {
     const numAmount = parseFloat(sanitize(amount))
     
     if (isNaN(numAmount) || numAmount < 0.01) {
@@ -108,7 +108,6 @@ export default function TopUpForm({ currency, currencyConfig, presets }: TopUpFo
         body: JSON.stringify({
           amount: numAmount,
           currency: currency,
-          lucky: isLucky,
         }),
       })
 
@@ -224,20 +223,11 @@ export default function TopUpForm({ currency, currencyConfig, presets }: TopUpFo
           <button
             type="button"
             id="checkout-button"
-            onClick={(e) => handleSubmit(false, e.currentTarget)}
+            onClick={(e) => handleSubmit(e.currentTarget)}
             disabled={isLoading}
             className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-full shadow-[0_14px_32px_rgba(8,145,178,0.65)] text-sm font-semibold text-slate-950 bg-cyan-400 hover:bg-cyan-300 disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
             Add Tokens
-          </button>
-          <button
-            type="button"
-            id="lucky-button"
-            onClick={(e) => handleSubmit(true, e.currentTarget)}
-            disabled={isLoading}
-            className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-full shadow-sm text-sm font-semibold text-slate-950 bg-amber-400 hover:bg-amber-300 disabled:opacity-50 disabled:cursor-not-allowed transition"
-          >
-            I Feel Lucky (+10% to 25% Bonus)
           </button>
         </div>
       </form>

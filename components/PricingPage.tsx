@@ -185,7 +185,7 @@ export function PricingPage() {
                   ))}
                 </ul>
                 <Link
-                  href="/top-up"
+                  href={`/checkout?pack=${pack.id}`}
                   className="mt-2 inline-flex items-center justify-center px-4 py-2 text-xs sm:text-sm font-semibold rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_14px_32px_rgba(8,145,178,0.65)] transition"
                 >
                   {t('tokenPacks.buyPack', { name: pack.name })}
@@ -238,13 +238,13 @@ export function PricingPage() {
                     <span className="text-slate-500">·</span>
                     <span>USD</span>
                     <span className="text-slate-500">·</span>
-                    <span>AED</span>
+                    <span>SR</span>
                   </div>
                 </div>
                 <div className="text-[11px] text-slate-400">{t('customTopUp.minAmount')}</div>
               </div>
               <Link
-                href="/top-up"
+                href={`/checkout?custom=${customAmount}&currency=${currency}`}
                 className="mt-2 inline-flex items-center justify-center px-4 py-2 text-xs sm:text-sm font-semibold rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300 shadow-[0_14px_32px_rgba(8,145,178,0.65)] transition"
               >
                 {t('customTopUp.buyCta')}

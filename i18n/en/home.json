@@ -66,6 +66,12 @@
     "levelFilters": ["All", "Beginner", "Intermediate", "Advanced"],
     "marketFilters": ["Forex", "Crypto", "Binary"]
   },
+  "testimonials": {
+    "title": "What our students say",
+    "subtitle": "Real feedback from traders who use Avenqor courses and strategies.",
+    "video1Label": "Student testimonial video 1",
+    "video2Label": "Student testimonial video 2"
+  },
   "paths": {
     "title": "Three ways to learn with Avenqor.",
     "subtitle": "Pick the format that fits your current stage and time.",
@@ -77,7 +83,7 @@
       },
       {
         "title": "Custom course by a pro trader",
-        "text": "Share your experience, deposit size, risk tolerance and goals. Receive a tailored PDF within 48–96 hours.",
+        "text": "Share your experience, deposit size, risk tolerance and goals. Receive a tailored PDF.",
         "badge": "Delivered via email",
         "cta": "Request custom course"
       },
@@ -99,7 +105,7 @@
       },
       {
         "title": "Add balance or pay directly",
-        "text": "Use tokens across products or pay in EUR, GBP, USD or AED at checkout."
+        "text": "Use tokens across products or pay in EUR, GBP, USD or SR at checkout."
       },
       {
         "title": "Get your PDF",
@@ -125,7 +131,7 @@
       },
       {
         "title": "Direct course payments",
-        "text": "Pay for ready-made courses in EUR, GBP, USD or AED at checkout."
+        "text": "Pay for ready-made courses in EUR, GBP, USD or SR at checkout."
       }
     ],
     "ctaPricing": "View full pricing & tokens"
@@ -140,7 +146,7 @@
         "id": "focused-start",
         "name": "Focused Start",
         "subtitle": "First courses and AI plans.",
-        "tokens": 4000,
+        "tokens": 4386,
         "description": "simple entry pack.",
         "benefits": [
           "Good for starting with one course or a few AI strategies.",
@@ -152,7 +158,7 @@
         "id": "structured-growth",
         "name": "Structured Growth",
         "subtitle": "Most popular balance.",
-        "tokens": 7000,
+        "tokens": 17544,
         "description": "better rate per token.",
         "benefits": [
           "Comfortable room for several courses and AI strategies.",
@@ -164,7 +170,7 @@
         "id": "discipline-pro",
         "name": "Discipline Pro",
         "subtitle": "For long-term learners.",
-        "tokens": 10000,
+        "tokens": 30702,
         "description": "best value per token.",
         "benefits": [
           "For systematic study across levels and markets.",

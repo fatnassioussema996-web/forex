@@ -1,0 +1,107 @@
+{
+  "breadcrumb": {
+    "home": "Home",
+    "resources": "Resources"
+  },
+  "hero": {
+    "title": "Checklists and templates to support your routines.",
+    "subtitle": "Short, focused PDFs that live next to your Avenqor courses and AI strategies. Print them, pin them, or keep them open while you work – they are built for real trading desks, not slideshows.",
+    "features": {
+      "checklists": "Risk and process checklists that fit on a single page.",
+      "templates": "Templates for sizing, journaling and weekly reviews.",
+      "behaviour": "Focus on behaviour and risk, not entries alone."
+    },
+    "sideCard": {
+      "title": "How resources connect to your courses",
+      "subtitle": "Think of them as tools that sit next to your PDFs.",
+      "paragraph1": "When you work through an Avenqor course, you will see references to supporting resources: checklists, templates and review sheets. This page is the hub where you can access them in one place.",
+      "paragraph2": "Some resources may unlock together with specific courses, while others will be available to all signed-in users as part of general education material."
+    }
+  },
+  "resources": {
+    "title": "Core Avenqor resources.",
+    "subtitle": "This is a preview set. In production, the list will grow as new courses and AI templates are released.",
+    "disclaimer": "Downloads here are placeholders – links will be wired to real PDFs in-app.",
+    "downloadPreview": "Download preview",
+    "items": [
+      {
+        "type": "template",
+        "title": "Risk Management Foundations",
+        "subtitle": "Guide · Start here",
+        "description": "A clear overview of how to limit risk before you even think about entries: account-level risk, risk per trade, daily loss limits and what to do after a losing streak.",
+        "format": "PDF · A4",
+        "focus": "Risk · All markets",
+        "cta": "Learn more"
+      },
+      {
+        "type": "template",
+        "title": "Position Sizing Made Simple",
+        "subtitle": "Guide · Sizing basics",
+        "description": "How to connect account size, risk percentage and stop distance to position size or lot size – with simple examples for Forex, Crypto and Binary structures.",
+        "format": "PDF · A4",
+        "focus": "Risk / Sizing · Forex · Crypto",
+        "cta": "Learn more"
+      },
+      {
+        "type": "worksheet",
+        "title": "Daily Trade Journal Principles",
+        "subtitle": "Framework · Process",
+        "description": "What a useful trading journal actually tracks: entries and exits, reasoning, rule breaks, screenshots and emotional notes – without turning journaling into a second job.",
+        "format": "PDF · A4",
+        "focus": "Process · All markets",
+        "cta": "See framework"
+      },
+      {
+        "type": "worksheet",
+        "title": "Weekly Review Playbook",
+        "subtitle": "Framework · Review",
+        "description": "A simple loop to review the last week: what worked, what did not, where rules were broken and which adjustments you'll test next week.",
+        "format": "PDF · A4",
+        "focus": "Process / Psychology · All markets",
+        "cta": "See framework"
+      },
+      {
+        "type": "checklist",
+        "title": "Pre-Session Preparation",
+        "subtitle": "Checklist · Routine",
+        "description": "A short, repeatable routine for the 15–20 minutes before you look at any chart: environment, focus, key levels, important news and risk limits for the session.",
+        "format": "PDF · A4",
+        "focus": "Routine · All markets",
+        "cta": "View checklist"
+      },
+      {
+        "type": "template",
+        "title": "Strategy Snapshot Overview",
+        "subtitle": "Guide · Strategy map",
+        "description": "How to summarise any strategy on a single page: market conditions, setup criteria, entry/exit rules, risk model and the typical mistakes to watch for.",
+        "format": "PDF · A4",
+        "focus": "Strategy · All markets",
+        "cta": "View overview"
+      }
+    ]
+  },
+  "infoCards": {
+    "useWithCourses": {
+      "title": "Use with your courses",
+      "subtitle": "Attach each resource to a specific module.",
+      "description": "Many Avenqor PDFs will include small icons or notes that link directly to a matching resource – for example, a risk checklist near the risk chapter or a journal sheet near a process module."
+    },
+    "buildRoutines": {
+      "title": "Build steady routines",
+      "subtitle": "Use the same sheets for at least a few weeks.",
+      "description": "Instead of constantly switching tools, pick a small set of resources you actually use daily: one journal page, one checklist and one weekly review. Adjust them only when you see patterns over time."
+    },
+    "focusBehaviour": {
+      "title": "Focus on behaviour",
+      "subtitle": "Keep notes on rules, not just outcomes.",
+      "description": "When you review filled-out checklists and journals, pay attention to how often you followed your own rules. The goal is to build discipline first; performance metrics come after."
+    }
+  },
+  "cta": {
+    "title": "Resources support your decisions – they do not replace them.",
+    "subtitle": "Checklists and templates can help you stay organised and consistent. They do not remove market risk or guarantee any outcome. Avenqor remains education only.",
+    "browseCourses": "Browse courses",
+    "generateAI": "Generate AI strategy"
+  }
+}
+

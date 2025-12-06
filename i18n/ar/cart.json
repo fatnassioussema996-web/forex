@@ -49,7 +49,8 @@
       "successDescription": "تم تقديم طلبك بنجاح.",
       "failed": "فشل الدفع",
       "failedDescription": "تعذر معالجة الدفع. يرجى المحاولة مرة أخرى.",
-      "processing": "جاري المعالجة..."
+      "processing": "جاري المعالجة...",
+      "tokenPurchaseOnlyCard": "يمكن شراء باقات الرموز والشحن المخصص فقط بالبطاقة."
     },
     "placeOrder": "تأكيد الطلب",
     "backToCart": "العودة إلى السلة",

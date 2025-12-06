@@ -21,7 +21,9 @@ interface CoursesPageCardProps {
     level: string
     market: string
     title: string
+    title_ar?: string | null
     description: string
+    description_ar?: string | null
     tokens: number
     price_gbp: number
     modules?: number
@@ -31,6 +33,7 @@ interface CoursesPageCardProps {
 
 export function CoursesPageCard({ course }: CoursesPageCardProps) {
   const [currency, setCurrency] = useState('GBP')
+  const [locale, setLocale] = useState('en')
   const { addToCart } = useCart()
   const { showToast } = useToast()
   const t = useTranslations('courses.course')
@@ -39,6 +42,15 @@ export function CoursesPageCard({ course }: CoursesPageCardProps) {
 
   useEffect(() => {
     setCurrency(getUserCurrency())
+    // Get locale from cookie
+    const cookies = document.cookie.split(';')
+    const localeCookie = cookies.find((c) => c.trim().startsWith('user_locale='))
+    if (localeCookie) {
+      const loc = localeCookie.split('=')[1]?.trim()
+      if (loc === 'ar' || loc === 'en') {
+        setLocale(loc)
+      }
+    }
   }, [])
 
   const handleAddToCart = () => {
@@ -47,6 +59,7 @@ export function CoursesPageCard({ course }: CoursesPageCardProps) {
       id: course.id,
       slug: course.slug,
       title: course.title,
+      title_ar: course.title_ar || undefined,
       tokens: course.tokens,
       price_gbp: course.price_gbp,
       image: imagePath || undefined,
@@ -58,13 +71,17 @@ export function CoursesPageCard({ course }: CoursesPageCardProps) {
   }
 
   // Calculate price from tokens: 1.00 GBP = 100 tokens
-  // Calculate price from tokens: 1.00 GBP = 100 tokens
   const priceAmount = calculatePriceForTokens(course.tokens, currency)
   const price = formatPrice(priceAmount, currency)
   const tokensFormatted = course.tokens.toLocaleString('en-US')
   
   // Estimate modules count (can be enhanced with actual data later)
   const estimatedModules = Math.ceil(course.tokens / 1000) || 7
+
+  // Use localized title and description if available
+  const displayTitle = locale === 'ar' && course.title_ar ? course.title_ar : course.title
+  const displayDescription =
+    locale === 'ar' && course.description_ar ? course.description_ar : course.description
 
   // Get course image path
   const imagePath = getCourseImagePath(course.slug)
@@ -98,26 +115,27 @@ export function CoursesPageCard({ course }: CoursesPageCardProps) {
 
       <div className="flex items-start gap-3">
         {hasImage ? (
-          <div className="relative h-16 w-16 sm:h-20 sm:w-20 rounded-xl overflow-hidden border border-slate-700 flex-shrink-0">
+          <div className="relative h-24 w-24 sm:h-32 sm:w-32 rounded-xl overflow-hidden border border-slate-700 flex-shrink-0">
             <Image
               src={imagePath}
-              alt={course.title}
+              alt={displayTitle}
               fill
               className="object-cover"
-              sizes="(max-width: 640px) 64px, 80px"
+              sizes="(max-width: 640px) 96px, 128px"
+              quality={95}
             />
           </div>
         ) : (
-          <div className="h-9 w-9 rounded-xl bg-slate-900 flex items-center justify-center border border-slate-700 flex-shrink-0">
-            <BookOpen className="w-4 h-4 text-cyan-300" />
+          <div className="h-24 w-24 sm:h-32 sm:w-32 rounded-xl bg-slate-900 flex items-center justify-center border border-slate-700 flex-shrink-0">
+            <BookOpen className="w-6 h-6 sm:w-8 sm:h-8 text-cyan-300" />
           </div>
         )}
         <div className="space-y-1">
           <h2 className="text-sm sm:text-[15px] font-semibold text-slate-50">
-            {course.title}
+            {displayTitle}
           </h2>
           <p className="text-xs text-slate-300/90 leading-relaxed">
-            {course.description}
+            {displayDescription}
           </p>
         </div>
       </div>

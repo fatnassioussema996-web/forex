@@ -100,7 +100,7 @@ export function RegisterPage() {
           setError(t('errors.emailExists'))
         } else if (data.error === 'INVALID_EMAIL') {
           setError(t('errors.emailInvalid'))
-        } else if (data.error === 'DATABASE_UNAVAILABLE') {
+        } else if (data.error === 'DATABASE_UNAVAILABLE' || data.error === 'DATABASE_CONFIGURATION_ERROR' || data.error === 'DATABASE_ERROR') {
           setError(t('errors.databaseUnavailable'))
         } else {
           setError(data.error || t('errors.generic'))

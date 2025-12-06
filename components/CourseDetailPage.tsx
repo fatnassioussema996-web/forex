@@ -208,18 +208,7 @@ export function CourseDetailPage({ course }: CourseDetailPageProps) {
       {/* Header */}
       <header className="sticky top-0 z-20 border-b border-slate-900/80 bg-slate-950/90 backdrop-blur-xl">
         <HomeSection className="py-3 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-xs font-bold tracking-tight">
-              AV
-            </div>
-            <div className="flex flex-col">
-              <span className="font-semibold tracking-tight text-sm">Avenqor</span>
-              <span className="text-[11px] uppercase tracking-[0.16em] text-slate-400">
-                Course detail
-              </span>
-            </div>
-          </div>
-          <div className="hidden md:flex items-center gap-3 text-[11px] text-slate-400">
+          <div className="hidden md:flex items-center gap-3 text-[11px] text-slate-400 ml-auto">
             <span className="inline-flex items-center gap-1">
               <ShieldCheck className="w-3 h-3 text-cyan-300" />
               {t('header.educationOnly')}
@@ -450,7 +439,7 @@ export function CourseDetailPage({ course }: CourseDetailPageProps) {
             </div>
 
             {/* Who this is for / not for */}
-            <div className="lg:col-span-5 space-y-4">
+            <div className="lg:col-span-5 space-y-4 lg:pt-[70px]">
               <motion.div
                 className="bg-slate-950/80 border border-slate-900 rounded-2xl p-4 flex flex-col gap-2"
                 whileHover={{ y: -3 }}
@@ -566,7 +555,7 @@ export function CourseDetailPage({ course }: CourseDetailPageProps) {
               </div>
             </div>
 
-            <div className="lg:col-span-5 space-y-3">
+            <div className="lg:col-span-5 space-y-3 lg:pt-[70px]">
               <motion.div
                 className="bg-slate-950/90 border border-slate-900 rounded-2xl p-4 flex flex-col gap-2"
                 whileHover={{ y: -3 }}

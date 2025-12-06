@@ -1,121 +1,104 @@
-# RecipeGen - AI-Powered Recipe Generator
+# Avenqor – Trading Education & AI Workbench
 
-RecipeGen is an intelligent web platform that generates personalized recipes using advanced AI technology (OpenAI GPT-4o & DALL-E 3). Users can customize their recipes based on ingredients, dietary restrictions, cuisine preferences, and cooking goals.
+Avenqor is a bilingual (English + Modern Standard Arabic) education platform for retail traders.  
+It combines curated PDF courses, trader-tailored custom PDFs, and AI-generated strategies powered by OpenAI (GPT-5/GPT-4o class models) with a secure token-based billing system.
 
-## 🚀 Features
+## 🚀 Highlights
 
-- **AI-Powered Generation**: Leverages OpenAI GPT-4o for intelligent recipe generation and DALL-E 3 for recipe images
-- **Multi-Currency Support**: GBP (£) and EUR (€) with dynamic conversion
-- **Token-Based System**: Prepaid credits system for accessing generation features
-- **Google OAuth 2.0**: Secure authentication with Google Sign-In
-- **PDF Export**: Generate downloadable recipe PDFs with Puppeteer
-- **Responsive Design**: Built with Tailwind CSS for mobile and desktop
-- **User Dashboard**: Track token balance, generation history, and account settings
+- **AI & Custom Generation** – Structured custom courses and AI strategies (PDF + diagrams) delivered via email and dashboard.
+- **Token Economy** – Users top up GBP-based packs (with automatic EUR/USD/SR conversion) and spend tokens on courses/AI/services.
+- **Multi-Currency & i18n** – GBP/EUR/USD/Saudi Riyal display + locale-aware PDFs (English or Arabic).
+- **Checkout & Billing** – Card-only payments (Visa/Mastercard), receipts & invoices (Puppeteer PDFs), dashboard analytics, transactions, receipts download.
+- **Authentication & Security** – NextAuth (credentials + Google), password reset via email, localized email templates, structured logging.
+- **Content Library** – Ready-made courses, `/learn` knowledge base pages, `/resources` hub, and dashboard library with downloads.
+- **Modern UX** – Next.js App Router, Tailwind + Framer Motion animations, responsive layout, dashboard navigation, embedded testimonial videos.
 
-## 🛠️ Tech Stack
+## 🛠 Tech Stack
 
-- **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript
-- **Database**: MySQL (Prisma ORM)
-- **Frontend**: React, Tailwind CSS
-- **AI Integration**: OpenAI API (GPT-4o, DALL-E 3)
-- **Authentication**: NextAuth.js (Email/Password + Google OAuth)
-- **PDF Generation**: Puppeteer (serverless-compatible)
-- **Email**: Nodemailer (SMTP)
-- **Deployment**: Vercel
+| Layer | Tech |
+| --- | --- |
+| Framework | Next.js 14 (App Router), React 18, TypeScript |
+| Styling & UI | Tailwind CSS, Framer Motion, Lucide Icons |
+| State/Forms | React Hook Form + Zod, Zustand (cart), Toast hooks |
+| Database | PostgreSQL (Neon), Prisma ORM with retry logic |
+| Auth | NextAuth.js (credentials + Google OAuth) |
+| AI & PDFs | OpenAI SDK, Puppeteer Core + @sparticuz/chromium |
+| Email | Nodemailer (SMTP) |
+| i18n | next-intl (en + ar) |
+| Deployment | Vercel (serverless-friendly) |
 
 ## 📋 Prerequisites
 
-- Node.js >= 18.0
-- MySQL >= 5.7 (or PlanetScale for production)
-- npm or yarn
-- OpenAI API Key
-- Google OAuth 2.0 credentials
+- Node.js ≥ 18
+- PostgreSQL instance (Neon recommended)
+- npm (shipped) or yarn/pnpm
+- OpenAI API access + SMTP credentials + Google OAuth keys
 
-## ⚙️ Installation
+## ⚙️ Setup
 
-### 1. Clone the repository
-
+### 1. Clone & install
 ```bash
-git clone <repository-url>
-cd recipegen
-```
-
-### 2. Install dependencies
-
-```bash
+git clone <repo-url>
+cd forex_crypto
 npm install
 ```
 
-### 3. Set up environment variables
+### 2. Environment variables
+Copy `.env.example` → `.env.local` and fill in:
 
-Copy `.env.example` to `.env.local` and fill in your credentials:
+| Var | Purpose |
+| --- | --- |
+| `DATABASE_URL` | Neon/Postgres URL (`?pgbouncer=true&sslmode=require`) |
+| `NEXTAUTH_SECRET`, `NEXTAUTH_URL` | NextAuth config |
+| `GOOGLE_CLIENT_ID/SECRET` | Google OAuth |
+| `OPENAI_API_KEY`, optional org ID | AI generation |
+| `SMTP_HOST/PORT/USER/PASS/FROM` | Nodemailer |
+| `TOKEN_BASE_CURRENCY`, pricing multipliers | Token logic |
+| Any extra keys referenced in `lib/config.ts` or docs |
 
+> Keep `.env.local` out of git. Update `.env.example` when new secrets appear.
+
+### 3. Database
 ```bash
-cp .env.example .env.local
+npm run db:generate        # prisma generate
+npm run db:migrate:deploy  # apply migrations
+# optional seeds
+npm run db:seed
 ```
 
-Required environment variables:
-- `DATABASE_URL` - MySQL connection string
-- `NEXTAUTH_SECRET` - Generate with `openssl rand -base64 32`
-- `NEXTAUTH_URL` - Your application URL
-- `OPENAI_API_KEY` - Your OpenAI API key
-- `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` - Google OAuth credentials
-- `TM_API_KEY` and `TM_SIGNING_KEY` - TransferMit payment gateway credentials
-- Email configuration (SMTP settings)
-
-### 4. Set up the database
-
+### 4. Dev & QA
 ```bash
-# Generate Prisma Client
-npm run db:generate
-
-# Push schema to database (or use migrations)
-npm run db:push
+npm run dev        # http://localhost:3000
+npm run lint
+npm run typecheck  # tsc --noEmit
+npm run build      # runs `prebuild` (rimraf .next) + next build
 ```
 
-### 5. Run the development server
+For production deploys, follow `docs/vercel-build-plan.md` (envs, build steps, smoke tests).
 
-```bash
-npm run dev
+## 🗂 Project Structure (excerpt)
+```
+├── app/
+│   ├── api/…              # REST endpoints (auth, courses, billing, AI, etc.)
+│   ├── dashboard/…        # Dashboard routes (settings, receipts, ai-strategies…)
+│   ├── learn/, resources/ # Public content pages
+│   └── …                  # Contact, pricing, terms, privacy, etc.
+├── components/            # UI blocks (Header, BillingPage, Course cards…)
+├── lib/                   # prisma.ts, currency utils, AI pricing, email helpers
+├── prisma/                # schema + migrations + seed
+├── public/                # static assets: PDFs, videos, logos
+├── scripts/               # tooling (course pricing, PDF generation helpers)
+├── docs/                  # cleanup checklist, Vercel build plan, specs
+└── README.md              # you are here
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+## 🔐 Security & Compliance
+- Secrets only in env variables (never hard-coded).
+- Passwords hashed (bcrypt); reset via signed tokens + email.
+- Billing: card payments only, tokens deducted for services; receipts PDF’d + emailed.
+- Education-only posture enforced in UI copy, emails, legal docs.
 
-## 📚 Documentation
-
-- **Quick Start**: See `QUICK_START.md` for detailed setup instructions
-- **Migration Status**: See `MIGRATION_STATUS.md` for migration progress
-- **Next.js Setup**: See `README_NEXTJS.md` for Next.js-specific documentation
-
-## 🗂️ Project Structure
-
-```
-├── app/                    # Next.js App Router pages
-│   ├── api/                # API routes
-│   ├── about/              # About page
-│   ├── cabinet/            # User dashboard
-│   ├── contact/            # Contact page
-│   ├── faq/                # FAQ page
-│   └── ...                 # Other pages
-├── components/             # React components
-├── lib/                    # Utility functions
-├── prisma/                 # Prisma schema
-├── public/                 # Static assets
-└── types/                  # TypeScript type definitions
-```
-
-## 🔐 Security
-
-- All API keys are stored in environment variables (`.env.local`)
-- Passwords are hashed using bcrypt
-- Sessions are managed securely via NextAuth.js
-- Payment processing via PCI DSS-compliant gateway
-
-## 📝 License
-
-Copyright © 2025 WINTER WORLD LIMITED. All Rights Reserved.
-
-## 📧 Contact
-
-For support, email: [info@recipegen.co.uk](mailto:info@recipegen.co.uk)
+## 📝 License & Contact
+- Proprietary © 2025 OVERSEAS SUPPORT LIMITED (Avenqor). All rights reserved.
+- Support: `info@avenqor.net`
+- For deployment/runbooks see `DEPLOYMENT.md`, `VERCEL_DEPLOY.md`, and `docs/`.

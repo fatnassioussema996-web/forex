@@ -5,13 +5,13 @@
 import { useState, useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
 import { motion, useInView } from 'framer-motion'
-import { SlidersHorizontal, Search, ShieldCheck, AlertTriangle } from 'lucide-react'
+import { SlidersHorizontal, Search, ShieldCheck, AlertTriangle, BookOpen } from 'lucide-react'
 import Link from 'next/link'
 import { HomeSection } from './HomeSection'
 import { CoursesPageCard } from './CoursesPageCard'
 
-type Level = 'Beginner' | 'Intermediate' | 'Advanced'
-type Market = 'Forex' | 'Crypto' | 'Binary'
+type Level = 'General' | 'Beginner' | 'Intermediate' | 'Advanced'
+type Market = 'General' | 'Forex' | 'Crypto' | 'Binary'
 
 interface Course {
   id: number
@@ -88,6 +88,7 @@ export function CoursesPage() {
 
   const levelFilters: Array<Level | 'All levels'> = [
     'All levels',
+    'General',
     'Beginner',
     'Intermediate',
     'Advanced',
@@ -95,6 +96,7 @@ export function CoursesPage() {
 
   const marketFilters: Array<Market | 'All markets'> = [
     'All markets',
+    'General',
     'Forex',
     'Crypto',
     'Binary',
@@ -263,9 +265,15 @@ export function CoursesPage() {
                   whileHover={{ y: -3 }}
                   transition={{ type: 'spring', stiffness: 260, damping: 22 }}
                 >
-                  <div className="inline-flex items-center gap-2 text-[11px] px-2 py-1 rounded-full bg-slate-900/80 border border-slate-800 w-max">
-                    <ShieldCheck className="w-3 h-3 text-cyan-300" />
-                    <span className="text-slate-200">{t('sidebar.educationOnly.title')}</span>
+                  <div className="flex items-center justify-end gap-3 text-[11px] text-slate-400">
+                    <span className="inline-flex items-center gap-1">
+                      <ShieldCheck className="w-3 h-3 text-cyan-300" />
+                      {t('detail.header.educationOnly')}
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <BookOpen className="w-3 h-3 text-cyan-300" />
+                      {t('detail.header.pdfFormat')}
+                    </span>
                   </div>
                   <p className="text-xs text-slate-300/90 mt-1">
                     {t('sidebar.educationOnly.description')}

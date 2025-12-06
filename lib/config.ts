@@ -7,6 +7,49 @@ export const config = {
   },
   openai: {
     apiKey: process.env.OPENAI_API_KEY || '',
+    // Models configuration
+    models: {
+      // Text generation models
+      // Using GPT-4o mini: $0.15/M input, $0.60/M output (cost-efficient)
+      strategy: process.env.OPENAI_STRATEGY_MODEL || 'gpt-4o-mini', // For AI Strategy
+      // Using GPT-4o for regular course generation: more powerful, better at following instructions
+      // GPT-4o: $2.50/M input, $10.00/M output (higher cost but better quality and efficiency)
+      course: process.env.OPENAI_COURSE_MODEL || 'gpt-4o', // For regular course generation (scripts)
+      // Using GPT-4.1-mini for Custom Course: 32K output tokens (vs 16K for gpt-4o)
+      // GPT-4.1-mini: $0.40/M input, $1.60/M output (cost-efficient with higher token limit)
+      customCourse: process.env.OPENAI_CUSTOM_COURSE_MODEL || 'gpt-4.1-mini', // For Custom Course generation
+      // Image generation models
+      // Using GPT Image 1 mini: Cost-efficient version of GPT Image 1
+      image: process.env.OPENAI_IMAGE_MODEL || 'gpt-image-1-mini', // For image generation
+    },
+    // Generation settings
+    settings: {
+      strategy: {
+        temperature: 0.7, // Balanced for creative but structured output
+        maxTokens: 16384, // GPT-4o mini supports up to 16K output tokens
+      },
+      course: {
+        temperature: 0.3, // Lower temperature for structured JSON output
+        maxTokens: 16384, // GPT-4o supports up to 16K output tokens for structured outputs
+      },
+      customCourse: {
+        temperature: 0.3, // Lower temperature for structured JSON output
+        maxTokens: 32768, // GPT-4.1-mini supports up to 32K output tokens (double the limit of gpt-4o)
+      },
+      image: {
+        size: '1024x1024', // GPT Image 1 mini: '1024x1024', '1024x1536', '1536x1024', 'auto'
+        quality: 'medium', // GPT Image 1 mini: 'low', 'medium', 'high', 'auto'
+        n: 1,
+      },
+    },
+      // Timeouts (in milliseconds)
+      timeouts: {
+        strategy: 60000, // 60 seconds
+        course: 1200000, // 1200 seconds (20 minutes) - increased for complex courses that may take longer
+        translation: 2700000, // 2700 seconds (45 minutes) - translation can take longer for very large courses (80+ KB)
+        image: 120000, // 120 seconds (2 minutes) - image generation can take time
+        pdf: 120000, // 120 seconds (2 minutes) - PDF generation timeout for Puppeteer
+      },
   },
   transfermit: {
     apiUrl: process.env.TM_API_URL || 'https://app.transfermit.com/api/v1',
@@ -18,7 +61,8 @@ export const config = {
     url: process.env.NEXTAUTH_URL || 'http://localhost:3000',
   },
   smtp: {
-    host: process.env.SMTP_HOST || 'mail.privateemail.com',
+    // For Hostinger: use 'smtp.hostinger.com' or 'smtp.titan.email' (if using Titan Email)
+    host: process.env.SMTP_HOST || 'smtp.hostinger.com',
     port: parseInt(process.env.SMTP_PORT || '465'),
     user: process.env.SMTP_USER || '',
     pass: process.env.SMTP_PASS || '',

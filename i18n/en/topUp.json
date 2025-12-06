@@ -1,0 +1,19 @@
+{
+  "title": "Top up your token balance",
+  "subtitle": "Choose a token pack that fits your learning goals. Tokens work across all Avenqor courses and AI strategies.",
+  "packs": {
+    "title": "Token packs",
+    "subtitle": "Pre-configured packs with the best value for different learning needs.",
+    "mostPopular": "Most popular"
+  },
+  "customTopUp": {
+    "title": "Custom top-up",
+    "subtitle": "Set any amount, we convert it to tokens automatically.",
+    "amountLabel": "Amount",
+    "minAmount": "Minimum 0.01 in the currency selected in the header. No maximum – larger top-ups are simply converted to tokens.",
+    "cta": "Continue to payment"
+  },
+  "buyPack": "Buy {name}",
+  "tokens": "tokens"
+}
+

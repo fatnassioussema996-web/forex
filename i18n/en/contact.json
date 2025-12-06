@@ -1,0 +1,149 @@
+{
+  "breadcrumb": {
+    "home": "Home",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Contact Avenqor with clear, practical questions.",
+    "subtitle": "Use this form for questions about courses, billing, tokens or your account. We respond with straightforward information – never trade calls or promises.",
+    "quickNotes": {
+      "responseWindow": {
+        "label": "Typical response window:",
+        "value": "within 1–2 business days"
+      },
+      "faq": {
+        "text": "For course details, check",
+        "link": "FAQ",
+        "suffix": "first."
+      },
+      "noTrades": {
+        "text": "We cannot comment on",
+        "highlight": "specific trades or positions",
+        "suffix": "."
+      }
+    },
+    "sideCard": {
+      "title": "Contact channels",
+      "subtitle": "All routes go into the same support queue.",
+      "channels": [
+        {
+          "title": "In-app support form",
+          "description": "Fastest for account, course and token questions."
+        },
+        {
+          "title": "Support email",
+          "description": "Displayed in the footer and legal documents."
+        },
+        {
+          "title": "Legal & compliance",
+          "description": "Use \"Legal & compliance\" as topic for formal requests."
+        }
+      ],
+      "urgentNote": {
+        "text": "For urgent issues with",
+        "highlight": "access or payments",
+        "suffix": ", mention it in the subject line so we can triage faster."
+      }
+    }
+  },
+  "form": {
+    "title": "Send a message to Avenqor",
+    "subtitle": "All fields marked with * are required.",
+    "fields": {
+      "fullName": {
+        "label": "Full name *",
+        "placeholder": "Your name"
+      },
+      "email": {
+        "label": "Email address *",
+        "placeholder": "name@example.com"
+      },
+      "region": {
+        "label": "Region *",
+        "placeholder": "Select region",
+        "hint": "Typical regions: EU, UK, UAE or Other."
+      },
+      "topic": {
+        "label": "Topic *",
+        "placeholder": "Choose a topic",
+        "hint": "Examples: Courses, Tokens & billing, Account access, Legal & compliance, Other."
+      },
+      "accountId": {
+        "label": "Account ID (optional)",
+        "placeholder": "If relevant, paste your Avenqor ID",
+        "hint": "Helps us locate your purchases faster."
+      },
+      "language": {
+        "label": "Preferred reply language",
+        "placeholder": "Select language"
+      },
+      "message": {
+        "label": "Your message *",
+        "placeholder": "Describe your question in clear, practical terms. Please do not include sensitive account security data or full card numbers."
+      }
+    },
+    "warning": {
+      "text": "We cannot: review your open trades, advise to open/close positions, or tell you which instruments to trade."
+    },
+    "consent": {
+      "text": "I understand that Avenqor provides education only and this message will not result in personalised investment or trading advice."
+    },
+    "submit": {
+      "button": "Send message",
+      "sending": "Sending...",
+      "success": "Message sent successfully! We'll respond within 1–2 business days.",
+      "error": "Failed to send message. Please try again later or email us directly."
+    }
+  },
+  "sideInfo": {
+    "beforeYouSend": {
+      "title": "Before you send a message",
+      "subtitle": "A quick checklist to save you time.",
+      "items": [
+        {
+          "text": "For general platform behaviour, check the",
+          "link": "FAQ",
+          "suffix": "first."
+        },
+        {
+          "text": "For risk and positioning of Avenqor, see",
+          "link": "Risk & Disclaimer",
+          "suffix": "."
+        },
+        {
+          "text": "For legal entities and data handling, see",
+          "link1": "Terms & Conditions",
+          "and": "and",
+          "link2": "Privacy Policy",
+          "suffix": "."
+        }
+      ]
+    },
+    "regions": {
+      "title": "Regions we focus on",
+      "subtitle": "Context for examples and content.",
+      "items": [
+        {
+          "name": "EU",
+          "description": "Education structured with EU context in mind."
+        },
+        {
+          "name": "UK",
+          "description": "Examples written for UK-based learners as well."
+        },
+        {
+          "name": "UAE",
+          "description": "Focus on learners accessing global markets from UAE."
+        }
+      ],
+      "note": "We will always answer using a neutral, education-first tone – even if your question is about a very specific product or instrument."
+    }
+  },
+  "cta": {
+    "title": "Prefer to start with self-service?",
+    "subtitle": "Many questions about courses, tokens and account access are covered in our FAQ, glossary and resources. You can always come back here if you still need help.",
+    "openFaq": "Open FAQ",
+    "viewResources": "View resources"
+  }
+}
+

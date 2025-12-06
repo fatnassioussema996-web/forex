@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { ShieldCheck, FileText, Cpu, SlidersHorizontal, Compass, CreditCard, Repeat, Coins, PlusCircle, ShoppingCart, BookOpenCheck, FolderKanban, AlertTriangle, Layers, UserCog } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 import { HomeSection } from '@/components/HomeSection'
 import { HeroSlideshow } from '@/components/HeroSlideshow'
 import { TradingViewWidget } from '@/components/TradingViewWidget'
@@ -13,43 +14,98 @@ import { CourseCard } from '@/components/CourseCard'
 import { PathCard } from '@/components/PathCard'
 import FAQAccordion from '@/components/FAQAccordion'
 import { TokenPacks } from '@/components/TokenPacks'
+import { TestimonialsVideos } from '@/components/TestimonialsVideos'
 
-// Temporary course data - will be replaced with DB data
-// Note: price_gbp is kept for backward compatibility but not used in calculations
-// Prices are calculated from tokens: 1.00 GBP = 100 tokens
-const featuredCourses = [
-  {
-    level: 'Beginner',
-    market: 'Forex',
-    title: 'Forex Foundations: From Zero to First Trade',
-    desc: 'Build a base in Forex – from key terms and order types to risk per trade and journaling.',
-    price_gbp: 79, // 7900 tokens / 100 = 79 GBP
-    tokens: 7900,
-    slug: 'forex-foundations',
-  },
-  {
-    level: 'Intermediate',
-    market: 'Crypto',
-    title: 'Crypto Volatility Structures',
-    desc: 'Understand volatility cycles, liquidity zones and structured approaches to managing crypto swings.',
-    price_gbp: 99, // 9900 tokens / 100 = 99 GBP
-    tokens: 9900,
-    slug: 'crypto-volatility',
-  },
-  {
-    level: 'Advanced',
-    market: 'Binary',
-    title: 'Binary Risk & Payout Geometry',
-    desc: 'A deep dive into payout curves, risk stacking and how to structure binary exposure.',
-    price_gbp: 119, // 11900 tokens / 100 = 119 GBP
-    tokens: 11900,
-    slug: 'binary-risk',
-  },
-]
+interface FeaturedCourse {
+  level: string
+  market: string
+  title: string
+  desc: string
+  price_gbp: number
+  tokens: number
+  slug: string
+}
 
 export default function HomePage() {
   const t = useTranslations('home')
   const tCommon = useTranslations('common')
+  const [featuredCourses, setFeaturedCourses] = useState<FeaturedCourse[]>([])
+  const [isLoadingCourses, setIsLoadingCourses] = useState(true)
+
+  // Load featured courses from database (one from each level: Beginner, Intermediate, Advanced)
+  useEffect(() => {
+    async function fetchFeaturedCourses() {
+      setIsLoadingCourses(true)
+      try {
+        const response = await fetch('/api/courses')
+        if (response.ok) {
+          const courses = await response.json()
+          
+          // Select one course from each level: Beginner, Intermediate, Advanced
+          const beginnerCourse = courses.find((c: any) => c.level === 'Beginner')
+          const intermediateCourse = courses.find((c: any) => c.level === 'Intermediate')
+          const advancedCourse = courses.find((c: any) => c.level === 'Advanced')
+          
+          const selectedCourses: FeaturedCourse[] = []
+          
+          // Helper function to truncate description
+          const truncateDescription = (desc: string, maxLength: number = 120): string => {
+            if (!desc) return ''
+            if (desc.length <= maxLength) return desc
+            return desc.substring(0, maxLength).trim() + '...'
+          }
+          
+          if (beginnerCourse) {
+            selectedCourses.push({
+              level: beginnerCourse.level,
+              market: beginnerCourse.market,
+              title: beginnerCourse.title,
+              desc: truncateDescription(beginnerCourse.description || ''),
+              price_gbp: Number(beginnerCourse.price_gbp),
+              tokens: beginnerCourse.tokens,
+              slug: beginnerCourse.slug,
+            })
+          }
+          
+          if (intermediateCourse) {
+            selectedCourses.push({
+              level: intermediateCourse.level,
+              market: intermediateCourse.market,
+              title: intermediateCourse.title,
+              desc: truncateDescription(intermediateCourse.description || ''),
+              price_gbp: Number(intermediateCourse.price_gbp),
+              tokens: intermediateCourse.tokens,
+              slug: intermediateCourse.slug,
+            })
+          }
+          
+          if (advancedCourse) {
+            selectedCourses.push({
+              level: advancedCourse.level,
+              market: advancedCourse.market,
+              title: advancedCourse.title,
+              desc: truncateDescription(advancedCourse.description || ''),
+              price_gbp: Number(advancedCourse.price_gbp),
+              tokens: advancedCourse.tokens,
+              slug: advancedCourse.slug,
+            })
+          }
+          
+          setFeaturedCourses(selectedCourses)
+        } else {
+          console.warn('Failed to fetch courses, using empty array')
+          setFeaturedCourses([])
+        }
+      } catch (error) {
+        console.error('Error fetching featured courses:', error)
+        setFeaturedCourses([])
+      } finally {
+        setIsLoadingCourses(false)
+      }
+    }
+    
+    fetchFeaturedCourses()
+  }, [])
 
   return (
     <div className="bg-slate-950 text-slate-50 min-h-screen relative">
@@ -172,10 +228,32 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {featuredCourses.map((course) => (
-              <CourseCard key={course.slug} course={course} />
-            ))}
+            {isLoadingCourses ? (
+              // Loading skeleton
+              Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="flex flex-col bg-slate-900/60 border border-slate-800 rounded-2xl p-5 gap-4 animate-pulse">
+                  <div className="aspect-[16/9] rounded-xl bg-slate-800/40" />
+                  <div className="h-4 bg-slate-800/40 rounded w-3/4" />
+                  <div className="h-3 bg-slate-800/40 rounded w-full" />
+                  <div className="h-3 bg-slate-800/40 rounded w-5/6" />
+                </div>
+              ))
+            ) : featuredCourses.length > 0 ? (
+              featuredCourses.map((course) => (
+                <CourseCard key={course.slug} course={course} />
+              ))
+            ) : (
+              // Fallback if no courses found
+              <div className="col-span-3 text-center text-slate-400 text-sm py-8">
+                No courses available at the moment.
+              </div>
+            )}
           </div>
+        </HomeSection>
+
+        {/* Testimonials videos */}
+        <HomeSection className="pb-14">
+          <TestimonialsVideos />
         </HomeSection>
 
         {/* Three ways to learn */}

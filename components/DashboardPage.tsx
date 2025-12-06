@@ -24,8 +24,10 @@ import {
   History,
 } from 'lucide-react'
 import { HomeSection } from './HomeSection'
-import { calculatePriceForTokens, formatPrice } from '@/lib/currency-utils'
+import { DashboardNavigation } from './DashboardNavigation'
+import { calculatePriceForTokens, formatPrice, convertAmount } from '@/lib/currency-utils'
 import { getUserCurrency } from '@/lib/currency-client'
+import { getCoursePdfPath } from '@/lib/course-pdf-utils'
 
 interface CourseItem {
   type: 'course' | 'ai' | 'custom'
@@ -34,6 +36,9 @@ interface CourseItem {
   status: string
   market: string
   level?: string
+  slug?: string // Course slug for PDF download
+  purchaseLanguage?: string // Language used when purchasing (en | ar)
+  id?: string // Custom course ID
 }
 
 interface Transaction {
@@ -42,6 +47,8 @@ interface Transaction {
   date: string
   amount: string
   meta: string
+  amountGbp?: number // Amount in GBP for currency conversion
+  tokens?: number // Token amount for display
 }
 
 export function DashboardPage() {
@@ -50,10 +57,150 @@ export function DashboardPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [currency, setCurrency] = useState('GBP')
+  const [transactions, setTransactions] = useState<Transaction[]>([])
+  const [isLoadingTransactions, setIsLoadingTransactions] = useState(true)
+  const [recentItems, setRecentItems] = useState<CourseItem[]>([])
+  const [isLoadingCourses, setIsLoadingCourses] = useState(true)
 
   useEffect(() => {
     setCurrency(getUserCurrency())
   }, [])
+
+  // Load transactions from API
+  useEffect(() => {
+    async function fetchTransactions() {
+      if (!session?.user?.id) return
+
+      try {
+        setIsLoadingTransactions(true)
+        const response = await fetch('/api/transactions?limit=10')
+        if (response.ok) {
+          const data = await response.json()
+          // Transform API response to Transaction format
+          const formattedTransactions: Transaction[] = data.transactions.map((tx: any) => {
+            // Calculate price in selected currency
+            let priceInCurrency = ''
+            if (tx.amount && tx.amount > 0) {
+              // For top-ups: convert GBP amount to selected currency
+              const priceAmount = convertAmount(tx.amount, 'GBP', currency)
+              priceInCurrency = formatPrice(priceAmount, currency)
+            } else if (tx.tokens && tx.tokens < 0) {
+              // For token deductions: calculate price from tokens
+              const tokensAbs = Math.abs(tx.tokens)
+              const priceAmount = calculatePriceForTokens(tokensAbs, currency)
+              priceInCurrency = formatPrice(priceAmount, currency)
+            }
+
+            // Format amount display: price + tokens
+            const tokensDisplay =
+              tx.tokens > 0
+                ? `+${tx.tokens.toLocaleString('en-US')} tokens`
+                : `${tx.tokens.toLocaleString('en-US')} tokens`
+
+            return {
+              type: tx.type,
+              detail: tx.detail,
+              date: new Date(tx.date).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              }),
+              amount: priceInCurrency ? `${priceInCurrency} · ${tokensDisplay}` : tokensDisplay,
+              meta: tx.meta,
+              amountGbp: tx.amount,
+              tokens: tx.tokens,
+            }
+          })
+          setTransactions(formattedTransactions)
+        }
+      } catch (error) {
+        console.error('Failed to load transactions:', error)
+      } finally {
+        setIsLoadingTransactions(false)
+      }
+    }
+
+    if (status === 'authenticated') {
+      fetchTransactions()
+    }
+  }, [session?.user?.id, status, currency])
+
+  // Load purchased courses and AI strategies from API
+  useEffect(() => {
+    async function fetchCourses() {
+      if (!session?.user?.id) return
+
+      try {
+        setIsLoadingCourses(true)
+        
+        // Fetch purchased courses
+        const coursesResponse = await fetch('/api/courses/purchased')
+        let purchasedCourses: any[] = []
+        if (coursesResponse.ok) {
+          const coursesData = await coursesResponse.json()
+          purchasedCourses = coursesData.courses || []
+        }
+
+        // Fetch AI strategies (from transactions or separate endpoint)
+        // For now, we'll get them from transactions
+        const transactionsResponse = await fetch('/api/transactions?limit=20')
+        let aiStrategies: any[] = []
+        if (transactionsResponse.ok) {
+          const txData = await transactionsResponse.json()
+          aiStrategies = txData.transactions
+            .filter((tx: any) => tx.type === 'AI strategy')
+            .map((tx: any) => ({
+              type: 'ai' as const,
+              label: 'AI Strategy',
+              title: tx.detail,
+              status: tx.meta?.split(' · ')[1] || 'ready',
+              market: tx.meta?.split(' · ')[0] || '',
+            }))
+        }
+
+        // Fetch custom courses
+        const customCoursesResponse = await fetch('/api/custom-courses')
+        let customCourses: CourseItem[] = []
+        if (customCoursesResponse.ok) {
+          const customCoursesData = await customCoursesResponse.json()
+          customCourses = (customCoursesData.courses || []).map((course: any) => ({
+            type: 'custom' as const,
+            label: 'Custom Course',
+            title: course.title,
+            status: course.status, // 'Processing' or 'Completed'
+            market: course.market,
+            level: course.level,
+            id: course.id,
+          }))
+        }
+
+        // Transform purchased courses to CourseItem format
+        const courseItems: CourseItem[] = purchasedCourses.map((course: any) => ({
+          type: 'course' as const,
+          label: 'Course',
+          title: course.title,
+          status: 'Completed',
+          market: course.market,
+          level: course.level,
+          slug: course.slug,
+          purchaseLanguage: course.purchaseLanguage || 'en',
+        }))
+
+        // Combine and sort by date (most recent first)
+        // Custom courses should appear first (most recent)
+        const allItems = [...customCourses, ...courseItems, ...aiStrategies]
+        setRecentItems(allItems)
+      } catch (error) {
+        console.error('Failed to load courses:', error)
+      } finally {
+        setIsLoadingCourses(false)
+      }
+    }
+
+    if (status === 'authenticated') {
+      fetchCourses()
+    }
+  }, [session?.user?.id, status])
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -80,65 +227,14 @@ export function DashboardPage() {
   const balancePrice = calculatePriceForTokens(userBalance, currency)
   const formattedBalancePrice = formatPrice(balancePrice, currency)
 
-  // Static data for preview (will be replaced with real data later)
-  const recentItems: CourseItem[] = [
-    {
-      type: 'course',
-      label: t('library.item.labels.pdfCourse'),
-      title: 'Forex Foundations: From Zero to First Trade',
-      status: 'Completed',
-      market: 'Forex',
-      level: 'Beginner',
-    },
-    {
-      type: 'ai',
-      label: t('library.item.labels.aiStrategy'),
-      title: 'Intraday structure on EURUSD (M30)',
-      status: 'Ready',
-      market: 'Forex',
-    },
-    {
-      type: 'custom',
-      label: t('library.item.labels.customCourse'),
-      title: 'Crypto swing framework for part-time trader',
-      status: 'In progress',
-      market: 'Crypto',
-    },
-  ]
+  // Custom course status (will be loaded from API later if needed)
+  const customCourseStatus = null // 'pending' | 'inProgress' | 'ready' | null
+  const customCourseTitle = ''
 
-  const transactions: Transaction[] = [
-    {
-      type: t('transactions.types.topUp'),
-      detail: 'Structured Growth token pack',
-      date: '2025-06-11',
-      amount: '- £69.99',
-      meta: '+ 7 000 tokens',
-    },
-    {
-      type: t('transactions.types.course'),
-      detail: 'Crypto Volatility Structures (PDF)',
-      date: '2025-06-09',
-      amount: '- 2 300 tokens',
-      meta: 'Course purchase',
-    },
-    {
-      type: t('transactions.types.aiStrategy'),
-      detail: 'Balanced swing plan (BTCUSDT)',
-      date: '2025-06-08',
-      amount: '- 400 tokens',
-      meta: 'AI generation',
-    },
-    {
-      type: t('transactions.types.customCourse'),
-      detail: 'Binary risk foundations (PDF)',
-      date: '2025-06-02',
-      amount: '- 3 500 tokens',
-      meta: 'Custom course request',
-    },
-  ]
-
-  const customCourseStatus = 'inProgress' // 'pending' | 'inProgress' | 'ready' | null
-  const customCourseTitle = 'Crypto swing framework for part-time trader'
+  // Statistics (will be replaced with real data from API later)
+  const tokensSpentLast30Days = 0
+  const aiStrategiesGenerated = 0
+  const coursesUnlocked = 0
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-50 pb-16">
@@ -147,6 +243,9 @@ export function DashboardPage() {
       <div className="fixed inset-0 -z-10 opacity-30 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.28),_transparent_50%),_radial-gradient(circle_at_bottom,_rgba(129,140,248,0.18),_transparent_55%)]" />
 
       <main className="pt-6">
+        {/* Dashboard Navigation */}
+        <DashboardNavigation />
+
         {/* Overview */}
         <HomeSection className="pb-8 space-y-5">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
@@ -223,7 +322,11 @@ export function DashboardPage() {
                   <div className="flex items-center gap-2 text-[11px] text-slate-300">
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-400/60 text-amber-200">
                       <Clock className="w-3 h-3" />
-                      <span>{t('kpi.customCourse.status.inProgress')}</span>
+                      <span>
+                        {customCourseStatus === 'pending' && t('kpi.customCourse.status.pending')}
+                        {customCourseStatus === 'inProgress' && t('kpi.customCourse.status.inProgress')}
+                        {customCourseStatus === 'ready' && t('kpi.customCourse.status.ready')}
+                      </span>
                     </span>
                   </div>
                   <div className="text-[11px] text-slate-400">{t('kpi.customCourse.explanation')}</div>
@@ -243,14 +346,24 @@ export function DashboardPage() {
                 <span className="text-[11px] text-slate-400">{t('kpi.recentActivity.title')}</span>
                 <Sparkles className="w-4 h-4 text-cyan-300" />
               </div>
-              <div className="text-sm font-semibold text-slate-50">
-                {t('kpi.recentActivity.subtitle', { count: 3 })}
-              </div>
-              <ul className="mt-1 space-y-1.5 text-[11px] text-slate-300/90">
-                <li>{t('kpi.recentActivity.completedCourse', { title: 'Forex Foundations: From Zero to First Trade' })}</li>
-                <li>{t('kpi.recentActivity.generatedAI', { title: 'EURUSD (M30)' })}</li>
-                <li>{t('kpi.recentActivity.requestedCustom', { market: 'crypto' })}</li>
-              </ul>
+              {recentItems.length > 0 ? (
+                <>
+                  <div className="text-sm font-semibold text-slate-50">
+                    {t('kpi.recentActivity.subtitle', { count: recentItems.length })}
+                  </div>
+                  <ul className="mt-1 space-y-1.5 text-[11px] text-slate-300/90">
+                    {recentItems.slice(0, 3).map((item, index) => (
+                      <li key={index}>
+                        {item.type === 'course' && t('kpi.recentActivity.completedCourse', { title: item.title })}
+                        {item.type === 'ai' && t('kpi.recentActivity.generatedAI', { title: item.title })}
+                        {item.type === 'custom' && t('kpi.recentActivity.requestedCustom', { market: item.market.toLowerCase() })}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <div className="text-sm text-slate-300">{t('kpi.recentActivity.noActivity')}</div>
+              )}
             </motion.div>
           </div>
         </HomeSection>
@@ -320,12 +433,12 @@ export function DashboardPage() {
                           <div className="text-xs font-semibold text-slate-50">{item.title}</div>
                           <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-400">
                             <span className="inline-flex items-center gap-1">
-                              {item.status === 'Completed' && <CheckCircle2 className="w-3 h-3 text-emerald-300" />}
-                              {item.status === 'In progress' && <Clock className="w-3 h-3 text-amber-300" />}
+                              {(item.status === 'Completed' || item.status === 'completed') && <CheckCircle2 className="w-3 h-3 text-emerald-300" />}
+                              {(item.status === 'Processing' || item.status === 'processing' || item.status === 'In progress') && <Clock className="w-3 h-3 text-amber-300" />}
                               {item.status === 'Ready' && <Sparkles className="w-3 h-3 text-cyan-300" />}
                               <span>
-                                {item.status === 'Completed' && t('library.item.status.completed')}
-                                {item.status === 'In progress' && t('library.item.status.inprogress')}
+                                {(item.status === 'Completed' || item.status === 'completed') && t('library.item.status.completed')}
+                                {(item.status === 'Processing' || item.status === 'processing' || item.status === 'In progress') && t('library.item.status.inprogress')}
                                 {item.status === 'Ready' && t('library.item.status.ready')}
                               </span>
                             </span>
@@ -335,13 +448,30 @@ export function DashboardPage() {
                         </div>
                       </div>
                       <div className="flex sm:flex-col items-end sm:items-end gap-2 text-[11px]">
-                        <button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-slate-100 text-slate-950 font-semibold hover:bg-slate-200 transition">
-                          <span>{item.type === 'ai' ? t('library.item.openOutput') : t('library.item.openPDF')}</span>
-                        </button>
-                        <button className="inline-flex items-center gap-1 text-slate-300 hover:text-cyan-200 transition">
-                          <span>{t('library.item.details')}</span>
-                          <ArrowRight className="w-3 h-3" />
-                        </button>
+                        {item.type === 'course' && item.slug ? (
+                          <a
+                            href={getCoursePdfPath(item.slug, item.purchaseLanguage || 'en')}
+                            download
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-slate-100 text-slate-950 font-semibold hover:bg-slate-200 transition"
+                          >
+                            <span>{t('library.item.downloadPDF')}</span>
+                          </a>
+                        ) : item.type === 'custom' && (item.status === 'Completed' || item.status === 'completed') ? (
+                          <Link
+                            href="/dashboard/custom-courses"
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-slate-100 text-slate-950 font-semibold hover:bg-slate-200 transition"
+                          >
+                            <span>{t('library.item.downloadPDF')}</span>
+                          </Link>
+                        ) : item.type === 'custom' && (item.status === 'Processing' || item.status === 'processing') ? (
+                          <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-slate-800 text-slate-400 font-semibold">
+                            <span>{t('library.item.status.inprogress')}</span>
+                          </span>
+                        ) : (
+                          <button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-slate-100 text-slate-950 font-semibold hover:bg-slate-200 transition">
+                            <span>{item.type === 'ai' ? t('library.item.openOutput') : t('library.item.downloadPDF')}</span>
+                          </button>
+                        )}
                       </div>
                     </motion.div>
                   ))}
@@ -413,15 +543,15 @@ export function DashboardPage() {
                 <div className="mt-1 space-y-2 text-[11px] text-slate-300/90">
                   <div className="flex items-center justify-between">
                     <span>{t('sidebar.billing.tokensSpent')}</span>
-                    <span className="font-semibold text-slate-50">4 200</span>
+                    <span className="font-semibold text-slate-50">{tokensSpentLast30Days.toLocaleString('en-US')}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span>{t('sidebar.billing.aiGenerated')}</span>
-                    <span className="font-semibold text-slate-50">6</span>
+                    <span className="font-semibold text-slate-50">{aiStrategiesGenerated}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span>{t('sidebar.billing.coursesUnlocked')}</span>
-                    <span className="font-semibold text-slate-50">3</span>
+                    <span className="font-semibold text-slate-50">{coursesUnlocked}</span>
                   </div>
                 </div>
                 <Link
@@ -492,7 +622,11 @@ export function DashboardPage() {
               <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
-          {transactions.length > 0 ? (
+          {isLoadingTransactions ? (
+            <div className="bg-slate-950/80 border border-slate-900 rounded-2xl p-8 flex flex-col items-center justify-center text-center">
+              <div className="text-sm text-slate-400">Loading transactions...</div>
+            </div>
+          ) : transactions.length > 0 ? (
             <div className="overflow-hidden rounded-2xl border border-slate-900 bg-slate-950/80">
               <div className="grid grid-cols-12 px-3 py-2 border-b border-slate-900 text-[11px] text-slate-400">
                 <div className="col-span-3">{t('transactions.table.type')}</div>

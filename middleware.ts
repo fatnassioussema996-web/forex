@@ -11,7 +11,7 @@ export default withAuth(
     callbacks: {
       authorized: ({ token, req }) => {
         // Protect routes that require authentication
-        const protectedPaths = ['/cabinet', '/dashboard', '/top-up', '/top-up-success', '/top-up-decline']
+        const protectedPaths = ['/dashboard', '/top-up', '/top-up-success', '/top-up-decline']
         const isProtectedPath = protectedPaths.some((path) => req.nextUrl.pathname.startsWith(path))
         
         if (isProtectedPath) {
@@ -25,6 +25,6 @@ export default withAuth(
 )
 
 export const config = {
-  matcher: ['/cabinet/:path*', '/dashboard/:path*', '/top-up:path*'],
+  matcher: ['/dashboard/:path*', '/top-up:path*'],
 }
 

@@ -37,7 +37,7 @@ export const authOptions: NextAuthOptions = {
           }
 
           return {
-            id: user.id,
+            id: user.id.toString(),
             email: user.email,
             name: `${user.first_name} ${user.last_name || ''}`.trim(),
             balance: Number(user.balance),
@@ -94,7 +94,7 @@ export const authOptions: NextAuthOptions = {
 
           if (user) {
             session.user = {
-              id: user.id,
+              id: user.id.toString(),
               email: user.email,
               name: `${user.first_name} ${user.last_name || ''}`.trim(),
               balance: Number(user.balance),

@@ -1,0 +1,295 @@
+{
+  "breadcrumb": {
+    "refund": "Refund & Return Policy"
+  },
+  "hero": {
+    "title": "Refund & Return Policy for token packs, courses and AI features.",
+    "subtitle": "Everything here explains how we review refund requests for Avenqor token top-ups, ready-made courses, custom PDFs and AI Strategy Builder outputs. It is based on UK consumer law and tailored to digital-only delivery.",
+    "meta": [
+      { "label": "Effective date", "value": "6 December 2025" },
+      { "label": "Operator", "value": "OVERSEAS SUPPORT LIMITED (15969862)" },
+      { "label": "Jurisdiction", "value": "England & Wales" }
+    ],
+    "badges": {
+      "payments": "Payments: Visa · Mastercard · GBP/EUR/USD/SR",
+      "support": "Support: info@avenqor.net",
+      "digitalOnly": "Digital delivery · No physical returns"
+    },
+    "summaryCard": {
+      "title": "Quick points (customer-facing)",
+      "subtitle": "Use this list for a fast recap; the numbered sections carry the full legal detail.",
+      "items": [
+        "Refunds are assessed under this Policy plus UK consumer law.",
+        "Processing time: 5–10 business days after approval (banks may take longer).",
+        "Refunds never exceed what you originally paid for that order.",
+        "Consumed Tokens are non-refundable; Wallet credit is non-transferable.",
+        "Bonus/promo credits can be removed but are never refunded in cash.",
+        "Avenqor delivers digital content only – nothing needs to be shipped back.",
+        "Email info@avenqor.net with your account email, order ID and context.",
+        "Currencies: GBP, EUR, USD, Saudi Riyal. Methods: Visa, Mastercard.",
+        "Reference rate: 100 Tokens = £1.00 / €1.17 / $1.29 / 4.94 SR."
+      ],
+      "note": "Always talk to our support team before you contact your bank; it results in faster, traceable resolutions."
+    }
+  },
+  "toc": {
+    "title": "On this page",
+    "items": [
+      { "label": "Summary", "anchor": "summary" },
+      { "label": "Scope & legal notice", "anchor": "scope" },
+      { "label": "Key definitions", "anchor": "definitions" },
+      { "label": "General refund principles", "anchor": "principles" },
+      { "label": "Wallet top-ups (Tokens)", "anchor": "wallet" },
+      { "label": "Cancellations of paid features", "anchor": "cancellations" },
+      { "label": "Quality issues & re-runs", "anchor": "quality" },
+      { "label": "How to request a refund", "anchor": "request" },
+      { "label": "Chargebacks & disputes", "anchor": "chargebacks" },
+      { "label": "Taxes & invoicing", "anchor": "taxes" },
+      { "label": "Record-keeping & data", "anchor": "records" },
+      { "label": "Illustrative examples", "anchor": "examples" },
+      { "label": "Changes to this Policy", "anchor": "changes" },
+      { "label": "Contact details", "anchor": "contact" }
+    ],
+    "reminder": {
+      "label": "Reminder",
+      "text": "This Policy forms part of the Avenqor Terms & Conditions. Digital performance can start immediately, which may limit statutory cooling-off rights."
+    }
+  },
+  "sections": [
+    {
+      "id": "summary",
+      "number": "1",
+      "title": "Summary (customer-facing)",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Refunds are reviewed under this Policy together with applicable UK consumer regulations.",
+            "Typical processing time: 5–10 business days after approval; banks or payment providers may take longer to post funds.",
+            "Refunds do not exceed the original amount paid for the relevant token pack or feature.",
+            "Tokens that were already consumed remain non-refundable.",
+            "Wallet credit is bound to the account, non-transferable and not exchangeable for cash (see section 5).",
+            "Promotional or bonus credits can expire and are never refundable.",
+            "All Avenqor products are digital; there are no physical items to return.",
+            "Submit requests via info@avenqor.net, including your account email, order reference and supporting details.",
+            "Accepted currencies: GBP (£), EUR (€), USD ($), Saudi Riyal (SR). Payment methods: Visa, Mastercard.",
+            "Reference rate for display purposes: 100 Tokens = £1.00 / €1.17 / $1.29 / 4.94 SR."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "scope",
+      "number": "2",
+      "title": "Scope and legal notice",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "This Policy governs cancellations and refunds for purchases made via avenqor.net, including Wallet top-ups (token purchases) and paid educational features (ready-made courses, custom PDFs, AI Strategy Builder outputs and calculators) operated by OVERSEAS SUPPORT LIMITED (“Avenqor”, “we”)."
+        },
+        {
+          "type": "paragraph",
+          "text": "The Service delivers digital-only content and tooling. Nothing needs to be shipped back or physically returned under this Policy."
+        },
+        {
+          "type": "paragraph",
+          "text": "Nothing here removes statutory protections provided by UK law, including the Consumer Rights Act 2015 and, where applicable, the Consumer Contracts Regulations 2013."
+        }
+      ]
+    },
+    {
+      "id": "definitions",
+      "number": "3",
+      "title": "Key definitions",
+      "content": [
+        {
+          "type": "definition",
+          "items": [
+            { "term": "Wallet / Wallet Credit", "description": "Pre-paid balance (in Tokens) held inside your Avenqor account. It is not cash, e-money or a financial instrument." },
+            { "term": "Tokens", "description": "Units consumed to unlock courses, generate custom PDFs, run AI strategies or trigger other paid features." },
+            { "term": "Outputs / Content", "description": "Digital PDFs, strategy files, diagrams and supporting assets generated by the Service." },
+            { "term": "Order / Transaction", "description": "A confirmed Wallet top-up, course purchase or paid feature activation." },
+            { "term": "Abuse / Fraud", "description": "Any behaviour that breaches the Avenqor Terms (for example, chargeback abuse, automated token farming, unauthorised payments or attempts to bypass limits)." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "principles",
+      "number": "4",
+      "title": "General refund principles",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "4.1. Refund cap – refunds never exceed what you paid for that order and may exclude non-recoverable processor fees where the law allows.",
+            "4.2. Digital performance – when you ask us to begin immediately (by consuming Tokens straight after a top-up), you acknowledge that any statutory cooling-off right may be lost for that content once delivery starts.",
+            "4.3. Consumed Tokens – Tokens spent on completed actions (downloads, AI runs, custom course generations) are non-returnable.",
+            "4.4. Accuracy of inputs – Outputs rely on your intake data. If your inputs are wrong or incomplete, recreating content consumes new Tokens.",
+            "4.5. Refund currency – refunds are issued, where possible, in the same currency and to the same payment method used originally.",
+            "4.6. FX display – multi-currency prices are indicative; your card issuer controls the final FX rate/fees.",
+            "4.7. Promotions – promotional or bonus credits are non-refundable and may expire per their own terms.",
+            "4.8. Abuse or fraud – we can decline refunds, suspend accounts and claw back Tokens where we suspect abuse, fraud or policy breaches."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wallet",
+      "number": "5",
+      "title": "Wallet top-ups (Tokens)",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "5.1. Nature – Wallet top-ups are advance payments for digital services. The Wallet is not a bank, payment or e-money account and does not earn returns.",
+            "5.2. Unused balances – unused Tokens are normally non-withdrawable. Exceptional refunds (duplicate payments, clear technical faults) are discretionary and may exclude non-recoverable fees.",
+            "5.3. Partially used top-ups – only the unused portion of a specific top-up may be considered for refund, capped at the original fiat amount of that top-up.",
+            "5.4. No transfer – Wallet credit cannot be sold, exchanged or transferred to other users."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cancellations",
+      "number": "6",
+      "title": "Cancellations of paid features",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "6.1. Before performance – if no Tokens have been consumed and no PDF/AI process has started, you may request cancellation and a refund of the relevant fee.",
+            "6.2. After performance begins – once a generation has started (Tokens consumed, files rendered), cancellations and refunds are unavailable except where non-excludable rights apply."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quality",
+      "number": "7",
+      "title": "Quality issues and re-runs",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "7.1. Good-faith review – report materially defective files (corrupted PDF, empty export, obvious mismatch) within 7 days and include screenshots, timestamps or error IDs.",
+            "7.2. Remedy – if we confirm an Avenqor-side fault, we will re-run the process at no Token cost or credit equivalent Tokens if re-running is not feasible.",
+            "7.3. External acceptance – broker, marketplace or regulator rejection does not automatically mean the content is defective and does not create refund rights."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "request",
+      "number": "8",
+      "title": "How to request a refund",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Email info@avenqor.net with your account email, order / transaction reference, whether you are querying a Wallet top-up or a specific feature, and any relevant evidence (screens, bank confirmations, links).",
+            "We acknowledge within 5 business days, may request more information, and aim to process approved refunds within 5–10 business days (posting times depend on your bank)."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chargebacks",
+      "number": "9",
+      "title": "Chargebacks, disputes and investigations",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "9.1. Initiating a chargeback is treated as a formal dispute; we will submit logs (orders, Token consumption, IP/device data) and may suspend your account pending resolution.",
+            "9.2. If funds are reversed from us, we may remove equivalent Tokens/Wallet credit and recover any amounts lawfully owed.",
+            "9.3. Contacting Avenqor support first is the fastest way to resolve billing concerns."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "taxes",
+      "number": "10",
+      "title": "Taxes and invoicing",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "10.1. We issue electronic receipts/invoices for token purchases and paid features, showing any VAT or indirect taxes required based on your billing data.",
+            "10.2. Where tax has already been remitted and cannot be reclaimed, refunded amounts may be net of those taxes unless the law requires otherwise."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "records",
+      "number": "11",
+      "title": "Record-keeping and data protection",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "11.1. We retain records relevant to refunds, chargebacks and disputes (order IDs, top-ups, Token usage, logs, timestamps, device/IP data) for at least 24 months and up to 6 years for enterprise or disputed transactions, in line with tax and legal duties.",
+            "11.2. Personal data is processed as a controller under UK GDPR and the Data Protection Act 2018, as explained in our Privacy Policy."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "examples",
+      "number": "12",
+      "title": "Illustrative examples (not legally binding)",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Immediate performance – you top up and instantly spend Tokens on AI strategies. Those consumed Tokens are not refundable.",
+            "Not yet performed – you purchase a custom course slot but cancel before any Tokens are deducted; we may refund that amount.",
+            "Corrupted output – a PDF export fails due to a system error; we re-run it or credit equivalent Tokens.",
+            "Unused top-up – you add €200, never spend it and later decide to leave Avenqor. We may refund the €200 minus non-recoverable fees.",
+            "Marketplace rejection – a broker or marketplace rejects your plan for their own policy reasons. That alone does not entitle you to a refund."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "changes",
+      "number": "13",
+      "title": "Changes to this Policy",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "We may update this Policy. Material updates will be communicated via email and/or dashboard notices. Changes apply prospectively and do not impact refunds already processed unless the law requires otherwise."
+        }
+      ]
+    },
+    {
+      "id": "contact",
+      "number": "14",
+      "title": "Contact details",
+      "content": [
+        {
+          "type": "list",
+          "items": [
+            "Avenqor — operated by OVERSEAS SUPPORT LIMITED",
+            "Registered office: 31 Auctioneers Way, Northampton, United Kingdom, NN1 1HF",
+            "Company number: 15969862",
+            "Email: info@avenqor.net",
+            "Tel: +44 7457 424685",
+            "Accepted currencies: GBP, EUR, USD, SR",
+            "Payment methods: Visa, Mastercard"
+          ]
+        }
+      ]
+    }
+  ],
+  "cta": {
+    "title": "Need help with a charge or refund?",
+    "subtitle": "Reach out to our support team before opening a dispute. We can trace every top-up, Token deduction and AI run in minutes.",
+    "contactSupport": "Contact support",
+    "backHome": "Back to home"
+  }
+}
+
+

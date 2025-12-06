@@ -45,6 +45,13 @@ next-env.d.ts
 /public/images/generated/*
 !/public/images/generated/.gitkeep
 
+# course generation
+/logs/*
+!/logs/.gitkeep
+/public/courses/.generation-status.json
+/public/courses/temp/*
+!/public/courses/temp/.gitkeep
+
 # Legacy PHP files (removed during migration)
 *.php
 /vendor

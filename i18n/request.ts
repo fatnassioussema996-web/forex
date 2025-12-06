@@ -30,6 +30,15 @@ export default getRequestConfig(async ({ locale }) => {
       auth: (await import(`./${validLocale}/auth.json`)).default,
       faq: (await import(`./${validLocale}/faq.json`)).default,
       glossary: (await import(`./${validLocale}/glossary.json`)).default,
+      resources: (await import(`./${validLocale}/resources.json`)).default,
+      about: (await import(`./${validLocale}/about.json`)).default,
+      contact: (await import(`./${validLocale}/contact.json`)).default,
+      terms: (await import(`./${validLocale}/terms.json`)).default,
+      refund: (await import(`./${validLocale}/refund.json`)).default,
+      privacy: (await import(`./${validLocale}/privacy.json`)).default,
+      cookies: (await import(`./${validLocale}/cookies.json`)).default,
+      risk: (await import(`./${validLocale}/risk.json`)).default,
+      topUp: (await import(`./${validLocale}/topUp.json`)).default,
     },
   }
 })

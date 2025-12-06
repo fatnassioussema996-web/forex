@@ -3,14 +3,21 @@
 /**
  * Get the image path for a course by slug
  * Maps course slugs to image filenames
+ * Uses standard pattern: /images/courses/{slug}-cover.webp
  */
 export function getCourseImagePath(slug: string): string | null {
+  // Explicit mappings for courses with custom paths (if any)
   const imageMap: Record<string, string> = {
-    'forex-foundations-from-zero-to-first-trade': '/images/courses/forex_foundations.webp',
-    'crypto-volatility-structures': '/images/courses/crypto_volatility_structures.png',
+    // Add any courses with non-standard image paths here
   }
 
-  return imageMap[slug] || null
+  // If explicit mapping exists, use it
+  if (imageMap[slug]) {
+    return imageMap[slug]
+  }
+
+  // Default pattern: /images/courses/{slug}-cover.webp
+  return `/images/courses/${slug}-cover.webp`
 }
 
 /**

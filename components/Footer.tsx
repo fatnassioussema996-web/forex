@@ -18,7 +18,12 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
           {/* Column 1: Company Info */}
           <div className="col-span-2 md:col-span-1">
-            <h3 className="text-2xl font-bold text-slate-50">{t('brand.name')}</h3>
+            <Link
+              href="/"
+              className="inline-flex items-center text-lg font-semibold tracking-wide text-slate-50 hover:text-cyan-300 transition"
+            >
+              {t('brand.name')}
+            </Link>
             <p className="mt-2 text-xs text-slate-400">
               {tFooter('educationOnlyLine')}
             </p>
@@ -104,6 +109,36 @@ export default function Footer() {
                   {tNav('resources')}
                 </Link>
               </li>
+              <li>
+                <Link href="/learn/risk-management" className="text-sm text-slate-400 hover:text-cyan-300 transition">
+                  {tNav('riskManagement')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/learn/trade-journal" className="text-sm text-slate-400 hover:text-cyan-300 transition">
+                  {tNav('tradeJournal')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/learn/weekly-review" className="text-sm text-slate-400 hover:text-cyan-300 transition">
+                  {tNav('weeklyReview')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/learn/pre-session" className="text-sm text-slate-400 hover:text-cyan-300 transition">
+                  {tNav('preSession')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/learn/position-sizing" className="text-sm text-slate-400 hover:text-cyan-300 transition">
+                  {tNav('positionSizing')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/learn/strategy-snapshot" className="text-sm text-slate-400 hover:text-cyan-300 transition">
+                  {tNav('strategySnapshot')}
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -141,6 +176,14 @@ export default function Footer() {
                   className="text-sm text-slate-400 hover:text-cyan-300 transition"
                 >
                   {tFooter('links.cookies')}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/refund-policy"
+                  className="text-sm text-slate-400 hover:text-cyan-300 transition"
+                >
+                  {tFooter('links.refundPolicy')}
                 </Link>
               </li>
             </ul>

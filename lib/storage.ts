@@ -42,5 +42,21 @@ export async function saveGeneratedPdf(buffer: Buffer, filename: string): Promis
   return saveLocally({ buffer, filename, subdirectory: 'recipes/generated' })
 }
 
+/**
+ * Saves course PDF to public/courses/
+ * @returns Public path to the saved PDF
+ */
+export async function saveCoursePdf(buffer: Buffer, filename: string): Promise<SaveResult> {
+  return saveLocally({ buffer, filename, subdirectory: 'courses' })
+}
+
+/**
+ * Saves course image to public/images/courses/
+ * @returns Public path to the saved image
+ */
+export async function saveCourseImage(buffer: Buffer, filename: string): Promise<SaveResult> {
+  return saveLocally({ buffer, filename, subdirectory: 'images/courses' })
+}
+
 
 

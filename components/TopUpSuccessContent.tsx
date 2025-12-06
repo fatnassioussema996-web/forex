@@ -47,7 +47,7 @@ export default function TopUpSuccessContent() {
           </p>
           <div className="mt-6">
             <Link
-              href="/cabinet"
+              href="/dashboard"
               className="inline-flex items-center px-4 py-2 border border-transparent rounded-full shadow-[0_14px_32px_rgba(8,145,178,0.65)] text-sm font-semibold text-slate-950 bg-cyan-400 hover:bg-cyan-300 transition"
             >
               View My Account
@@ -77,7 +77,7 @@ export default function TopUpSuccessContent() {
           </p>
           <div className="mt-6">
             <Link
-              href="/cabinet"
+              href="/dashboard"
               className="inline-flex items-center px-4 py-2 border border-transparent rounded-full shadow-[0_14px_32px_rgba(8,145,178,0.65)] text-sm font-semibold text-slate-950 bg-cyan-400 hover:bg-cyan-300 transition"
             >
               View My Account

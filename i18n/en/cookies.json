@@ -1,0 +1,316 @@
+{
+  "breadcrumb": {
+    "home": "Home",
+    "cookies": "Cookies Policy"
+  },
+  "hero": {
+    "pill": "Updated 6 December 2025",
+    "title": "How Avenqor uses cookies and similar technologies.",
+    "subtitle": "This policy explains how and why we place cookies, localStorage/sessionStorage keys, SDK identifiers and pixels across avenqor.net and our dashboard/AI tools. It is aligned with UK GDPR and PECR requirements and mirrors EU GDPR expectations.",
+    "badges": {
+      "regions": "UK · EU · GCC compliance",
+      "features": "Web, dashboard & AI tools",
+      "optional": "Non-essential = opt-in"
+    },
+    "note": "You can review or update cookie choices at any time via the Cookie Settings link in the footer.",
+    "highlights": [
+      "Essential cookies keep sessions secure, store localisation (language + currency) and power purchases.",
+      "Analytics/performance data is minimised, aggregated and never sold or shared for advertising.",
+      "Marketing/attribution tags are off by default and only activate after explicit consent."
+    ],
+    "snapshotCard": {
+      "title": "At a glance",
+      "subtitle": "Key facts before the full legal text",
+      "items": [
+        "Controller: OVERSEAS SUPPORT LIMITED (Company No. 15969862).",
+        "Contact: info@avenqor.net · 31 Auctioneers Way, Northampton, NN1 1HF, United Kingdom.",
+        "Scope: trading-education tools, token purchases, AI course/strategy generation.",
+        "Payments: Visa/Mastercard in GBP with display in EUR, USD, SAR.",
+        "Technologies covered: cookies, localStorage, sessionStorage, pixels, SDKs.",
+        "Consent: recorded for at least 24 months (up to 6 years where needed)."
+      ],
+      "note": "This summary helps you scan the essentials. The remaining sections contain the authoritative commitments and processes."
+    }
+  },
+  "metaPanel": {
+    "effectiveDate": "Effective date: 6 December 2025",
+    "compliance": "We comply with UK GDPR + PECR and mirror EU GDPR/ePrivacy standards. Where we rely on legitimate interests (for privacy-first analytics or security), we apply strict minimisation, IP truncation and short retention.",
+    "details": [
+      {
+        "label": "Controller",
+        "value": "OVERSEAS SUPPORT LIMITED (Company No. 15969862)"
+      },
+      {
+        "label": "Contact",
+        "value": "info@avenqor.net"
+      },
+      {
+        "label": "Context",
+        "value": "Trading-education platform with ready-made PDFs, AI-generated custom courses/strategies, token packs, Visa/Mastercard payments"
+      }
+    ]
+  },
+  "toc": {
+    "title": "Contents",
+    "items": [
+      "Overview",
+      "What are cookies?",
+      "Categories we use",
+      "Typical cookies & storage keys",
+      "Consent & lawful basis",
+      "How we record consent",
+      "Third parties & transfers",
+      "Managing/withdrawing consent",
+      "Global Privacy Controls (GPC)",
+      "Changes to this policy",
+      "Contact"
+    ],
+    "relatedPages": {
+      "label": "Related policies",
+      "text": "See also",
+      "privacyLink": "Privacy Policy",
+      "termsLink": "Terms of Service",
+      "suffix": "for broader data-processing details."
+    }
+  },
+  "sections": [
+    {
+      "id": "overview",
+      "number": "1",
+      "title": "Overview",
+      "content": [
+        "This Cookies Policy explains how Avenqor uses cookies and similar technologies (localStorage, sessionStorage, SDK identifiers and pixels) across avenqor.net and related services. It complements our Privacy Policy and sits alongside token purchases, dashboards and AI-powered course/strategy delivery.",
+        "By interacting with the cookie banner or the preferences centre, you manage consent for every non-essential category. Essential cookies remain active to keep the platform secure and functional."
+      ],
+      "list": [
+        "Controller: OVERSEAS SUPPORT LIMITED, 31 Auctioneers Way, Northampton, NN1 1HF, United Kingdom.",
+        "Contact: info@avenqor.net",
+        "Scope: ready-made PDF library, AI-generated custom courses/strategies, token purchases and billing flows."
+      ]
+    },
+    {
+      "id": "definition",
+      "number": "2",
+      "title": "What are cookies (and similar technologies)?",
+      "content": [
+        "Cookies are small files placed on your device to enable secure sessions, remember preferences and measure performance. Similar technologies include localStorage/sessionStorage keys (for UI state), SDK identifiers (for mobile-like flows) and pixels used for analytics or attribution.",
+        "On Avenqor, they help with authentication, payment security, localisation (language + currency), dashboard filters, AI generation logs, fraud monitoring and—where you permit—analytics/marketing."
+      ]
+    },
+    {
+      "id": "categories",
+      "number": "3",
+      "title": "Categories we use",
+      "content": [
+        "We group cookies and similar technologies into the following categories. Only \"Necessary\" cookies run without consent; all others await your explicit choice."
+      ],
+      "cards": [
+        {
+          "icon": "shield",
+          "title": "Necessary / Essential",
+          "description": "Authentication, session management, CSRF protection, checkout security, fraud mitigation and consent logging."
+        },
+        {
+          "icon": "settings",
+          "title": "Functional / Preferences",
+          "description": "Language (EN/AR), currency, theme, dashboard filters, token pack reminders and saved AI form presets."
+        },
+        {
+          "icon": "cpu",
+          "title": "Performance / Analytics",
+          "description": "Aggregated metrics about page load, AI generation reliability, error diagnostics and adoption of product areas."
+        },
+        {
+          "icon": "alert",
+          "title": "Marketing / Attribution",
+          "description": "Optional tags for campaign measurement, remarketing or partnership attribution. Disabled unless you opt in."
+        },
+        {
+          "icon": "lock",
+          "title": "Security / Anti-abuse",
+          "description": "Rate limiting, anomaly detection, bot mitigation and device fingerprinting used strictly to protect accounts."
+        }
+      ]
+    },
+    {
+      "id": "examples",
+      "number": "4",
+      "title": "Typical cookies & storage keys",
+      "content": [
+        "Specific names, providers and lifetimes may change as we update the Service. The definitive list is always available in the Cookie Settings panel."
+      ],
+      "table": {
+        "headers": [
+          "Name (example)",
+          "Purpose",
+          "Category",
+          "Typical lifetime"
+        ],
+        "rows": [
+          {
+            "name": "avenqor_session_id",
+            "purpose": "Maintains authenticated session, ties device to active dashboard login",
+            "category": "Necessary",
+            "lifetime": "Session"
+          },
+          {
+            "name": "avenqor_csrf_token",
+            "purpose": "Protects forms and API calls against forgery",
+            "category": "Necessary",
+            "lifetime": "Session"
+          },
+          {
+            "name": "avenqor_consent_state",
+            "purpose": "Stores your cookie preferences (per category & timestamp)",
+            "category": "Necessary / Functional",
+            "lifetime": "6–12 months"
+          },
+          {
+            "name": "avenqor_ui_prefs",
+            "purpose": "Language, theme, currency and layout",
+            "category": "Functional",
+            "lifetime": "Up to 6 months"
+          },
+          {
+            "name": "avenqor_perf_metrics",
+            "purpose": "Performance/error diagnostics (aggregated)",
+            "category": "Analytics",
+            "lifetime": "1–3 months"
+          },
+          {
+            "name": "avenqor_campaign_src",
+            "purpose": "Campaign attribution where you opted into Marketing",
+            "category": "Marketing",
+            "lifetime": "1–3 months"
+          },
+          {
+            "name": "avenqor_wallet_hint (localStorage)",
+            "purpose": "Remembers last wallet/top-up view or preferred token pack",
+            "category": "Functional",
+            "lifetime": "Until cleared"
+          },
+          {
+            "name": "avenqor_course_filters (localStorage)",
+            "purpose": "Stores dashboard/course filters such as difficulty or market",
+            "category": "Functional",
+            "lifetime": "Until cleared"
+          }
+        ]
+      }
+    },
+    {
+      "id": "lawfulBasis",
+      "number": "5",
+      "title": "Consent & lawful basis",
+      "content": [
+        "Essential cookies rely on the \"performance of a contract\" legal basis because they are required to run your account, secure transactions and deliver requested content.",
+        "Functional, Analytics and Marketing cookies rely on consent unless we explicitly state that a given analytics tool operates under legitimate interests (for example, IP is truncated, no cross-site tracking, short retention, aggregated reporting).",
+        "Security/anti-abuse technologies rely on legitimate interests to keep the Service safe for you and other users."
+      ]
+    },
+    {
+      "id": "recording",
+      "number": "6",
+      "title": "How we record and retain consent",
+      "content": [
+        "When you save your cookie choices, we log the categories selected, the policy version, timestamp and technical metadata (IP address, user-agent) for evidential and security purposes.",
+        "Consent records are retained for at least 24 months and up to 6 years where required for regulatory enquiries or dispute resolution, consistent with the retention schedule in our Privacy Policy."
+      ]
+    },
+    {
+      "id": "thirdParties",
+      "number": "7",
+      "title": "Third parties & international transfers",
+      "content": [
+        "We may rely on third-party providers for payments, authentication, analytics, hosting/CDN, email delivery, video hosting or attribution. Some providers process personal data outside the UK/EEA.",
+        "Where transfers occur we use UK adequacy regulations, UK/EU Standard Contractual Clauses and supplementary technical/organisational controls (encryption, access controls, minimisation). The Cookie Settings panel lists current vendors."
+      ]
+    },
+    {
+      "id": "managing",
+      "number": "8",
+      "title": "Managing or withdrawing consent",
+      "content": [
+        "Use the banner on first visit or the persistent \"Cookie Settings\" link in the footer to accept, reject or customise categories. Your latest choice applies going forward and does not affect processing carried out before withdrawal.",
+        "You can clear cookies via your browser or use private mode. Blocking necessary cookies may break authentication, dashboards or payments."
+      ]
+    },
+    {
+      "id": "gpc",
+      "number": "9",
+      "title": "Do Not Track / Global Privacy Controls",
+      "content": [
+        "If your browser sends Global Privacy Control (GPC) or similar signals, we treat them as an opt-out from non-essential cookies wherever technically feasible under applicable law.",
+        "Standards differ, and not every environment exposes reliable signals, so we cannot guarantee universal honouring in legacy browsers."
+      ]
+    },
+    {
+      "id": "changes",
+      "number": "10",
+      "title": "Changes to this policy",
+      "content": [
+        "We may update this Cookies Policy when we add new integrations, analytics tools, payment partners or legal requirements change. Material updates will be announced via an in-app notice, banner and/or email to registered users.",
+        "The Effective Date above always reflects the latest version. Changes operate prospectively."
+      ]
+    },
+    {
+      "id": "contact",
+      "number": "11",
+      "title": "Contact",
+      "content": [
+        "Questions about cookies or this Policy can be directed to:"
+      ],
+      "contacts": [
+        "Email: info@avenqor.net",
+        "Postal: OVERSEAS SUPPORT LIMITED, 31 Auctioneers Way, Northampton, NN1 1HF, United Kingdom"
+      ]
+    }
+  ],
+  "cta": {
+    "title": "You control non-essential cookies at any time.",
+    "subtitle": "Avenqor keeps core education features available even if you decline everything except the necessary technologies.",
+    "backToHome": "Back to home",
+    "openCookieSettings": "Open cookie settings"
+  },
+  "entryToast": {
+    "title": "We use cookies for security & personalisation",
+    "description": "Review categories or update choices via the Cookie Settings link in the footer."
+  },
+  "banner": {
+    "title": "We use cookies to deliver, secure and improve Avenqor.",
+    "description": "Pick which categories you want to allow. Essential cookies always stay on so that login, payments and PDF delivery keep working.",
+    "actions": {
+      "acceptAll": "Accept all",
+      "rejectNonEssential": "Reject non-essential",
+      "manage": "Manage preferences",
+      "save": "Save preferences"
+    },
+    "preferences": {
+      "title": "Cookie preferences",
+      "description": "Toggle categories below and save. You can revisit this panel anytime via the footer link.",
+      "lastUpdated": "Last updated",
+      "categories": {
+        "necessary": {
+          "title": "Necessary / Essential",
+          "description": "Always on for authentication, security, checkout and consent logging."
+        },
+        "functional": {
+          "title": "Functional / Preferences",
+          "description": "Language, currency, theme and saved filters."
+        },
+        "analytics": {
+          "title": "Performance / Analytics",
+          "description": "Aggregated metrics that help us improve stability."
+        },
+        "marketing": {
+          "title": "Marketing / Attribution",
+          "description": "Optional tags for campaign measurement."
+        }
+      }
+    },
+    "footer": {
+      "text": "Read the full policy",
+      "linkLabel": "Cookies Policy"
+    }
+  }
+}

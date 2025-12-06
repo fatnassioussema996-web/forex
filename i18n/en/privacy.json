@@ -1,0 +1,505 @@
+{
+  "breadcrumb": {
+    "home": "Home",
+    "privacy": "Privacy Policy"
+  },
+  "hero": {
+    "title": "Privacy Policy for Avenqor trading education platform.",
+    "subtitle": "This Privacy Policy explains what personal data we collect, why we use it, how long we keep it, and how you can exercise your rights when using avenqor.net and related services (the \"Service\"). It is based on UK GDPR and the Data Protection Act 2018.",
+    "meta": [
+      {
+        "label": "Effective date",
+        "value": "6 December 2025"
+      },
+      {
+        "label": "Controller",
+        "value": "OVERSEAS SUPPORT LIMITED (15969862)"
+      },
+      {
+        "label": "Jurisdiction",
+        "value": "England & Wales"
+      }
+    ],
+    "badges": {
+      "dataProtection": "UK GDPR · Data Protection Act 2018",
+      "ukGdpr": "Bilingual: English & Arabic",
+      "ageRestriction": "Age 18+ only"
+    },
+    "summaryCard": {
+      "title": "Quick points (customer-facing)",
+      "subtitle": "Use this list for a fast recap; the numbered sections carry the full legal detail.",
+      "items": [
+        "We collect only the data we need to operate, secure and improve the Service.",
+        "We do not sell your personal data.",
+        "We process data under UK GDPR on legal bases: contract, consent, legitimate interests and legal obligations.",
+        "You have rights to access, correct, delete and restrict processing of your personal data.",
+        "We use cookies and similar technologies for essential functions, preferences and analytics (with consent).",
+        "We keep data only as long as necessary for the purposes described or as required by law.",
+        "We implement appropriate security measures to protect your personal data.",
+        "The Service is intended for users aged 18 and over."
+      ],
+      "note": "For questions about this Privacy Policy or to exercise your rights, contact info@avenqor.net."
+    }
+  },
+  "toc": {
+    "title": "On this page",
+    "items": [
+      { "label": "Introduction", "anchor": "introduction" },
+      { "label": "Personal data we collect", "anchor": "personal-data" },
+      { "label": "Why we process your data & legal bases", "anchor": "legal-bases" },
+      { "label": "Automated processing, profiling and AI", "anchor": "automated-processing" },
+      { "label": "Sharing and international transfers", "anchor": "sharing" },
+      { "label": "Cookies and similar technologies", "anchor": "cookies" },
+      { "label": "Retention", "anchor": "retention" },
+      { "label": "Your rights", "anchor": "rights" },
+      { "label": "Security", "anchor": "security" },
+      { "label": "Children's data", "anchor": "children" },
+      { "label": "Changes to this Policy", "anchor": "changes" },
+      { "label": "Contact & complaints", "anchor": "contact" }
+    ],
+    "reminder": {
+      "label": "Reminder",
+      "text": "The English version prevails. Translations in Modern Standard Arabic are provided for convenience; in case of any conflict, the English version shall prevail."
+    }
+  },
+  "sections": [
+    {
+      "id": "introduction",
+      "number": "1",
+      "title": "Introduction",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "We respect your privacy and are committed to protecting your personal data. This Privacy Policy explains what personal data we collect, why we use it, how long we keep it, and how you can exercise your rights when using avenqor.net and related services (the \"Service\")."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Controller: OVERSEAS SUPPORT LIMITED (Company No. 15969862), 31 Auctioneers Way, Northampton, United Kingdom, NN1 1HF (\"Avenqor\", \"we\", \"us\", \"our\").",
+            "Contact: info@avenqor.net",
+            "Scope & age: This Policy applies to all users of the Service (including business customers and their authorised staff). The Service is intended for individuals aged 18 and over."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "By using the Service, you acknowledge that your personal data will be processed in accordance with this Privacy Policy and applicable data protection laws, including the UK GDPR and the Data Protection Act 2018."
+        },
+        {
+          "type": "paragraph",
+          "text": "The Service is a bilingual educational platform (English and Modern Standard Arabic) focused on trading education (forex, crypto and related markets). Translated versions of this Policy may be provided for convenience; in case of any conflict, the English version shall prevail."
+        }
+      ]
+    },
+    {
+      "id": "personal-data",
+      "number": "2",
+      "title": "Personal data we collect",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "We collect only the data we need to operate, secure and improve the Service."
+        },
+        {
+          "type": "paragraph",
+          "text": "2.1 Data you provide directly"
+        },
+        {
+          "type": "paragraph",
+          "text": "Depending on how you use the Service, you may provide:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Account & identity: name (or display name), company name, role, email address, password (hashed), telephone number, preferred language (e.g. English/Arabic), preferred currency and region.",
+            "Authentication & social login: if you sign in via a third-party provider (for example, Google), we may receive your name, email address, profile image and a unique identifier from that provider, managed via our authentication layer (e.g. NextAuth).",
+            "Learning profile & intake: trading experience level, approximate deposit range, risk tolerance, goals, markets of interest, and other information you choose to share in intake forms for Custom Courses or AI Strategy Builder.",
+            "Orders & library: details of your purchases and redemptions, including selected Ready-Made Courses, Custom Courses and AI Strategy Outputs associated with your Account.",
+            "Project inputs for AI and content generation: free-text prompts, notes, trading scenarios, strategy descriptions, journal entries and other content you submit to generate Custom Courses or AI Strategy Outputs.",
+            "Billing: billing name and address, VAT details (if applicable), and other information needed for invoicing and receipts.",
+            "Wallet & Tokens: top-up amounts, chosen currency, Token balances, usage records and history of Token consumption (for example, which feature or course consumed Tokens and when).",
+            "Support & communications: messages and attachments you send to us (including support tickets, feedback forms, surveys, reviews or emails)."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Special-category data: We do not intentionally seek special-category data (such as health data, political views, religious beliefs or biometric data). If you voluntarily include such data in free-text fields, journal entries or uploads, we will process it only as necessary to provide the requested Service and only on the basis of your explicit consent (see section 3.2). Please avoid including special-category data where it is not strictly necessary."
+        },
+        {
+          "type": "paragraph",
+          "text": "2.2 Data collected automatically"
+        },
+        {
+          "type": "paragraph",
+          "text": "When you use the Service, we automatically collect certain technical and usage information, such as:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Technical data: IP address, device and browser type, operating system, timezone, language, user agent, and session identifiers.",
+            "Security telemetry: login attempts, authentication and access logs, rate-limiting and anomaly logs, abuse/fraud signals, and similar security-related information.",
+            "Usage & diagnostics: page views, clicks, navigation paths, features used (for example, which types of courses or tools you access), Token top-ups and deductions, task run identifiers, error traces and performance metrics."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Where feasible, we use aggregated or pseudonymised data for analytics and diagnostics."
+        },
+        {
+          "type": "paragraph",
+          "text": "2.3 Data from third parties"
+        },
+        {
+          "type": "paragraph",
+          "text": "Where necessary to provide and secure the Service, we may receive limited personal data from:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Payment processors: transaction references, status codes, partial card data (e.g. last 4 digits, card type), country/region, fraud-prevention signals and chargeback notifications. We do not receive or store full card numbers or CVV codes.",
+            "Authentication providers (e.g. Google): basic profile information (such as name, email, profile picture and unique ID) when you choose to log in via such providers.",
+            "AI service providers: where we use external AI APIs to generate content, we send your prompts and necessary context to these providers. We receive generated text and media outputs back. These providers act as processors under contractual safeguards.",
+            "Fraud-prevention and verification providers: risk scores, checks and alerts used to protect the Service and payment flows.",
+            "Professional advisers and insurers: information necessary for legal, tax, compliance or insurance purposes."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "2.4 User-Generated Content (UGC)"
+        },
+        {
+          "type": "paragraph",
+          "text": "User-Generated Content (e.g. journal entries, strategy descriptions, uploaded files, notes, or prompt text) may contain personal data about you or third parties. You are responsible for ensuring that you have an appropriate lawful basis, notices and permissions to include any third-party personal data in your UGC."
+        }
+      ]
+    },
+    {
+      "id": "legal-bases",
+      "number": "3",
+      "title": "Why we process your data & legal bases (UK GDPR)",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "We process personal data under the UK GDPR and the Data Protection Act 2018 on the following legal bases:"
+        },
+        {
+          "type": "paragraph",
+          "text": "3.1 Performance of a contract"
+        },
+        {
+          "type": "paragraph",
+          "text": "To enter into and perform our contract with you, we process personal data to:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "create, maintain and secure your Account;",
+            "provide the Service, including access to Ready-Made Courses, Custom Courses and AI Strategy Outputs;",
+            "operate Wallets and Tokens, process payments and issue invoices/receipts;",
+            "deliver digital content to your dashboard library and, where relevant, via email;",
+            "communicate with you about your use of the Service, Orders, library items and support requests."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "3.2 Consent (including marketing & special-category data)"
+        },
+        {
+          "type": "paragraph",
+          "text": "We may rely on your consent to:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "process any special-category data that you voluntarily provide in UGC or communications;",
+            "send marketing emails and newsletters where you opt in (for example, updates on new courses, features or promotions);",
+            "use your feedback, testimonials or case studies for marketing or product-improvement purposes where you explicitly agree."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "You may withdraw your consent at any time via the settings (where available) or by contacting us (see section 12). Withdrawal does not affect the lawfulness of processing prior to withdrawal."
+        },
+        {
+          "type": "paragraph",
+          "text": "3.3 Legitimate interests"
+        },
+        {
+          "type": "paragraph",
+          "text": "We may process personal data where necessary for our legitimate interests, provided that your interests and fundamental rights do not override those interests. This includes:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "keeping the Service secure (fraud detection, abuse prevention, logging, rate-limiting and incident response);",
+            "ensuring reliable operation of authentication, session management and dashboard access;",
+            "measuring and improving performance, usability and user experience (using aggregated or pseudonymised analytics where feasible);",
+            "tailoring educational content at a high level (for example, grouping users by experience level or language preference to prioritise future content), without making automated decisions with legal or similarly significant effects;",
+            "sending essential, non-marketing communications (for example, service announcements, security alerts or policy updates);",
+            "B2B outreach to existing or potential business customers about products or services related to the Service, subject to your right to object at any time (see section 8)."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "3.4 Legal obligation"
+        },
+        {
+          "type": "paragraph",
+          "text": "We may process personal data where necessary to comply with legal obligations, including:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "tax, accounting and corporate record-keeping;",
+            "responding to lawful requests from public authorities, courts or regulators;",
+            "fulfilling our obligations under applicable consumer protection and data protection laws;",
+            "complying with anti-fraud, sanctions and similar regulatory requirements applicable to our payment flows and business operations."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "automated-processing",
+      "number": "4",
+      "title": "Automated processing, profiling and AI",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "The Service uses automated processing and algorithms to handle your inputs, for example:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "routing prompts to AI models to generate Custom Courses and AI Strategy Outputs;",
+            "aggregating usage data for statistics and performance monitoring;",
+            "detecting unusual patterns for security and fraud-prevention."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Limited profiling may be used to tailor aspects of the Service (for example, adjusting educational difficulty based on your stated experience level, or flagging suspicious Token usage for review)."
+        },
+        {
+          "type": "paragraph",
+          "text": "We do not make decisions with legal or similarly significant effects solely based on automated decision-making. You may request human review of any decision that you believe has been taken solely by automated means by contacting us."
+        },
+        {
+          "type": "paragraph",
+          "text": "When we use third-party AI providers, we do so under contractual safeguards, and we do not knowingly permit them to use your personal data to train public models in a way that would identify you."
+        }
+      ]
+    },
+    {
+      "id": "sharing",
+      "number": "5",
+      "title": "Sharing and international transfers",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "We share personal data only as necessary to operate, secure and improve the Service or to comply with legal obligations. This may include:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Payment processing: providers that process Visa and Mastercard payments and related anti-fraud measures.",
+            "Hosting & IT: secure cloud infrastructure, databases, content delivery networks, storage/backups, monitoring and error-tracking services.",
+            "AI & product tooling: AI model providers, email delivery platforms, PDF generation tools, analytics platforms (aggregated or pseudonymised where feasible), A/B testing tools and similar.",
+            "Support & communications: helpdesk ticketing systems, customer support tools, survey and feedback platforms.",
+            "Professional advisers & insurers: legal, accounting, compliance and insurance providers.",
+            "Corporate transactions: if we are involved in a merger, acquisition, financing, or sale of all or part of our business, personal data may be transferred as part of that transaction, subject to appropriate safeguards."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Some of our service providers are located outside the UK/EEA. Where personal data is transferred internationally, we implement appropriate safeguards such as:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "UK adequacy regulations (where the destination country has been recognised as providing an adequate level of protection);",
+            "the UK or EU Standard Contractual Clauses (SCCs); and",
+            "additional technical and organisational measures where appropriate (for example, encryption, access controls, data minimisation)."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "We do not sell your personal data."
+        }
+      ]
+    },
+    {
+      "id": "cookies",
+      "number": "6",
+      "title": "Cookies and similar technologies",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "We use cookies and similar technologies (including localStorage and sessionStorage) to:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "run essential functions of the Service (for example, login sessions, CSRF protection, security and preferences);",
+            "remember your settings (such as language, currency and interface preferences);",
+            "measure performance and reliability;",
+            "where you consent, enable analytics and, if applicable, marketing or attribution."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Essential cookies are necessary for core functionality and security and cannot be disabled through our consent tools. Non-essential cookies (for example, certain analytics or marketing cookies) are used only where you provide consent and can be disabled or adjusted at any time via our cookie banner or preference centre (where available)."
+        },
+        {
+          "type": "paragraph",
+          "text": "For more details on the types of cookies we use and how you can manage your preferences, please see our Cookies Policy (linked in the footer of the website)."
+        }
+      ]
+    },
+    {
+      "id": "retention",
+      "number": "7",
+      "title": "Retention",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "We keep personal data only for as long as necessary for the purposes described in this Policy or as required by law. In particular:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Wallet, Tokens & transactions: at least 24 months and up to 6 years where needed for disputes, tax, accounting or enterprise records.",
+            "Account & profile data: for as long as your Account is active and for a reasonable period after closure (typically up to 24 months), unless a longer period is required for legal, security or business continuity reasons.",
+            "Course and AI output logs: for as long as reasonably necessary to provide your library, handle support requests and improve content, typically aligned with Account retention timelines.",
+            "Logs & security telemetry: typically 6–24 months, depending on the purpose and risk level."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Where feasible, we minimise, pseudonymise or anonymise data as early as possible and then securely delete or irreversibly anonymise it once it is no longer needed."
+        }
+      ]
+    },
+    {
+      "id": "rights",
+      "number": "8",
+      "title": "Your rights",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Subject to certain legal conditions and limitations, you have the following rights regarding your personal data:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Right of access – to obtain confirmation as to whether we process your personal data and to receive a copy.",
+            "Right to rectification – to request correction of inaccurate or incomplete personal data.",
+            "Right to erasure (\"right to be forgotten\") – to request deletion of your personal data where there is no longer a legal basis for us to retain it.",
+            "Right to restriction of processing – to request that we restrict processing in certain circumstances (for example, while we verify the accuracy of data).",
+            "Right to data portability – to receive certain personal data in a structured, commonly used and machine-readable format and to transmit it to another controller where technically feasible.",
+            "Right to object – to object, on grounds relating to your particular situation, to processing based on our legitimate interests, and to object at any time to processing for direct marketing.",
+            "Right to withdraw consent – where processing is based on your consent, you have the right to withdraw that consent at any time (for example, for marketing communications or special-category data)."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "How to exercise your rights:"
+        },
+        {
+          "type": "paragraph",
+          "text": "You can exercise your rights by emailing info@avenqor.net from your Account email address. We may need to request additional information to verify your identity."
+        },
+        {
+          "type": "paragraph",
+          "text": "We aim to respond within one month of receiving your request. This period may be extended by up to two further months for complex or numerous requests, in which case we will inform you of the extension and reasons."
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "number": "9",
+      "title": "Security",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "We implement appropriate technical and organisational measures designed to protect personal data against unauthorised access, loss, misuse or alteration. These measures include, where appropriate:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "access controls, role-based permissions and multi-factor authentication for administrative interfaces;",
+            "encryption in transit (HTTPS/TLS) and, where appropriate, encryption at rest;",
+            "network segregation, firewalls and regular backups;",
+            "logging, monitoring and incident-response procedures;",
+            "vendor due diligence and contractual obligations for processors;",
+            "secure software development and change-management practices."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "No system can be guaranteed to be 100% secure, but we continuously improve our controls and will promptly investigate and, where required, notify you and relevant authorities of any personal data breach."
+        }
+      ]
+    },
+    {
+      "id": "children",
+      "number": "10",
+      "title": "Children's data",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "The Service is intended for users aged 18+. We do not knowingly collect personal data from children. If you believe that a child has provided personal data to us, please contact info@avenqor.net so that we can investigate and, where appropriate, delete the data and close any related Account."
+        }
+      ]
+    },
+    {
+      "id": "changes",
+      "number": "11",
+      "title": "Changes to this Policy",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "We may update this Privacy Policy from time to time to reflect changes in the Service, applicable law or our data protection practices."
+        },
+        {
+          "type": "paragraph",
+          "text": "Material changes will be notified by email (where appropriate) and/or via a prominent notice within the Service (for example, in your dashboard). Updated versions will be effective from the date indicated at the top of this Policy and will apply prospectively."
+        }
+      ]
+    },
+    {
+      "id": "contact",
+      "number": "12",
+      "title": "Contact & complaints",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Controller:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "OVERSEAS SUPPORT LIMITED",
+            "31 Auctioneers Way",
+            "Northampton",
+            "United Kingdom",
+            "NN1 1HF",
+            "Email (privacy): info@avenqor.net"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "If you have questions or concerns about how we handle your personal data, please contact us first so we can try to resolve the issue."
+        },
+        {
+          "type": "paragraph",
+          "text": "If you are not satisfied with our response, you have the right to lodge a complaint with the Information Commissioner's Office (ICO) in the UK. If you are resident in the EU, you may also have the right to complain to your local supervisory authority."
+        }
+      ]
+    }
+  ],
+  "cta": {
+    "title": "Questions about your privacy?",
+    "subtitle": "Contact us at info@avenqor.net if you have questions about this Privacy Policy or wish to exercise your rights.",
+    "backToHome": "Back to home",
+    "contactPrivacy": "Contact privacy"
+  }
+}

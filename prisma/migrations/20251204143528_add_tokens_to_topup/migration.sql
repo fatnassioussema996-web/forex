@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Topup" ADD COLUMN "tokens" INTEGER NOT NULL DEFAULT 0;

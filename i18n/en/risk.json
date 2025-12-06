@@ -1,0 +1,438 @@
+{
+  "breadcrumb": {
+    "home": "Home",
+    "risk": "Risk & Disclaimer"
+  },
+  "hero": {
+    "title": "Risk & Disclaimer Policy for Avenqor trading education platform.",
+    "subtitle": "This Risk & Disclaimer Policy explains the key risks associated with using Avenqor and with applying any concepts, strategies or examples described in our educational materials. It is designed to help you understand the high-risk nature of trading and to clarify what Avenqor does and does not provide.",
+    "meta": [
+      {
+        "label": "Effective date",
+        "value": "6 December 2025"
+      },
+      {
+        "label": "Operator",
+        "value": "OVERSEAS SUPPORT LIMITED (15969862)"
+      },
+      {
+        "label": "Jurisdiction",
+        "value": "England & Wales"
+      }
+    ],
+    "badges": {
+      "highRisk": "High risk · Potential total loss",
+      "educationOnly": "Education only · No trading",
+      "noAdvice": "No financial advice"
+    },
+    "summaryCard": {
+      "title": "Quick points (customer-facing)",
+      "subtitle": "Use this list for a fast recap; the numbered sections carry the full legal detail.",
+      "items": [
+        "Trading and investing involves a high level of risk. You may lose part or all of your capital.",
+        "Avenqor is an education-only platform. We do not provide investment, trading or financial advice.",
+        "We do not act as a broker, execute trades, provide signals or manage accounts.",
+        "Past performance and hypothetical examples do not guarantee future results.",
+        "Cryptoassets are highly speculative and carry extreme volatility risks.",
+        "AI-generated content is educational only and must not be treated as trading advice.",
+        "You are solely responsible for your trading decisions, risk management and choice of providers.",
+        "Avenqor makes no guarantees about profitability, performance or outcomes."
+      ],
+      "note": "This Policy complements our Terms and Conditions, Privacy Policy, Cookies Policy and Refund & Return Policy. In case of any conflict, the Terms and Conditions prevail."
+    }
+  },
+  "toc": {
+    "title": "On this page",
+    "items": [
+      { "label": "Purpose of this Policy", "anchor": "purpose" },
+      { "label": "Education-only platform (no financial advice)", "anchor": "education-only" },
+      { "label": "High risk of trading and investing", "anchor": "high-risk" },
+      { "label": "Past performance & hypothetical examples", "anchor": "past-performance" },
+      { "label": "Cryptoasset-specific risks", "anchor": "crypto-risks" },
+      { "label": "Use of AI and automated tools", "anchor": "ai-tools" },
+      { "label": "Third-party brokers, exchanges & platforms", "anchor": "third-parties" },
+      { "label": "Tokens, pricing and non-investment nature", "anchor": "tokens" },
+      { "label": "Suitability, independent advice and tax", "anchor": "suitability" },
+      { "label": "No guarantees & limitation of liability", "anchor": "no-guarantees" },
+      { "label": "Jurisdiction & regulatory status", "anchor": "jurisdiction" },
+      { "label": "Translations and language versions", "anchor": "translations" },
+      { "label": "Acknowledgement", "anchor": "acknowledgement" }
+    ],
+    "reminder": {
+      "label": "Reminder",
+      "text": "The English version prevails. Translations in Modern Standard Arabic are provided for convenience; in case of any inconsistency or ambiguity, the English version shall prevail."
+    }
+  },
+  "sections": [
+    {
+      "id": "purpose",
+      "number": "1",
+      "title": "Purpose of this Policy",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "This Risk & Disclaimer Policy (\"Policy\") explains the key risks associated with using Avenqor and with applying any concepts, strategies or examples described in our educational materials. It is designed to help you understand the high-risk nature of trading and to clarify what Avenqor does and does not provide."
+        },
+        {
+          "type": "paragraph",
+          "text": "This Policy complements our Terms and Conditions, Privacy Policy, Cookies Policy and Refund & Return Policy. In case of any conflict, the Terms and Conditions prevail."
+        },
+        {
+          "type": "paragraph",
+          "text": "By using avenqor.net or any related services (the \"Service\"), you acknowledge that you have read, understood and agree to this Policy."
+        }
+      ]
+    },
+    {
+      "id": "education-only",
+      "number": "2",
+      "title": "Education-only platform (no financial advice)",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "2.1 Education only. Avenqor is an education-first platform. We provide digital learning materials and tools to help retail traders understand how markets work, how risk can be managed in theory, and how different trading approaches are structured."
+        },
+        {
+          "type": "paragraph",
+          "text": "2.2 No investment advice. Nothing on the Service (including Ready-Made Courses, Custom Courses, AI Strategy Outputs, videos, calculators, dashboards, emails or any other content) constitutes:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "investment, trading or financial advice;",
+            "a recommendation to buy, sell or hold any financial instrument or cryptoasset;",
+            "a personal recommendation based on your circumstances;",
+            "tax, accounting or legal advice."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "2.3 No brokerage, signals or managed accounts. Avenqor does not:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "act as a broker, exchange, custodian or wallet provider;",
+            "execute trades for you or on your behalf;",
+            "provide live trading signals, trade copying, auto-trading or managed accounts;",
+            "monitor your trading accounts or positions."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "You remain solely responsible for choosing brokers/exchanges, placing orders, managing positions, and monitoring your risk."
+        }
+      ]
+    },
+    {
+      "id": "high-risk",
+      "number": "3",
+      "title": "High risk of trading and investing",
+      "accent": "warning",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "3.1 Substantial risk of loss. Trading and investing in financial instruments (including, but not limited to, forex, contracts for difference (CFDs), options, futures, indices and cryptoassets) involves a high level of risk. You may lose part or all of your capital and, in some cases, more than your initial deposit."
+        },
+        {
+          "type": "paragraph",
+          "text": "3.2 Not suitable for everyone. Trading leveraged products, derivatives and volatile assets is not suitable for all investors. You should carefully consider your financial situation, experience level, risk tolerance and investment objectives before making any trading decision."
+        },
+        {
+          "type": "paragraph",
+          "text": "3.3 Leverage and margin. Using leverage or margin can magnify both gains and losses. Small market movements can result in large swings in the value of your positions, including rapid losses that exceed your initial margin."
+        },
+        {
+          "type": "paragraph",
+          "text": "3.4 Market risks. Markets can be affected by a wide range of factors, including but not limited to:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "macroeconomic data and monetary policy;",
+            "geopolitical events, wars and sanctions;",
+            "regulatory changes;",
+            "liquidity shocks, gaps and slippage;",
+            "technology failures and outages at brokers, exchanges or data providers."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "These risks cannot be eliminated by any strategy, indicator, risk management approach or educational framework."
+        }
+      ]
+    },
+    {
+      "id": "past-performance",
+      "number": "4",
+      "title": "Past performance & hypothetical examples",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "4.1 No guarantee of future results. Any performance-related content (including historical charts, case studies, backtests, hypothetical scenarios or \"what-if\" examples) is provided for illustration and education only."
+        },
+        {
+          "type": "paragraph",
+          "text": "4.2 Past performance is not indicative. Past performance, whether actual or hypothetical, is not a reliable indicator of future results. Markets change over time and strategies that appeared effective in previous periods may perform poorly or fail completely in the future."
+        },
+        {
+          "type": "paragraph",
+          "text": "4.3 Hypothetical and simulated results. Any hypothetical, simulated or backtested results are subject to inherent limitations, including:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "they may rely on idealised execution (no slippage, no gaps, no liquidity constraints);",
+            "they are designed with the benefit of hindsight;",
+            "they cannot fully reflect psychological factors, real-time decision-making or operational constraints."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "There is no guarantee that any hypothetical or simulated results will be achieved in live trading."
+        }
+      ]
+    },
+    {
+      "id": "crypto-risks",
+      "number": "5",
+      "title": "Cryptoasset-specific risks",
+      "accent": "warning",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Where our educational content touches on cryptoassets, additional risks may apply, including:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "extreme volatility in prices, sometimes within minutes;",
+            "sudden changes in market sentiment, regulation or legal status;",
+            "security breaches, hacks, protocol failures or exploits;",
+            "exchange failures, withdrawals being paused or stopped, or loss of access to wallets;",
+            "limited historical data and untested market regimes."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "You should treat cryptoassets as highly speculative and be prepared to lose the entire amount you allocate."
+        }
+      ]
+    },
+    {
+      "id": "ai-tools",
+      "number": "6",
+      "title": "Use of AI and automated tools",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "6.1 AI-generated content. Some Avenqor features (for example, AI Strategy Builder, AI-assisted Custom Courses, diagrams and cover art) are partly or wholly generated using AI models. AI systems may:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "produce content that is incomplete, outdated or inaccurate;",
+            "oversimplify complex market situations;",
+            "fail to reflect current market conditions or regulatory changes."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "All AI-generated content is provided as educational material only and must not be treated as real-time trading advice or a guarantee of any outcome."
+        },
+        {
+          "type": "paragraph",
+          "text": "6.2 No automated decisions with legal effect. The Service does not make decisions with legal or similarly significant effects on you solely based on automated processing. You retain full control over whether you apply or ignore any AI-generated suggestion."
+        },
+        {
+          "type": "paragraph",
+          "text": "6.3 User responsibility. You must independently verify any information generated by AI or included in our courses before using it to inform trading or investment decisions."
+        }
+      ]
+    },
+    {
+      "id": "third-parties",
+      "number": "7",
+      "title": "Third-party brokers, exchanges & platforms",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "7.1 Independent third parties. Any brokers, exchanges, wallet providers, analytics platforms or other external tools you use are independent third parties. We do not control their terms, pricing, execution quality, margin policies, security practices or regulatory status."
+        },
+        {
+          "type": "paragraph",
+          "text": "7.2 No endorsement or recommendation. Even if our content references specific broker types, order types, liquidity providers or exchange structures, this is for illustration only. It does not constitute an endorsement, recommendation or guarantee of any specific provider."
+        },
+        {
+          "type": "paragraph",
+          "text": "7.3 You choose and monitor your providers. You are responsible for:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "selecting and onboarding with brokers or exchanges;",
+            "understanding their terms, fees, margin rules, risk warnings and regulatory disclosures;",
+            "monitoring account balances, open positions, margin calls and liquidation risks."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tokens",
+      "number": "8",
+      "title": "Tokens, pricing and non-investment nature",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "8.1 Tokens are not investments. Avenqor's Tokens and Wallet Credit are utility credits that allow you to access digital learning assets and features on the Service. They are not:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "investments, securities, financial instruments or deposits;",
+            "e-money or a stored-value product;",
+            "a claim on any underlying asset, portfolio or trading performance."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "8.2 No profit expectation. Purchasing Tokens should not be viewed as an investment or a way to share in any profits or revenues of Avenqor or any trading activity. Tokens have no intrinsic value outside the Service and cannot be traded on external markets."
+        },
+        {
+          "type": "paragraph",
+          "text": "8.3 No guarantee of outcomes. Paying for courses, AI tools or custom content via Tokens or card payments does not guarantee that you will:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "become profitable in trading;",
+            "reduce your losses;",
+            "pass any third-party evaluation or funding programme;",
+            "achieve any specific financial or personal goal."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "suitability",
+      "number": "9",
+      "title": "Suitability, independent advice and tax",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "9.1 Your responsibility to assess suitability. You are solely responsible for deciding whether:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "trading or investing is appropriate for you at all;",
+            "specific strategies, timeframes or instruments align with your risk tolerance and objectives;",
+            "you have sufficient knowledge, time and financial resources to participate in high-risk markets."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "9.2 Seek professional advice. You should seek independent advice from:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "a regulated financial adviser, if you are unsure about investment suitability;",
+            "a qualified tax adviser regarding tax implications;",
+            "a legal professional for any legal questions (for example, regarding regulatory status or cross-border activity)."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "9.3 Tax obligations. Profits or losses from trading or investing may have tax consequences in your jurisdiction. Avenqor does not provide tax advice, and you remain responsible for reporting and paying all applicable taxes."
+        }
+      ]
+    },
+    {
+      "id": "no-guarantees",
+      "number": "10",
+      "title": "No guarantees & limitation of liability",
+      "accent": "warning",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "10.1 No performance guarantees. Avenqor does not guarantee:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "profitability or positive returns;",
+            "any minimum or fixed level of performance;",
+            "that a particular strategy or method will work in current or future markets;",
+            "uninterrupted access to the Service or Digital Content."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "10.2 User's sole risk. You use the Service and apply any educational content at your own risk. Avenqor is not responsible for any trading decisions you make or any resulting gains or losses."
+        },
+        {
+          "type": "paragraph",
+          "text": "10.3 Cross-reference to Terms. The limitations of liability and disclaimers contained in our Terms and Conditions apply in full to any losses or claims arising from your use of the Service, including your reliance on any educational materials, AI outputs or examples."
+        }
+      ]
+    },
+    {
+      "id": "jurisdiction",
+      "number": "11",
+      "title": "Jurisdiction & regulatory status",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "11.1 Jurisdiction. As set out in our Terms and Conditions, this Policy is governed by the laws of England and Wales, and disputes are subject to the jurisdiction provisions contained in the Terms."
+        },
+        {
+          "type": "paragraph",
+          "text": "11.2 Regulatory status. Avenqor is an educational platform operated by OVERSEAS SUPPORT LIMITED. It is not operating as a broker, investment firm, cryptoasset exchange, bank or payment institution. The Service is not designed to provide regulated investment services or to solicit or accept client orders for execution."
+        },
+        {
+          "type": "paragraph",
+          "text": "If our regulatory status changes in the future, we will update our disclosures and this Policy accordingly."
+        }
+      ]
+    },
+    {
+      "id": "translations",
+      "number": "12",
+      "title": "Translations and language versions",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "The Service, including some risk warnings and educational content, may be provided in English and Modern Standard Arabic. In case of any inconsistency or ambiguity between translated versions of this Policy, the English version shall prevail."
+        }
+      ]
+    },
+    {
+      "id": "acknowledgement",
+      "number": "13",
+      "title": "Acknowledgement",
+      "accent": "warning",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "By creating an Account, purchasing Tokens, or using any part of the Service, you expressly acknowledge that:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "you understand the high-risk nature of trading and investing;",
+            "you understand that Avenqor provides education only and not financial, investment, tax or legal advice;",
+            "you are solely responsible for your trading decisions, risk management and choice of third-party providers;",
+            "you have read, understood and agree to be bound by this Risk & Disclaimer Policy together with our Terms and Conditions and other policies."
+          ]
+        }
+      ]
+    }
+  ],
+  "cta": {
+    "title": "Understanding these risks is essential before using Avenqor.",
+    "subtitle": "If you are not comfortable with high-risk markets, potential total loss and the absence of guarantees, you should not use Avenqor or engage in trading activities.",
+    "backToHome": "Back to home",
+    "viewCourses": "View courses"
+  }
+}

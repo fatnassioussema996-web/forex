@@ -11,12 +11,96 @@
     },
     "accountButton": "Account"
   },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "myCourses": "My courses",
+    "customCourses": "Custom courses",
+    "aiStrategies": "AI strategies",
+    "transactions": "Transactions",
+    "receipts": "Receipts",
+    "settings": "Settings"
+  },
   "overview": {
     "title": "Welcome back. Here is your learning overview.",
     "subtitle": "Track your token balance, custom course status and recent AI strategies in one view. Avenqor remains education only – no signals or managed accounts.",
     "badges": {
       "learningOverview": "Learning overview",
       "recentActivity": "Recent activity"
+    }
+  },
+  "aiStrategiesPage": {
+    "title": "AI strategies",
+    "heading": "AI strategies generated for you",
+    "subtitle": "Every AI Strategy Builder request lives here. Track status, token usage and download links once a PDF is ready.",
+    "deliveryInfo": {
+      "title": "Typical delivery",
+      "subtitle": "Minutes for AI generation, inbox delivery shortly after."
+    },
+    "switchToCustom": "Switch to custom course requests",
+    "generateNewStrategy": "Generate new AI strategy",
+    "searchPlaceholder": "Search by objective or ID…",
+    "filters": {
+      "status": "Status",
+      "statusOptions": {
+        "all": "All",
+        "processing": "Processing",
+        "ready": "Ready",
+        "failed": "Failed"
+      }
+    },
+    "strategies": {
+      "title": "Your AI strategies",
+      "subtitle": "Each row represents one AI Strategy Builder run."
+    },
+    "table": {
+      "title": "Objective",
+      "marketLevel": "Markets · Languages",
+      "tokens": "Tokens",
+      "status": "Status",
+      "created": "Created",
+      "actions": "Actions",
+      "noMarket": "–"
+    },
+    "status": {
+      "processing": "Processing",
+      "ready": "Ready",
+      "failed": "Failed"
+    },
+    "actions": {
+      "downloadPDF_en": "Download EN",
+      "downloadPDF_ar": "Download AR",
+      "checkEmail": "Delivered via email",
+      "processing": "In progress"
+    },
+    "emptyState": {
+      "title": "No AI strategies yet",
+      "description": "Generate your first strategy via the AI tab on the Learn page."
+    },
+    "sidebar": {
+      "builder": {
+        "title": "What the builder captures",
+        "points": {
+          "objective": "Clear objective and constraints.",
+          "market": "Preferred market and timeframe.",
+          "risk": "Risk tolerance, deposit and trade limits.",
+          "languages": "Language choice (EN / AR)."
+        },
+        "note": "Structured prompts keep your strategy consistent every time."
+      },
+      "delivery": {
+        "title": "Delivery checklist",
+        "description": "Completed strategies are delivered as signed PDFs with cover art and diagrams.",
+        "points": {
+          "pdf": "PDF stored in /courses for quick download.",
+          "email": "Invoice + files sent to your inbox.",
+          "library": "Ready items appear in dashboard library."
+        }
+      },
+      "tips": {
+        "title": "Education only reminder",
+        "description": "AI outputs are study material, not live trade signals. Keep practicing risk controls.",
+        "cta": "Read full risk & disclaimer"
+      }
     }
   },
   "kpi": {
@@ -31,7 +115,7 @@
       "noActive": "No active custom course. You can request one when you are ready.",
       "status": {
         "pending": "Pending",
-        "inProgress": "In progress · 48–96h window",
+        "inProgress": "In progress",
         "ready": "Ready"
       },
       "explanation": "Once ready, your PDF will be emailed to you and appear in your library."
@@ -39,6 +123,7 @@
     "recentActivity": {
       "title": "Recent activity",
       "subtitle": "{count} learning items this week",
+      "noActivity": "No recent activity yet.",
       "completedCourse": "Completed \"{title}\".",
       "generatedAI": "Generated AI strategy for {title}.",
       "requestedCustom": "Requested a custom {market} course."
@@ -69,6 +154,7 @@
       "educationOnly": "Education only – not a signal.",
       "openPDF": "Open PDF",
       "openOutput": "Open output",
+      "downloadPDF": "Download PDF",
       "details": "Details"
     }
   },
@@ -112,6 +198,414 @@
     "empty": {
       "title": "No transactions yet",
       "description": "Your transaction history will appear here once you make your first purchase or top-up."
+    }
+  },
+  "libraryPage": {
+    "title": "Library",
+    "heading": "Your library",
+    "subtitle": "All purchased courses and AI strategies in one place. Pick up where you left off or download PDFs for offline study.",
+    "tokensAvailable": "tokens available",
+    "tokensHint": "Enough for 1–2 courses or several AI strategies.",
+    "topUp": "Top up",
+    "viewBilling": "View billing",
+    "searchPlaceholder": "Search your library (title, market, level)…",
+    "quickFilter": "Quick filter",
+    "type": "Type",
+    "filters": {
+      "type": {
+        "all": "All",
+        "courses": "Courses",
+        "aistrategies": "AI strategies"
+      },
+      "level": {
+        "alllevels": "All levels",
+        "beginner": "Beginner",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced"
+      }
+    },
+    "recentlyOpened": {
+      "title": "Recently opened",
+      "subtitle": "Jump back into what you were studying last."
+    },
+    "viewAllActivity": "View all activity",
+    "lastOpened": "Last opened",
+    "progress": "Progress",
+    "modules": "modules",
+    "format": "PDF",
+    "download": "download",
+    "downloadPDF": "Download PDF",
+    "open": "Open",
+    "aiStrategy": "AI Strategy",
+    "educationOnly": "Education only",
+    "continue": "Continue",
+    "continueWhereStopped": "Continue where you stopped",
+    "allItems": {
+      "title": "All items in your library",
+      "subtitle": "Mixed view of course PDFs and AI strategies."
+    },
+    "splitByType": "Split by type",
+    "noResults": "No items found",
+    "noResultsDescription": "Try adjusting your search or filters.",
+    "status": {
+      "inprogress": "In progress",
+      "notstarted": "Not started",
+      "completed": "Completed"
+    },
+    "timeAgo": {
+      "dayAgo": "1 day ago",
+      "daysAgo": "{count} days ago",
+      "hoursAgo": "{count} hours ago",
+      "weekAgo": "1 week ago"
+    },
+    "new": "New",
+    "emptyState": {
+      "title": "Example: empty library state",
+      "description": "If a new user has not purchased any courses or generated any AI strategies, show a calm empty state instead of a blank page.",
+      "noItems": "No items in your library yet",
+      "hint": "Once you purchase a course or generate an AI strategy, it will appear here.",
+      "browseCourses": "Browse courses",
+      "openAIStrategy": "Open AI Strategy Builder"
+    },
+    "sidebar": {
+      "howLibraryFits": {
+        "title": "How library fits with other dashboard pages",
+        "library": "Library",
+        "libraryDesc": "shows items you can open again: course PDFs and AI plans.",
+        "customCourses": "Custom courses",
+        "customCoursesDesc": "focuses on requests in progress.",
+        "billing": "Billing",
+        "billingDesc": "tracks token top-ups and direct purchases.",
+        "settings": "Settings",
+        "settingsDesc": "holds preferences like language and risk reminders."
+      }
+    }
+  },
+  "billingPage": {
+    "title": "Billing",
+    "heading": "Billing & tokens",
+    "subtitle": "See your token balance, recent purchases and invoices. Payments are handled securely – Avenqor never touches your trading accounts.",
+    "tokensAvailable": "tokens available",
+    "tokensApprox": "Approx. {price} at the current token rate.",
+    "topUp": "Top up",
+    "viewPricing": "View pricing & token packs",
+    "tokens": "tokens",
+    "balance": {
+      "title": "Token balance overview",
+      "subtitle": "Tokens can be used across courses, custom PDFs and AI strategies.",
+      "tokensInfo": "Tokens are not a deposit and carry no interest.",
+      "currentBalance": "Current balance",
+      "currentBalanceHint": "Approx. {price} worth of Avenqor services.",
+      "thisMonthSpent": "This month spent",
+      "thisMonthSpentHint": "Courses, AI strategies and custom requests.",
+      "lastTopUp": "Last top-up",
+      "lastTopUpHint": "Structured Growth pack.",
+      "noTopUpYet": "No top-ups yet",
+      "usageDistribution": "Rough usage distribution",
+      "usageDistributionHint": "Courses 65% · AI 25% · Custom PDFs 10%",
+      "usageDistributionValue": "Courses {courses}% · AI {ai}% · Custom courses {custom}%",
+      "noUsageYet": "No usage data yet",
+      "refundWarning": "Token purchases are typically non-refundable once used to unlock digital content. Local consumer law may still apply.",
+      "supportInfo": "For billing questions, contact support with your account email and the last 4 digits of your card only – never share full card details."
+    },
+    "paymentMethods": {
+      "title": "Payments & methods",
+      "description": "Payments are processed by a secure payment provider. Avenqor does not store full card numbers or CVV codes.",
+      "supportedCards": "Supported cards: Visa and Mastercard.",
+      "supportedCurrencies": "Supported currencies: GBP, EUR, USD, SR.",
+      "chargesDescriptor": "Charges appear under the Avenqor or partner descriptor.",
+      "note": "In the live product this card would link to a secure portal where users can update payment details."
+    },
+    "invoices": {
+      "title": "Invoices & receipts",
+      "description": "Every successful token purchase or direct payment generates a receipt. Some regions may also require full tax invoices.",
+      "lastReceipt": {
+        "title": "Last receipt – Structured Growth pack",
+        "details": "28 Nov 2025 · £69.99 · Card ending ••42"
+      },
+      "noReceipts": "No receipts yet",
+      "downloadPDF": "Download PDF",
+      "viewAllReceipts": "View all receipts"
+    },
+    "transactions": {
+      "title": "Transaction history",
+      "subtitle": "Token top-ups, course purchases and AI strategy usage.",
+      "structuredGrowthPack": "Structured Growth token pack",
+      "cryptoVolatilityCourse": "Course: Crypto Volatility Structures",
+      "btcIntradayPlan": "AI plan: BTC intraday structure",
+      "forexStructuredPlan": "Custom course request: Forex structured plan",
+      "tokenAdjustment": "Token adjustment (support)"
+    },
+    "filters": {
+      "type": "Type",
+      "types": {
+        "all": "All",
+        "tokentop-ups": "Token top-ups",
+        "courses": "Courses",
+        "aistrategies": "AI strategies",
+        "adjustments": "Adjustments"
+      }
+    },
+    "downloadCSV": "Download CSV",
+    "table": {
+      "dateTime": "Date · Time",
+      "description": "Description",
+      "type": "Type",
+      "currency": "Currency",
+      "tokens": "Tokens",
+      "balance": "Balance",
+      "status": "Status"
+    },
+    "types": {
+      "tokentop-up": "Token top-up",
+      "coursepurchase": "Course purchase",
+      "aistrategy": "AI strategy",
+      "adjustment": "Adjustment",
+      "customcourse": "Custom course"
+    },
+    "status": {
+      "completed": "Completed",
+      "pending": "Pending",
+      "failed": "Failed"
+    },
+    "emptyState": {
+      "title": "No transactions found",
+      "description": "Try adjusting your filters."
+    },
+    "emptyStatePreview": {
+      "title": "Example: new account with no transactions",
+      "description": "If a user has not purchased any tokens yet, show a calm empty state and a clear path to the pricing page.",
+      "noActivity": "No billing activity yet",
+      "hint": "Once you buy your first token pack, your receipts and history will appear here.",
+      "viewTokenPacks": "View token packs"
+    }
+  },
+  "customCoursesPage": {
+    "title": "Custom courses",
+    "heading": "Custom courses by pro trader",
+    "subtitle": "Track your requests for tailored PDFs. Each course is prepared based on your experience, deposit, risk tolerance and goals.",
+    "deliveryInfo": {
+      "title": "Typical delivery time",
+      "subtitle": "Times are approximate and may vary by queue."
+    },
+    "switchToAIStrategy": "Switch to AI Strategy Builder",
+    "requestNewCourse": "Request new custom course",
+    "viewIntakeFormPreview": "View intake form preview",
+    "searchPlaceholder": "Search by title or ID…",
+    "filtersLabel": "Filters",
+    "filters": {
+      "status": "Status",
+      "statusOptions": {
+        "all": "All",
+        "intakedraft": "Intake draft",
+        "awaitingreview": "Awaiting review",
+        "inprogress": "In progress",
+        "delivered": "Delivered",
+        "failed": "Failed"
+      }
+    },
+    "requests": {
+      "title": "Your custom course requests",
+      "subtitle": "One row per request. Status and ETA are updated as work progresses."
+    },
+    "viewAllHistory": "View all history",
+    "table": {
+      "title": "Title",
+      "marketLevel": "Market · Level",
+      "statusEta": "Status · ETA",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "status": {
+      "intakedraft": "Intake draft",
+      "awaitingreview": "Awaiting review",
+      "inprogress": "In progress",
+      "processing": "Processing",
+      "delivered": "Delivered",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "eta": {
+      "estimatedHours": "Est. {min}–{max} hours",
+      "pendingIntakeDetails": "Pending intake details"
+    },
+    "actions": {
+      "viewBrief": "View brief",
+      "downloadPDF": "Download PDF"
+    },
+    "emptyState": {
+      "title": "No courses found",
+      "description": "Try adjusting your search or filters."
+    },
+    "courses": {
+      "forexScatteredNotes": "Forex: From scattered notes to one structured plan",
+      "cryptoSwingFramework": "Crypto swing framework for a part-time schedule",
+      "binaryRiskRefresher": "Binary: Risk-focused refresher after a break"
+    },
+    "sidebar": {
+      "intakeForm": {
+        "title": "What the intake form asks",
+        "experience": "Your experience (0 / 1–2 / 3+ years).",
+        "deposit": "Deposit size and typical risk per trade.",
+        "market": "Preferred market (Forex, Crypto, Binary).",
+        "style": "Style (scalp, day, swing) and time availability.",
+        "goals": "What you want to achieve in your own words.",
+        "note": "The preview keeps this transparent so users know what happens before they commit tokens."
+      },
+      "emptyState": {
+        "title": "Example: empty state",
+        "description": "If no custom courses have been requested yet, show a simple message instead of an empty table.",
+        "noCourses": "No custom courses yet",
+        "hint": "Once you request a tailored PDF, you will see its status and ETA here.",
+        "requestFirstCourse": "Request your first course"
+      }
+    }
+  },
+  "settingsPage": {
+    "title": "Settings",
+    "heading": "Account & preferences",
+    "subtitle": "Update your details, language and how Avenqor talks to you. Nothing here connects to your broker or exchange accounts – this is only for your learning profile.",
+    "educationAccountOnly": {
+      "title": "Education account only",
+      "subtitle": "No trading or payment credentials stored here."
+    },
+    "viewDashboardOverview": "View dashboard overview",
+    "profile": {
+      "title": "Profile",
+      "subtitle": "Name, email and region for your Avenqor account.",
+      "editButton": "Edit profile",
+      "fields": {
+        "fullName": "Full name",
+        "email": "Email",
+        "region": "Region",
+        "timezone": "Time zone",
+        "timezoneExample": "Europe/Riga (example)"
+      }
+    },
+    "preferences": {
+      "title": "Interface & language",
+      "subtitle": "How the dashboard and emails talk to you.",
+      "dashboardLanguage": {
+        "label": "Dashboard language",
+        "note": "Changes only the interface – not the markets you study."
+      },
+      "courseLanguage": {
+        "label": "Course & email language",
+        "englishOnly": "English only",
+        "both": "English + Arabic (where available)",
+        "note": "Some PDFs may ship in English first and add Arabic later."
+      },
+      "currency": {
+        "label": "Default currency display",
+        "description": "Follows your choice in the main header ({currencies}).",
+        "note": "Token prices are converted automatically and shown for reference."
+      },
+      "educationalFocus": {
+        "label": "Educational focus",
+        "description": "We keep reminders that Avenqor is not financial advice.",
+        "note": "This setting cannot be disabled – high-risk markets always need clear disclaimers."
+      }
+    },
+    "notifications": {
+      "title": "Email notifications",
+      "subtitle": "What you want to receive in your inbox.",
+      "productUpdates": {
+        "label": "Product updates & new courses",
+        "description": "Occasional emails when we add new PDFs, markets or features."
+      },
+      "aiStrategyIdeas": {
+        "label": "AI strategy ideas & tips",
+        "description": "Examples of how to use the AI builder more effectively."
+      },
+      "billingReceipts": {
+        "label": "Billing & token receipts",
+        "description": "Confirmations for top-ups and purchases. Recommended."
+      },
+      "accountAlerts": {
+        "label": "Important account alerts",
+        "description": "Security and legal notices related to your account."
+      }
+    },
+    "security": {
+      "title": "Security",
+      "password": {
+        "label": "Password",
+        "lastUpdated": "Last updated: 3 months ago (example).",
+        "resetButton": "Reset password"
+      },
+      "changePassword": {
+        "title": "Change password",
+        "subtitle": "Update your account password",
+        "currentPassword": {
+          "label": "Current password",
+          "placeholder": "Enter your current password"
+        },
+        "newPassword": {
+          "label": "New password",
+          "placeholder": "Enter your new password",
+          "hint": "Password must be at least 8 characters long"
+        },
+        "confirmPassword": {
+          "label": "Confirm new password",
+          "placeholder": "Confirm your new password"
+        },
+        "submit": "Change password",
+        "submitting": "Changing...",
+        "cancel": "Cancel",
+        "success": {
+          "title": "Password changed",
+          "message": "Your password has been changed successfully"
+        },
+        "error": {
+          "title": "Error",
+          "message": "Failed to change password. Please try again"
+        }
+      },
+      "twoFactor": {
+        "label": "Two-factor authentication",
+        "status": "Not enabled yet. Planned for a later version.",
+        "comingSoon": "Coming soon",
+        "note": "Even without 2FA, we never connect to brokers or exchanges. This account is only for educational content."
+      }
+    },
+    "dataPrivacy": {
+      "title": "Data & privacy",
+      "description": "Manage how your data is used in Avenqor. This is separate from any data your broker or exchange holds about your trading.",
+      "export": {
+        "label": "Export my Avenqor data (preview)",
+        "description": "Download a copy of your courses, AI plans and billing metadata."
+      },
+      "delete": {
+        "label": "Request account deletion (preview)",
+        "description": "In the live product this would start a verified deletion process."
+      },
+      "note": "For details, refer to the full Privacy Policy and Terms & Conditions linked in the footer."
+    },
+    "dangerNote": {
+      "title": "Reminder: this account is not a trading profile",
+      "description": "Avenqor accounts control access to educational PDFs and AI strategies only. They do not hold or manage trading capital and cannot place trades on your behalf.",
+      "warning": "Always keep your broker and exchange credentials separate, and never share them with support. If any service claims to trade on behalf of \"Avenqor\", treat it as suspicious."
+    }
+  },
+  "receiptsPage": {
+    "title": "Receipts",
+    "heading": "Invoices & receipts",
+    "subtitle": "Download PDF receipts for all your purchases and token top-ups.",
+    "searchPlaceholder": "Search receipts…",
+    "filters": {
+      "type": "Type",
+      "types": {
+        "all": "All",
+        "tokentop-ups": "Token top-ups",
+        "courses": "Courses",
+        "aistrategies": "AI strategies",
+        "customcourses": "Custom courses"
+      }
+    },
+    "downloadPDF": "Download PDF",
+    "emptyState": {
+      "title": "No receipts found",
+      "description": "Your receipts will appear here once you make your first purchase or top-up."
     }
   }
 }
