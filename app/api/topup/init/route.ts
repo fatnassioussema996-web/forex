@@ -25,6 +25,11 @@ export async function POST(request: NextRequest) {
     const isLocalRequest = /localhost|127\.0\.0\.1|0\.0\.0\.0/i.test(requestOrigin)
     const baseUrl = isLocalRequest ? requestOrigin : config.site.baseUrl || requestOrigin
 
+    const localeLang =
+      request.cookies.get('NEXT_LOCALE')?.value ||
+      request.headers.get('accept-language')?.split(',')[0]?.split('-')[0] ||
+      null
+
     const result = await createHostedTopupSession({
       userId,
       userEmail: session.user.email,
@@ -34,6 +39,7 @@ export async function POST(request: NextRequest) {
         request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
         request.headers.get('x-real-ip') ||
         null,
+      localeLang,
     })
 
     return NextResponse.json(result)

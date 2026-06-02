@@ -1,5 +1,6 @@
 import crypto from 'node:crypto'
 import { z } from 'zod'
+import { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import { config } from '@/lib/config'
 import { calculateTokens, convertAmount } from '@/lib/currency-utils'
@@ -75,6 +76,8 @@ type ProviderStatusSnapshot = {
   state: PaymentState
   amount: number | null
   currency: string | null
+  externalMessage: string | null
+  fiscalStatus: string | null
   rawResponse: unknown
 }
 
@@ -166,7 +169,6 @@ function ensureGatewayConfig() {
 
 function buildInitRequestBody(input: {
   amount: number
-  currency: string
   referenceId: string
   methodGuid: string
   redirectUrl: string
@@ -175,29 +177,44 @@ function buildInitRequestBody(input: {
   payerEmail?: string | null
   customerIpAddress?: string | null
   refererDomain?: string | null
+  localeLang?: string | null
+  fromFirstName?: string | null
+  fromLastName?: string | null
+  fromCountry?: string | null
+  billingStreet?: string | null
+  billingTown?: string | null
+  billingPostCode?: string | null
 }) {
-  const normalizedCurrency = normalizeCurrency(input.currency)
-  const isoCurrency = toIsoCurrency(input.currency)
+  // Armenotech H2H deposit init body — fields per docs:
+  //   amount (in payment method currency, derived from deposit_method GUID)
+  //   fields.transaction.deposit_method
+  //   fields.transaction.deposit.{ redirect_url, status_callback_url, external_id,
+  //     payer_id, customer_ip_address, from_country, from_last_name, from_first_name,
+  //     billing_street, billing_town, billing_post_code, from_email, referer_domain, locale_lang }
+  const deposit: Record<string, unknown> = {
+    redirect_url: input.redirectUrl,
+    status_callback_url: input.callbackUrl,
+    external_id: input.referenceId,
+    payer_id: input.payerId,
+  }
+
+  if (input.payerEmail) deposit.from_email = input.payerEmail
+  if (input.customerIpAddress) deposit.customer_ip_address = input.customerIpAddress
+  if (input.refererDomain) deposit.referer_domain = input.refererDomain
+  if (input.localeLang) deposit.locale_lang = input.localeLang
+  if (input.fromFirstName) deposit.from_first_name = input.fromFirstName
+  if (input.fromLastName) deposit.from_last_name = input.fromLastName
+  if (input.fromCountry) deposit.from_country = input.fromCountry
+  if (input.billingStreet) deposit.billing_street = input.billingStreet
+  if (input.billingTown) deposit.billing_town = input.billingTown
+  if (input.billingPostCode) deposit.billing_post_code = input.billingPostCode
 
   return {
     amount: input.amount,
-    currency: normalizedCurrency,
-    body_currency: isoCurrency,
     fields: {
       transaction: {
         deposit_method: input.methodGuid,
-        deposit: {
-          redirect_url: input.redirectUrl,
-          status_callback_url: input.callbackUrl,
-          external_id: input.referenceId,
-          merchant_external_id: input.referenceId,
-          currency: normalizedCurrency,
-          body_currency: isoCurrency,
-          payer_id: input.payerId,
-          from_email: input.payerEmail || undefined,
-          customer_ip_address: input.customerIpAddress || undefined,
-          referer_domain: input.refererDomain || undefined,
-        },
+        deposit,
       },
     },
   }
@@ -263,7 +280,6 @@ function toErrorPreview(value: unknown): string {
 
 async function createArmenotechDepositSession(input: {
   amount: number
-  currency: string
   referenceId: string
   methodGuid: string
   redirectUrl: string
@@ -272,6 +288,13 @@ async function createArmenotechDepositSession(input: {
   payerEmail?: string | null
   customerIpAddress?: string | null
   refererDomain?: string | null
+  localeLang?: string | null
+  fromFirstName?: string | null
+  fromLastName?: string | null
+  fromCountry?: string | null
+  billingStreet?: string | null
+  billingTown?: string | null
+  billingPostCode?: string | null
 }): Promise<ArmenotechInitResult> {
   ensureGatewayConfig()
 
@@ -342,23 +365,39 @@ async function createArmenotechDepositSession(input: {
   }
 }
 
+// Maps Armenotech deposit callback/status payloads to our internal PaymentState.
+// Reference: H2H docs — deposit status enum is one of:
+//   canceled | expired | payed | done | refund_pending | refunded | refund_rejected
+// Combined with fiscal_status (pending | canceled | expired | done | failed)
+// and sep31_status (used to confirm settlement).
+// Documented success: sep31_status === 'completed' AND refunded === false
 function mapCallbackState(payload: Record<string, unknown>): PaymentState {
   const status = String(payload.status || '').toLowerCase()
   const fiscalStatus = String(payload.fiscal_status || '').toLowerCase()
   const sep31Status = String(payload.sep31_status || '').toLowerCase()
   const refunded = payload.refunded === true || String(payload.refunded).toLowerCase() === 'true'
 
-  if (refunded || status === 'refunded') return 'REFUNDED'
-  if ((status === 'done' || status === 'completed' || status === 'success') && sep31Status === 'completed') {
+  if (refunded || status === 'refunded' || status === 'refund_pending' || status === 'refund_rejected') {
+    return 'REFUNDED'
+  }
+
+  if (sep31Status === 'completed' && (status === 'done' || status === 'payed' || fiscalStatus === 'done')) {
     return 'COMPLETED'
   }
-  if ((fiscalStatus === 'done' || fiscalStatus === 'completed') && sep31Status === 'completed') {
-    return 'COMPLETED'
+
+  if (status === 'canceled' || status === 'cancelled' || fiscalStatus === 'canceled' || fiscalStatus === 'cancelled') {
+    return 'CANCELLED'
   }
-  if (status === 'pending' || fiscalStatus === 'pending') return 'PENDING'
-  if (status === 'canceled' || status === 'cancelled' || fiscalStatus === 'cancelled') return 'CANCELLED'
-  if (status === 'expired' || fiscalStatus === 'expired') return 'EXPIRED'
-  if (status === 'failed' || fiscalStatus === 'failed' || sep31Status === 'error') return 'FAILED'
+
+  if (status === 'expired' || fiscalStatus === 'expired') {
+    return 'EXPIRED'
+  }
+
+  if (status === 'error' || status === 'failed' || fiscalStatus === 'failed' || sep31Status === 'error') {
+    return 'FAILED'
+  }
+
+  // pending_sender / pending_external / payed (settled-but-not-fiscalized) all map to PENDING
   return 'PENDING'
 }
 
@@ -444,65 +483,65 @@ async function fetchArmenotechTransactionStatus(input: {
 }): Promise<ProviderStatusSnapshot | null> {
   ensureGatewayConfig()
 
-  const baseUrl = config.armenotech.apiUrl.replace(/\/$/, '')
-  const merchantGuid = config.armenotech.merchantGuid
-  const candidates = [
-    input.paymentId ? `${baseUrl}/api/v3/${merchantGuid}/transactions/${encodeURIComponent(input.paymentId)}` : null,
-    input.paymentId ? `${baseUrl}/api/v3/${merchantGuid}/transactions/${encodeURIComponent(input.paymentId)}/status` : null,
-    input.paymentId ? `${baseUrl}/api/v3/${merchantGuid}/transaction/${encodeURIComponent(input.paymentId)}` : null,
-    `${baseUrl}/api/v3/${merchantGuid}/transactions?external_id=${encodeURIComponent(input.referenceId)}`,
-    `${baseUrl}/api/v3/${merchantGuid}/transactions?merchant_external_id=${encodeURIComponent(input.referenceId)}`,
-  ].filter(Boolean) as string[]
-
-  for (const url of candidates) {
-    try {
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'X-App-Token': config.armenotech.appToken,
-          'X-App-Secret': config.armenotech.appSecret,
-        },
-        cache: 'no-store',
-      })
-
-      if (response.status === 404 || response.status === 405) {
-        continue
-      }
-
-      let rawResponse: unknown = null
-      try {
-        rawResponse = await response.json()
-      } catch {
-        rawResponse = await response.text().catch(() => null)
-      }
-
-      if (!response.ok) {
-        continue
-      }
-
-      const payload = normalizeProviderPayload(rawResponse)
-      if (!payload) {
-        continue
-      }
-
-      return {
-        transactionId:
-          extractStringByKey(payload, ['transaction_id', 'transactionId', 'id', 'payment_id', 'paymentId']) ||
-          input.paymentId ||
-          null,
-        referenceId:
-          extractStringByKey(payload, ['merchant_external_id', 'external_id', 'reference_id']) || input.referenceId,
-        state: mapCallbackState(payload),
-        amount: extractProviderAmount(payload, NaN),
-        currency: extractProviderCurrency(payload, ''),
-        rawResponse,
-      }
-    } catch {
-      continue
-    }
+  if (!input.paymentId) {
+    return null
   }
 
-  return null
+  const baseUrl = config.armenotech.apiUrl.replace(/\/$/, '')
+  const merchantGuid = config.armenotech.merchantGuid
+  // Per Armenotech H2H docs:
+  //   GET /api/v3/{merchantGUID}/{TRANSACTION_ID}
+  const url = `${baseUrl}/api/v3/${merchantGuid}/${encodeURIComponent(input.paymentId)}`
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'X-App-Token': config.armenotech.appToken,
+        'X-App-Secret': config.armenotech.appSecret,
+      },
+      cache: 'no-store',
+    })
+
+    let rawResponse: unknown = null
+    try {
+      rawResponse = await response.json()
+    } catch {
+      rawResponse = await response.text().catch(() => null)
+    }
+
+    if (!response.ok) {
+      console.warn(
+        `[Top-up Payment Flow] Armenotech status lookup failed (${response.status}) for ${input.paymentId}: ${toErrorPreview(rawResponse)}`
+      )
+      return null
+    }
+
+    const payload = normalizeProviderPayload(rawResponse)
+    if (!payload) {
+      return null
+    }
+
+    return {
+      transactionId:
+        extractStringByKey(payload, ['transaction_id', 'transactionId', 'id', 'payment_id', 'paymentId']) ||
+        input.paymentId,
+      referenceId:
+        extractStringByKey(payload, ['merchant_external_id', 'external_id', 'reference_id']) || input.referenceId,
+      state: mapCallbackState(payload),
+      amount: extractProviderAmount(payload, NaN),
+      currency: extractProviderCurrency(payload, ''),
+      externalMessage: extractStringByKey(payload, ['external_message']),
+      fiscalStatus: extractStringByKey(payload, ['fiscal_status']),
+      rawResponse,
+    }
+  } catch (error) {
+    console.warn(
+      `[Top-up Payment Flow] Armenotech status lookup error for ${input.paymentId}:`,
+      error instanceof Error ? error.message : error
+    )
+    return null
+  }
 }
 
 async function finalizeTopupFromProvider(input: {
@@ -520,6 +559,9 @@ async function finalizeTopupFromProvider(input: {
   transactionId?: string | null
   amount?: number | null
   currency?: string | null
+  externalMessage?: string | null
+  fiscalStatus?: string | null
+  rawPayload?: unknown
   triggerEmail?: boolean
 }): Promise<CallbackResult> {
   const providerAmount = input.amount
@@ -533,12 +575,24 @@ async function finalizeTopupFromProvider(input: {
     return { ok: false, error: 'Provider currency mismatch', referenceId: input.payment.reference_id, state: input.providerState }
   }
 
+  const extraData: Record<string, unknown> = {}
+  if (typeof input.externalMessage === 'string' && input.externalMessage.trim()) {
+    extraData.external_message = input.externalMessage.trim()
+  }
+  if (typeof input.fiscalStatus === 'string' && input.fiscalStatus.trim()) {
+    extraData.fiscal_status = input.fiscalStatus.trim()
+  }
+  if (input.rawPayload !== undefined) {
+    extraData.raw_callback = input.rawPayload as Prisma.InputJsonValue
+  }
+
   if (input.providerState !== 'COMPLETED') {
     await prisma.transferMitTopup.update({
       where: { id: input.payment.id },
       data: {
         state: input.providerState,
         payment_id: input.transactionId || input.payment.payment_id || undefined,
+        ...extraData,
       },
     })
 
@@ -580,6 +634,7 @@ async function finalizeTopupFromProvider(input: {
         data: {
           state: 'COMPLETED',
           payment_id: input.transactionId || locked.payment_id || undefined,
+          ...extraData,
         },
       })
 
@@ -620,6 +675,7 @@ async function finalizeTopupFromProvider(input: {
         topup_id: topup.id,
         payment_id: input.transactionId || locked.payment_id || undefined,
         state: 'COMPLETED',
+        ...extraData,
       },
     })
 
@@ -658,23 +714,32 @@ async function finalizeTopupFromProvider(input: {
   }
 }
 
-function verifyCallbackSignature(payload: Record<string, unknown>): boolean {
-  const transactionId = String(payload.transaction_id || '')
-  const sep31Status = String(payload.sep31_status || '')
-  const refunded = payload.refunded === true || String(payload.refunded).toLowerCase() === 'true'
-  const provided = String(payload.md5_body_sig || '').toLowerCase()
+// Per Armenotech H2H docs: X-Signature = hex(HMAC-SHA256(secret_key, raw_body_bytes)).
+// Compare against the raw, unparsed JSON bytes — re-serialization changes the signature.
+function verifyCallbackSignature(rawBody: string, signatureHeader: string | null | undefined): boolean {
+  if (!rawBody || !signatureHeader) {
+    return false
+  }
 
-  if (!transactionId || !sep31Status || !provided) {
+  const provided = String(signatureHeader).trim().toLowerCase().replace(/^sha256=/, '')
+  if (!/^[0-9a-f]+$/.test(provided)) {
     return false
   }
 
   const expected = crypto
-    .createHash('md5')
-    .update(`${transactionId}${sep31Status}${refunded}${config.armenotech.callbackSecret}`)
+    .createHmac('sha256', config.armenotech.callbackSecret)
+    .update(rawBody, 'utf8')
     .digest('hex')
-    .toLowerCase()
 
-  return expected === provided
+  if (provided.length !== expected.length) {
+    return false
+  }
+
+  try {
+    return crypto.timingSafeEqual(Buffer.from(expected, 'utf8'), Buffer.from(provided, 'utf8'))
+  } catch {
+    return false
+  }
 }
 
 async function sendTopupConfirmationEmail(input: {
@@ -742,11 +807,28 @@ export async function createHostedTopupSession(input: {
   body: unknown
   baseUrl: string
   customerIpAddress?: string | null
+  localeLang?: string | null
 }) {
   ensureGatewayConfig()
 
   const parsed = parseTopupRequest(input.body)
   const referenceId = createTopupReference(input.userId)
+
+  // Pull billing / identity hints from the user record — Armenotech treats these
+  // as optional but they materially improve approval rates on bank-card flows.
+  const userProfile = await prisma.user.findUnique({
+    where: { id: input.userId },
+    select: {
+      email: true,
+      first_name: true,
+      last_name: true,
+      citizenship: true,
+      bill_country: true,
+      bill_address: true,
+      bill_city: true,
+      bill_postal: true,
+    },
+  })
 
   const paymentRecord = await prisma.transferMitTopup.create({
     data: {
@@ -767,15 +849,21 @@ export async function createHostedTopupSession(input: {
     const methodGuid = getMethodGuid(parsed.providerCurrency)
     const providerSession = await createArmenotechDepositSession({
       amount: parsed.providerAmount,
-      currency: parsed.providerCurrency,
       referenceId,
       methodGuid,
       redirectUrl: successUrl,
       callbackUrl,
       payerId: String(input.userId),
-      payerEmail: input.userEmail,
+      payerEmail: input.userEmail || userProfile?.email || null,
       customerIpAddress: input.customerIpAddress,
       refererDomain: new URL(input.baseUrl).hostname,
+      localeLang: input.localeLang || null,
+      fromFirstName: userProfile?.first_name || null,
+      fromLastName: userProfile?.last_name || null,
+      fromCountry: userProfile?.bill_country || userProfile?.citizenship || null,
+      billingStreet: userProfile?.bill_address || null,
+      billingTown: userProfile?.bill_city || null,
+      billingPostCode: userProfile?.bill_postal || null,
     })
 
     await prisma.transferMitTopup.update({
@@ -806,17 +894,36 @@ export async function createHostedTopupSession(input: {
   }
 }
 
-export async function processArmenotechCallback(rawBody: unknown): Promise<CallbackResult> {
+export async function processArmenotechCallback(input: {
+  rawBody: string
+  signatureHeader: string | null | undefined
+  contentType?: string | null
+}): Promise<CallbackResult> {
   ensureGatewayConfig()
 
-  const payload = normalizeProviderPayload(rawBody)
+  // Log raw payload so we can post-mortem reasons even when verification fails.
+  // Vercel Functions captures stdout/stderr — search by reference_id later.
+  console.log('[Top-up Callback] Received', {
+    contentType: input.contentType || null,
+    signaturePresent: Boolean(input.signatureHeader),
+    bodyPreview: input.rawBody ? input.rawBody.slice(0, 2000) : null,
+  })
+
+  if (!verifyCallbackSignature(input.rawBody, input.signatureHeader)) {
+    return { ok: false, error: 'Invalid callback signature' }
+  }
+
+  let parsed: unknown = null
+  try {
+    parsed = input.rawBody ? JSON.parse(input.rawBody) : null
+  } catch {
+    return { ok: false, error: 'Invalid callback payload (not JSON)' }
+  }
+
+  const payload = normalizeProviderPayload(parsed)
 
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
     return { ok: false, error: 'Invalid callback payload' }
-  }
-
-  if (!verifyCallbackSignature(payload)) {
-    return { ok: false, error: 'Invalid callback signature' }
   }
 
   const referenceId = String(payload.merchant_external_id || payload.external_id || '').trim()
@@ -836,6 +943,8 @@ export async function processArmenotechCallback(rawBody: unknown): Promise<Callb
   const transactionId = String(payload.transaction_id || '').trim() || null
   const callbackAmount = extractProviderAmount(payload, Number(payment.amount))
   const callbackCurrency = extractProviderCurrency(payload, payment.currency)
+  const externalMessage = extractStringByKey(payload, ['external_message'])
+  const fiscalStatusValue = extractStringByKey(payload, ['fiscal_status'])
 
   return finalizeTopupFromProvider({
     payment,
@@ -843,6 +952,9 @@ export async function processArmenotechCallback(rawBody: unknown): Promise<Callb
     transactionId,
     amount: callbackAmount,
     currency: callbackCurrency,
+    externalMessage,
+    fiscalStatus: fiscalStatusValue,
+    rawPayload: payload,
     triggerEmail: true,
   })
 }
@@ -893,6 +1005,9 @@ export async function getTopupStatus(referenceId: string, userId?: number): Prom
           transactionId: providerStatus.transactionId,
           amount: providerStatus.amount,
           currency: providerStatus.currency,
+          externalMessage: providerStatus.externalMessage,
+          fiscalStatus: providerStatus.fiscalStatus,
+          rawPayload: providerStatus.rawResponse,
           triggerEmail: true,
         })
 

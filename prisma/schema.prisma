@@ -103,18 +103,21 @@ model Topup {
 
 // TransferMit платежи
 model TransferMitTopup {
-  id            Int      @id @default(autoincrement())
-  topup_id      Int?
-  user_id       Int
-  reference_id  String   @unique
-  payment_id    String?
-  amount        Decimal  @db.Decimal(10, 2)
-  currency      String
-  tokens        Int
-  bonus_percent Int      @default(0)
-  state         String // INITIATED, COMPLETED, DECLINED, CANCELLED
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
+  id               Int      @id @default(autoincrement())
+  topup_id         Int?
+  user_id          Int
+  reference_id     String   @unique
+  payment_id       String?
+  amount           Decimal  @db.Decimal(10, 2)
+  currency         String
+  tokens           Int
+  bonus_percent    Int      @default(0)
+  state            String // INITIATED, PENDING, COMPLETED, FAILED, CANCELLED, EXPIRED, REFUNDED
+  external_message String?  @db.Text // Armenotech external_message (reason text)
+  fiscal_status    String? // Armenotech fiscal_status (done/canceled/expired/failed/pending)
+  raw_callback     Json? // Last verified callback / status-poll payload, for debugging
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
 
   @@index([user_id])
   @@index([reference_id])
