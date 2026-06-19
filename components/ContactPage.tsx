@@ -465,7 +465,7 @@ export function ContactPage() {
                           </Link>{' '}
                           {item.and}{' '}
                           <Link
-                            href="/privacy-policy"
+                            href="/privacy"
                             className="underline underline-offset-2 decoration-slate-500 hover:text-slate-100"
                           >
                             {item.link2}
